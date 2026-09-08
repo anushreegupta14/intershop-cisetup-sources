@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pagelet:PageletModel xmlns:pagelet="http://www.intershop.de/pagelet/2010" name="component.common.container.pagelet2">
+  <pageletDefinitions name="Component" container="true">
+    <callParameterInterfaces referencedName="app_sf_base_cm:interface.common.content.advanced.pagelet2-Interface"/>
+    <callParameterInterfaces referencedName="app_sf_base_cm:interface.carousel.items.pagelet2-Interface"/>
+    <callParameterInterfaces referencedName="app_sf_base_cm:interface.include.dialog.pagelet2-Interface"/>
+    <callParameterInterfaces referencedName="app_sf_base_cm:interface.include.category.pagelet2-Interface"/>
+    <callParameterInterfaces referencedName="app_sf_base_cm:interface.include.product.pagelet2-Interface"/>
+    <configurationParameterDefinitions name="Grid" optional="true" localizable="false"
+        typeReference="sld_mcm:parametertype.bootstrap.grid.pagelet2-Grid"/>
+    <configurationParameterDefinitions name="CSSClass" optional="true" localizable="false"
+        typeReference="bc_pmc:types.pagelet2-Text"/>
+    <configurationParameterDefinitions name="UpperBound" optional="true" localizable="false"
+        typeReference="bc_pmc:types.pagelet2-Integer"/>
+    <renderTemplate referencedName="component/common/Container"/>
+    <slotInclusionDefinitions>
+      <slotDefinition referencedName="app_sf_base_cm:slot.container.content.pagelet2-Slot"/>
+    </slotInclusionDefinitions>
+  </pageletDefinitions>
+</pagelet:PageletModel>

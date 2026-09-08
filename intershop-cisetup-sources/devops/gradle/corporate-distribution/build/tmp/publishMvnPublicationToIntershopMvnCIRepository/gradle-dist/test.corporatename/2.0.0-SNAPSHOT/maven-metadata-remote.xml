@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>gradle-dist</groupId>
+  <artifactId>test.corporatename</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20180523.211940</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20180523211940</lastUpdated>
+  </versioning>
+</metadata>

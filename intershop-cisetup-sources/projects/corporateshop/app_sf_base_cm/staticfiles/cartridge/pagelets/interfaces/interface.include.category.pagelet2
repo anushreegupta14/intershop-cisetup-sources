@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pagelet:PageletModel xmlns:pagelet="http://www.intershop.de/pagelet/2010" name="interface.include.category.pagelet2">
+  <callParameterInterfaces name="Interface">
+    <callParameterDefinitions name="Category" type="com.intershop.component.catalog.capi.CatalogCategoryBO"/>
+  </callParameterInterfaces>
+</pagelet:PageletModel>

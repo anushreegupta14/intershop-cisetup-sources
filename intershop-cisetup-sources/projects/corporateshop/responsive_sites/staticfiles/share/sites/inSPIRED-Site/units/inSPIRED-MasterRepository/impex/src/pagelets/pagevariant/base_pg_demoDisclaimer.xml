@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-page id="base_pg_demoDisclaimer">
+<definition-name>app_sf_base_cm:pagevariant.standard.pagelet2-Pagevariant</definition-name>
+<display-name xml:lang="en-US">Demo Disclaimer</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="RobotsNoFollow">
+<definition-name>app_sf_base_cm:pagevariant.standard.pagelet2-Pagevariant-RobotsNoFollow</definition-name>
+<value name="RobotsNoFollow">false</value>
+</configuration-parameter>
+<configuration-parameter name="RobotsNoIndex">
+<definition-name>app_sf_base_cm:pagevariant.standard.pagelet2-Pagevariant-RobotsNoIndex</definition-name>
+<value name="RobotsNoIndex">false</value>
+</configuration-parameter>
+</configuration-parameters>
+<slots>
+<slot>
+<definition-name>app_sf_base_cm:slot.pagevariant.content.pagelet2-Slot</definition-name>
+<optional>false</optional>
+</slot>
+</slots>
+</pagelet-page>
+<pagelet-slot-assignment id="eDGsGnAB3hEAAAGAtqI4UMvf">
+<slot definition-name="app_sf_base_cm:slot.pagevariant.content.pagelet2-Slot" parent-pagelet-id="base_pg_demoDisclaimer" domain="inSPIRED-MasterRepository"/>
+<pagelet id="base_cmp_demoDisclaimer" domain="inSPIRED-MasterRepository"/>
+<position>1</position>
+<online>true</online>
+</pagelet-slot-assignment>
+</enfinity>

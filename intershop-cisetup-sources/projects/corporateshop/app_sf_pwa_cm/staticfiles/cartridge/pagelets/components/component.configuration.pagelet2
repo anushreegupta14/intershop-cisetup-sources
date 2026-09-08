@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pagelet:PageletModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:core="http://www.intershop.de/core/2010"
+    xmlns:pagelet="http://www.intershop.de/pagelet/2010" name="component.configuration.pagelet2">
+  <pageletDefinitions name="Component">
+    <callParameterInterfaces referencedName="app_sf_pwa_cm:interface.configuration.pagelet2-Interface"/>
+    <configurationParameterDefinitions name="Logo" optional="true" typeReference="bc_pmc:types.pagelet2-ImageFileRef"/>
+    <configurationParameterDefinitions name="LogoMobile" optional="true" typeReference="bc_pmc:types.pagelet2-ImageFileRef"/>
+    <configurationParameterDefinitions name="Favicon" optional="true" typeReference="bc_pmc:types.pagelet2-ImageFileRef"/>
+    <configurationParameterDefinitions name="CSSProperties" optional="true" typeReference="bc_pmc:types.pagelet2-Text">
+      <parameterBindings xsi:type="core:ParameterValueBinding" name="Rows" value="20"/>
+    </configurationParameterDefinitions>
+    <configurationParameterDefinitions name="CSSFonts" optional="true" typeReference="bc_pmc:types.pagelet2-Text">
+      <parameterBindings xsi:type="core:ParameterValueBinding" name="Rows" value="5"/>
+    </configurationParameterDefinitions>
+    <configurationParameterDefinitions name="CSSFile" optional="true" typeReference="bc_pmc:types.pagelet2-ImageFileRef"/>
+    <configurationParameterDefinitions name="CSSStyling" optional="true" typeReference="bc_pmc:types.pagelet2-Text">
+      <parameterBindings xsi:type="core:ParameterValueBinding" name="Rows" value="20"/>
+    </configurationParameterDefinitions>
+    <configurationParameterDefinitions name="Features" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+    <configurationParameterDefinitions name="AddFeatures" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+    <configurationParameterDefinitions name="ConfigurationJSON" optional="true" typeReference="bc_pmc:types.pagelet2-Text">
+      <parameterBindings xsi:type="core:ParameterValueBinding" name="Rows" value="20"/>
+    </configurationParameterDefinitions>
+    <renderTemplate/>
+  </pageletDefinitions>
+</pagelet:PageletModel>

@@ -1,0 +1,34 @@
+apply plugin: 'static-cartridge'
+apply plugin: 'com.intershop.gradle.isml'
+
+intershop 
+{
+    displayName = 'Adapter - OpenID Connect for Responsive Storefront'
+    description = 'Contains the Responsive Storefront specific part of the OpenID Connect Adapter'
+
+    packages {
+        cartridge {
+            srcDir(isml2classMain)
+        }
+    }
+}
+
+
+dependencies 
+{
+    compile 'com.intershop.platform:ac_oidc'
+    compile 'com.intershop.platform:bc_address'
+    compile 'com.intershop.platform:bc_application'
+    compile 'com.intershop.platform:bc_captcha'
+    compile 'com.intershop.platform:bc_foundation'
+    compile 'com.intershop.platform:bc_organization'
+    compile 'com.intershop.platform:bc_user'
+    compile 'com.intershop.platform:core'
+    compile 'com.intershop.business:bc_marketing'
+    compile 'com.intershop.business:bc_orderprocess'
+    compile 'com.intershop.business:sld_ch_sf_base'
+    compile project(':app_sf_responsive')
+
+    // following runtime dependencies exist in real life but can not be declared because lots of other cartridges do declare their runtime dependencies
+    //runtime project(':as_responsive') // dependent from cartridge lists
+}

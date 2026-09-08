@@ -1,0 +1,57 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+
+<% 
+	java.time.OffsetDateTime offsetDate = (java.time.OffsetDateTime)getObject("ReturnRequestBO:CreationDate");
+	java.util.Date date = new Date(offsetDate.toInstant().toEpochMilli());
+	getPipelineDictionary().put("Date", date);
+%>
+
+<div class="account-wrapper">
+	<div class="row account-main">
+		<div class="col-md-3 account-nav-box">
+			<isAccountNavigation selecteditem="ORDERS">
+		</div>
+		<div class="col-md-9">
+			<div class="marketing-area">
+				<ISMarketingSlot id="contentMarketing">
+			</div>
+			
+			<h1><istext key="account.order.returndetails.title" /></h1>
+			<p><istext key="account.order.returndetails.description" /></p>
+			
+			<div class="section" >
+				<dl class="dl-horizontal dl-horizontal-inline">
+					<dt><istext key="account.order.returndetails.return_number.label"></dt><dd><isprint value="#ReturnRequestBO:DocumentNo#"></dd>
+					<dt><istext key="account.order.returndetails.date.label"></dt><dd><isprint value="#getValue(Date,DATE_SHORT)#"></dd>
+					<dt><istext key="account.order.returndetails.status.label"></dt><dd><isprint value="#ReturnRequestBO:BusinessStatus:Description#"></dd>
+					<dt><istext key="account.order.returndetails.order.label"></dt>
+					<dd><p>
+						<a href="#URL(Action("ViewOrders-Detail"), Parameter('OrderID', OrderBO:ID))#">
+							<isprint value="#OrderBO:DocumentNo#">
+						</a>
+					</p></dd>
+					<dt><istext key="account.order.returndetails.type.label"></dt>
+					<dd>
+						<p><isprint value="#ReturnRequestBO:Type:Description#"></p>
+						<isif condition="#ReturnRequestBO:PickupAddressBO:Present#">
+							<istext key="order.returnrequest.send_back.pickup_address.label">:
+							<isaddress address="#ReturnRequestBO:PickupAddressBO:get#">
+						</isif>
+					</dd>
+					<isif condition="#ReturnRequestBO:Comment NE ''#">
+						<dt><istext key="account.order.returndetails.comment.label"></dt>
+						<dd><isprint value="#ReturnRequestBO:Comment#"></dd>
+					</isif>
+				</dl>
+			</div>
+			 <isinclude template="rma/ReturnItemsList">
+			 
+			 <div class="section">
+				<a href="#URL(Action("ViewOrderRMA-List"), Parameter('OrderID', OrderBO:ID))#">
+					<istext key="account.order.return.back.returns.button" />
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--A pipeline that processes user registration in respect of SSO.
+@Group Customer-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessUserAccount" overrideMode="Inherit" type="process">
+<!--@Location 1,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_jWp6IE8iEeu40JsH7UKlSg" strict="true"
+      name="CompleteUserRegistration" callMode="Private">
+    <nodeSuccessors name="next" next="ExtensionPointNode_jWqhME8iEeu40JsH7UKlSg"/>
+<!--The repository that contains the customers.-->
+    <parameters name="CustomerBORepository" type="com.intershop.component.customer.capi.CustomerBORepository"/>
+<!--The user repository in which this user is.-->
+    <parameters name="UserBORepository" type="com.intershop.component.user.capi.UserBORepository"/>
+<!--The organization of the user to update.-->
+    <parameters name="Organization" type="com.intershop.component.organization.capi.Organization"/>
+<!--The the user to update.-->
+    <parameters name="UserBO" type="com.intershop.component.user.capi.UserBO"/>
+    <parameters name="OrderBO" type="com.intershop.component.order.capi.OrderBO" optional="true"/>
+<!--the form value which holds the country code-->
+    <parameters name="CountryCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds the preferred locale to be assigned to the user-->
+    <parameters name="LocaleID" type="java.lang.String" optional="true"/>
+<!--the form value which holds a first name to be assigned to the user-->
+    <parameters name="FirstName" type="java.lang.String" optional="true"/>
+<!--the form value which holds a last name to be assigned to the user-->
+    <parameters name="LastName" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street to be assigned to the user-->
+    <parameters name="Street" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street2 to be assigned to the user-->
+    <parameters name="Street2" type="java.lang.String" optional="true"/>
+<!--the form value which holds a city to be assigned to the user-->
+    <parameters name="City" type="java.lang.String" optional="true"/>
+<!--the form value which holds a state to be assigned to the user-->
+    <parameters name="State" type="java.lang.String" optional="true"/>
+<!--the form value which holds a postal code (or zip code) to be assigned to the user-->
+    <parameters name="PostalCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds a home phone number to be assigned to the user-->
+    <parameters name="PhoneHome" type="java.lang.String" optional="true"/>
+<!--the dictionary value which holds a birthday date to be assigned to the user-->
+    <parameters name="BirthdayDate" type="java.util.Date" optional="true"/>
+<!--the form value which holds the prefecture to be assigned to the user-->
+    <parameters name="PreferredBillingAddressBO" type="java.lang.Boolean" optional="true"/>
+<!--the form value which holds the prefecture to be assigned to the user-->
+    <parameters name="PreferredShippingAddressBO" type="java.lang.Boolean" optional="true"/>
+    <parameters name="Company" type="java.lang.String" optional="true"/>
+    <parameters name="Mobile" type="java.lang.String" optional="true"/>
+    <parameters name="SecondName" type="java.lang.String" optional="true"/>
+    <parameters name="Street3" type="java.lang.String" optional="true"/>
+    <parameters name="Title" type="java.lang.String" optional="true"/>
+    <parameters name="AddressNr" type="java.lang.String" optional="true"/>
+<!--The first address line.-->
+    <parameters name="Address1" type="java.lang.String" optional="true"/>
+<!--The second address line.-->
+    <parameters name="Address2" type="java.lang.String" optional="true"/>
+<!--The third address line.-->
+    <parameters name="Address3" type="java.lang.String" optional="true"/>
+<!--The company name.-->
+    <parameters name="CompanyName" type="java.lang.String" optional="true"/>
+<!--The alternative company name.-->
+    <parameters name="CompanyName2" type="java.lang.String" optional="true"/>
+<!--The business phone number.-->
+    <parameters name="PhoneBusiness" type="java.lang.String" optional="true"/>
+<!--The fax number.-->
+    <parameters name="Fax" type="java.lang.String" optional="true"/>
+<!--The industry.-->
+    <parameters name="Industry" type="java.lang.String" optional="true"/>
+<!--The taxation ID.-->
+    <parameters name="TaxationID" type="java.lang.String" optional="true"/>
+<!--The department.-->
+    <parameters name="Department" type="java.lang.String" optional="true"/>
+<!--The email of the profile.-->
+    <parameters name="Email" type="java.lang.String" optional="true"/>
+    <parameters name="CreateDefaultAddress" type="java.lang.String" optional="true"/>
+    <parameters name="InvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="ShipToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="PreferredInvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="PreferredShipToAddress" type="java.lang.Boolean" optional="true"/>
+  </nodes>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:ExtensionPointNode" nodeID="ExtensionPointNode_jWqhME8iEeu40JsH7UKlSg"
+      name="UserRegistering" strict="true">
+    <nodeSuccessors name="next" next="CallNode_jWrIQE8iEeu40JsH7UKlSg"/>
+<!--The organization to create the user for.-->
+    <parameters name="Organization" type="com.intershop.component.organization.capi.Organization"
+        optional="true"/>
+<!--the form value which holds the country code-->
+    <parameters name="CountryCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds the preferred locale to be assigned to the user-->
+    <parameters name="LocaleID" type="java.lang.String" optional="true"/>
+<!--the form value which holds a first name to be assigned to the user-->
+    <parameters name="FirstName" type="java.lang.String" optional="true"/>
+<!--the form value which holds a last name to be assigned to the user-->
+    <parameters name="LastName" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street to be assigned to the user-->
+    <parameters name="Street" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street2 to be assigned to the user-->
+    <parameters name="Street2" type="java.lang.String" optional="true"/>
+<!--the form value which holds a city to be assigned to the user-->
+    <parameters name="City" type="java.lang.String" optional="true"/>
+<!--the form value which holds a state to be assigned to the user-->
+    <parameters name="State" type="java.lang.String" optional="true"/>
+<!--the form value which holds a postal code (or zip code) to be assigned to the user-->
+    <parameters name="PostalCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds a home phone number to be assigned to the user-->
+    <parameters name="PhoneHome" type="java.lang.String" optional="true"/>
+<!--the dictionary value which holds a birthday date to be assigned to the user-->
+    <parameters name="BirthdayDate" type="java.util.Date" optional="true"/>
+<!--the form value which holds the prefecture to be assigned to the user-->
+    <parameters name="PreferredBillingAddressBO" type="java.lang.Boolean" optional="true"/>
+<!--the form value which holds the prefecture to be assigned to the user-->
+    <parameters name="PreferredShippingAddressBO" type="java.lang.Boolean" optional="true"/>
+<!--whether the user wishes to receive order confirmations per email-->
+    <parameters name="ConfirmMail" type="java.lang.String" optional="true"/>
+    <parameters name="Company" type="java.lang.String" optional="true"/>
+    <parameters name="Mobile" type="java.lang.String" optional="true"/>
+    <parameters name="SecondName" type="java.lang.String" optional="true"/>
+    <parameters name="Street3" type="java.lang.String" optional="true"/>
+    <parameters name="Title" type="java.lang.String" optional="true"/>
+    <parameters name="AddressNr" type="java.lang.String" optional="true"/>
+<!--The repository that contains the customers.-->
+    <parameters name="CustomerBORepository" type="com.intershop.component.customer.capi.CustomerBORepository"/>
+<!--The user repository in which this user is.-->
+    <parameters name="UserBORepository" type="com.intershop.component.user.capi.UserBORepository"/>
+<!--The first address line.-->
+    <parameters name="Address1" type="java.lang.String" optional="true"/>
+<!--The second address line.-->
+    <parameters name="Address2" type="java.lang.String" optional="true"/>
+<!--The third address line.-->
+    <parameters name="Address3" type="java.lang.String" optional="true"/>
+<!--The company name.-->
+    <parameters name="CompanyName" type="java.lang.String" optional="true"/>
+<!--The alternative company name.-->
+    <parameters name="CompanyName2" type="java.lang.String" optional="true"/>
+<!--The business phone number.-->
+    <parameters name="PhoneBusiness" type="java.lang.String" optional="true"/>
+<!--The fax number.-->
+    <parameters name="Fax" type="java.lang.String" optional="true"/>
+<!--The industry.-->
+    <parameters name="Industry" type="java.lang.String" optional="true"/>
+<!--The taxation ID.-->
+    <parameters name="TaxationID" type="java.lang.String" optional="true"/>
+<!--The department.-->
+    <parameters name="Department" type="java.lang.String" optional="true"/>
+<!--The email of the profile.-->
+    <parameters name="Email" type="java.lang.String" optional="true"/>
+    <parameters name="OrderBO" type="com.intershop.component.order.capi.OrderBO" optional="true"/>
+    <parameters name="ShipToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="InvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_jWrIQE8iEeu40JsH7UKlSg">
+    <nodeSuccessors name="next" next="CallNode_jWlosE8iEeu40JsH7UKlSg"/>
+    <startNode referencedName="This:DetermineCreationOfDefaultAddress"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_jWlosE8iEeu40JsH7UKlSg">
+    <nodeSuccessors name="next" next="ExtensionPointNode_jWm20E8iEeu40JsH7UKlSg"/>
+<!--@BendPoints 5,7-->
+    <nodeSuccessors name="ERROR" next="EndNode_jWpTEE8iEeu40JsH7UKlSg"/>
+    <startNode referencedName="ProcessUserAccount-UpdateUserAccount"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:ExtensionPointNode" nodeID="ExtensionPointNode_jWm20E8iEeu40JsH7UKlSg"
+      name="UserRegistered" strict="true">
+    <nodeSuccessors name="next" next="EndNode_jWosAE8iEeu40JsH7UKlSg"/>
+    <parameters name="UserBO" type="com.intershop.component.user.capi.UserBO"/>
+    <parameters name="CustomerBO" type="com.intershop.component.customer.capi.CustomerBO"/>
+  </nodes>
+<!--@Location 1,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_jWosAE8iEeu40JsH7UKlSg" strict="true">
+    <returnValues name="UserBO" type="java.lang.Object" optional="true"/>
+    <returnValues name="CustomerBO" type="com.intershop.component.customer.capi.CustomerBO"
+        optional="true"/>
+  </nodes>
+<!--@Location 2,5-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_jWpTEE8iEeu40JsH7UKlSg" name="ERROR"
+      strict="true">
+    <returnValues name="ERROR_User" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--Updates a user's account during registration in respect of SSO.
+@Location 4,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_9SQOkE8kEeu40JsH7UKlSg" strict="true"
+      name="UpdateUserAccount" callMode="Private">
+    <nodeSuccessors name="next" next="ExceptionPipelineNode_sEZmAE8lEeu40JsH7UKlSg_Input"/>
+    <parameters name="Organization" type="com.intershop.component.organization.capi.Organization"/>
+<!--The customer repository in which this customer is.-->
+    <parameters name="CustomerBORepository" type="com.intershop.component.customer.capi.CustomerBORepository"/>
+<!--The user repository in which this user is.-->
+    <parameters name="UserBORepository" type="com.intershop.component.user.capi.UserBORepository"/>
+    <parameters name="Email" type="java.lang.String" optional="true"/>
+<!--the form value which holds the country code-->
+    <parameters name="CountryCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds the preferred locale to be assigned to the user-->
+    <parameters name="LocaleID" type="java.lang.String" optional="true"/>
+<!--the form value which holds a first name to be assigned to the user-->
+    <parameters name="FirstName" type="java.lang.String" optional="true"/>
+<!--the form value which holds a last name to be assigned to the user-->
+    <parameters name="LastName" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street to be assigned to the user-->
+    <parameters name="Street" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street2 to be assigned to the user-->
+    <parameters name="Street2" type="java.lang.String" optional="true"/>
+<!--the form value which holds a city to be assigned to the user-->
+    <parameters name="City" type="java.lang.String" optional="true"/>
+<!--the form value which holds a state to be assigned to the user-->
+    <parameters name="State" type="java.lang.String" optional="true"/>
+<!--the form value which holds a postal code (or zip code) to be assigned to the user-->
+    <parameters name="PostalCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds a home phone number to be assigned to the user-->
+    <parameters name="PhoneHome" type="java.lang.String" optional="true"/>
+<!--the dictionary value which holds a birthday date to be assigned to the user-->
+    <parameters name="BirthdayDate" type="java.util.Date" optional="true"/>
+<!--whether the user wishes to receive order confirmations per email-->
+    <parameters name="ConfirmMail" type="java.lang.String" optional="true"/>
+    <parameters name="Company" type="java.lang.String" optional="true"/>
+    <parameters name="Mobile" type="java.lang.String" optional="true"/>
+    <parameters name="SecondName" type="java.lang.String" optional="true"/>
+    <parameters name="Title" type="java.lang.String" optional="true"/>
+    <parameters name="Street3" type="java.lang.String" optional="true"/>
+<!--the form value which holds the address number to be assigned to the user-->
+    <parameters name="AddressNr" type="java.lang.String" optional="true"/>
+<!--Whether a default address for the new user should be created. The default value is true.-->
+    <parameters name="CreateDefaultAddress" type="java.lang.String"/>
+<!--The first address line.-->
+    <parameters name="Address1" type="java.lang.String" optional="true"/>
+<!--The second address line.-->
+    <parameters name="Address2" type="java.lang.String" optional="true"/>
+<!--The third address line.-->
+    <parameters name="Address3" type="java.lang.String" optional="true"/>
+<!--The company name.-->
+    <parameters name="CompanyName" type="java.lang.String" optional="true"/>
+<!--The alternative company name.-->
+    <parameters name="CompanyName2" type="java.lang.String" optional="true"/>
+<!--The business phone number.-->
+    <parameters name="PhoneBusiness" type="java.lang.String" optional="true"/>
+<!--The fax number.-->
+    <parameters name="Fax" type="java.lang.String" optional="true"/>
+<!--The industry.-->
+    <parameters name="Industry" type="java.lang.String" optional="true"/>
+<!--The taxation ID.-->
+    <parameters name="TaxationID" type="java.lang.String" optional="true"/>
+<!--The department.-->
+    <parameters name="Department" type="java.lang.String" optional="true"/>
+    <parameters name="ShipToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="InvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="PreferredInvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="PreferredShipToAddress" type="java.lang.Boolean" optional="true"/>
+  </nodes>
+<!--@Location 4,1-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="ExceptionPipelineNode_sEZmAE8lEeu40JsH7UKlSg">
+    <configurationValues name="exceptionMessage" value="User registration in respect of SSO is currently not supported for B2C."/>
+    <pipelet href="enfinity:/core/pipelets/com.intershop.beehive.core.internal.pipeline.node.ExceptionPipelineNode.pipelinenode"/>
+    <inConnectors name="Input"/>
+  </nodes>
+</pipeline:Pipeline>

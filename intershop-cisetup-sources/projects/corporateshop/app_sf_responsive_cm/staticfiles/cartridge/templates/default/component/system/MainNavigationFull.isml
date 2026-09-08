@@ -1,0 +1,13 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+
+<isif condition="#isDefined(PageletConfigurationParameters:MaxSubCategoriesDepth)#">
+	<%
+		try
+		{
+			getPipelineDictionary().put("MaxSubCategoriesDepth", Integer.parseInt((String)getObject("PageletConfigurationParameters:MaxSubCategoriesDepth")));
+		}
+		catch (NumberFormatException e) {}
+	%>
+</isif>
+
+<isinclude template="inc/navigation/SimpleNavigationBarIndex"/>

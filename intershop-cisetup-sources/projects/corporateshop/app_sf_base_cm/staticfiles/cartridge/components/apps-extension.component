@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010">
+    <fulfill requirement="selectedCartridge" value="app_sf_base_cm" of="intershop.REST.Cartridges" />
+    <fulfill requirement="namedObject" of="intershop.REST">
+        <instance with="NamedObject">
+            <fulfill requirement="name" value="MediaAssetsImageFile.isml/Image"/>
+            <fulfill requirement="object">
+                <instance with="sld_pmc.MediaAssetMapperImpl">
+                    <fulfill requirement="pageletDefinition" value="app_sf_base_cm:component.common.imageEnhanced.pagelet2-Component" />
+                    <fulfill requirement="pageletConfiguration" value="{'PageletConfiguration_Image':'%1$s'}" />
+                    <fulfill requirement="pageletName" value="%s (Enhanced Image Teaser)" />
+                </instance>
+            </fulfill>
+        </instance>
+    </fulfill>
+    <fulfill requirement="namedObject" of="intershop.REST">
+        <instance with="NamedObject">
+            <fulfill requirement="name" value="MediaAssetsVideoFile.isml/Video"/>
+            <fulfill requirement="object">
+                <instance with="sld_pmc.MediaAssetMapperImpl">
+                    <fulfill requirement="pageletDefinition" value="app_sf_base_cm:component.common.video.pagelet2-Component" />
+                    <fulfill requirement="pageletConfiguration" value="{'PageletConfiguration_Video':'%1$s'}" />
+                    <fulfill requirement="pageletName" value="%s (Video)" />
+                </instance>
+            </fulfill>
+        </instance>
+    </fulfill>
+</components>

@@ -1,0 +1,70 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<div class="list-header">
+    <div class="list-header-item col-sm-6">
+        <istext key="order.reverseservice.items.list.item.title"/>
+    </div>
+    <div class="list-header-item col-sm-1">
+        <istext key="order.reverseservice.items.list.quantity.title"/>
+    </div>
+    <div class="list-header-item col-sm-3">
+        <istext key="order.reverseservice.items.list.returnreason.title"/>
+    </div>
+    <div class="list-header-item col-sm-2 column-price">
+        <istext key="order.reverseservice.items.list.price.title"/>
+    </div>
+</div>
+
+
+<div class="list-body">
+    <isloop iterator="ReturnRequestBO:ReturnRequestItemBOs" alias="ReturnItem">
+         
+        <div class="list-item-row">
+            <div class="col-xs-2 list-item">
+                <isif condition="#isDefined(ReturnItem:OrderProductLineItemBO) AND isDefined(ReturnItem:OrderProductLineItemBO:ProductBO)#">
+                    <ISProductImage ProductBO="#ReturnItem:OrderProductLineItemBO:ProductBO#" ImageType="S" Class="img-responsive">
+                </isif>
+            </div>
+            <div class="col-sm-4 col-xs-8">
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12 list-item">
+                        <div class="pli-description">
+                            <a href="#URL(Action('ViewProduct-Start'),Parameter('SKU', ReturnItem:OrderProductLineItemBO:ProductRef:ProductSKU))#">
+                                <isprint value="#ReturnItem:OrderProductLineItemBO:ProductName#" />
+                            </a>
+                            <p class="product-id">
+                                <istext key="account.order.return.id" />
+                                <isprint value="#ReturnItem:OrderProductLineItemBO:ProductRef:ProductSKU#" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            <div class="col-sm-1 col-xs-12 list-item">
+                <div class="form-group">
+                    <label class="hidden-sm hidden-md hidden-lg"><istext key="account.order.return.quantity" /></label>
+                    <span class="form-control-static">
+                        <isprint value="#ReturnItem:Quantity#">
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-12 list-item">
+                <div class="form-group">
+                    <label class="hidden-sm hidden-md hidden-lg"><istext key="account.order.return.reason" /></label>
+                    <span class="form-control-static">
+                        <isprint value="#ReturnItem:ReturnReason:Description#">
+                    </span>
+                </div>
+            </div>
+               
+            <div class="col-sm-2 col-xs-3 list-item column-price">
+                <isif condition="#isDefined(ReturnItem:OrderProductLineItemBO)#">
+                    <isif condition="#PriceDisplayType EQ 'net'#">
+                        <isprint value="#ReturnItem:OrderProductLineItemBO:SingleBasePriceNet#">
+                    <iselse>
+                        <isprint value="#ReturnItem:OrderProductLineItemBO:SingleBasePriceGross#">
+                    </isif>
+                </isif>
+            </div>
+        </div>
+    </isloop>
+</div>

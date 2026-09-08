@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-component id="pwa_featured_products">
+<definition-name>app_sf_base_cm:component.common.productListManual.pagelet2-Component</definition-name>
+<display-name xml:lang="en-US">PWA Featured Products</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="CSSClass">
+<definition-name>app_sf_base_cm:component.common.productListManual.pagelet2-Component-CSSClass</definition-name>
+<value name="CSSClass">container</value>
+</configuration-parameter>
+<configuration-parameter name="ListItemCSSClass">
+<definition-name>app_sf_base_cm:component.common.productListManual.pagelet2-Component-ListItemCSSClass</definition-name>
+<value name="ListItemCSSClass">col-12 col-sm-6 col-lg-3</value>
+</configuration-parameter>
+<configuration-parameter name="ListItemStyle">
+<definition-name>app_sf_base_cm:component.common.productListManual.pagelet2-Component-ListItemStyle</definition-name>
+<value name="ListItemStyle">tile</value>
+</configuration-parameter>
+<configuration-parameter name="Products">
+<definition-name>app_sf_base_cm:component.common.productListManual.pagelet2-Component-Products</definition-name>
+<value name="Products">
+<value>201807171@inSPIRED-inTRONICS</value>
+<value>201807204-01@inSPIRED-inTRONICS</value>
+<value>201807194@inSPIRED-inTRONICS</value>
+<value>201807231-03@inSPIRED-inTRONICS</value>
+</value>
+</configuration-parameter>
+<configuration-parameter name="Title">
+<definition-name>app_sf_base_cm:component.common.productListManual.pagelet2-Component-Title</definition-name>
+<value name="Title" xml:lang="en-US">Featured Products</value>
+</configuration-parameter>
+</configuration-parameters>
+</pagelet-component>
+</enfinity>

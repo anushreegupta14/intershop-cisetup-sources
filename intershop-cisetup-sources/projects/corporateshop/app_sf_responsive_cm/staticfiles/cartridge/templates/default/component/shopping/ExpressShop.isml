@@ -1,0 +1,87 @@
+<iscontent personalized="true" type="text/html" charset="UTF-8" compact="true">
+<iscache type="relative" hour="24">
+<iscachekey object="#ProductBO#">
+<isinclude template="modules/Modules">
+<isinclude template="modules/captcha/Modules">
+
+<script type="text/javascript">RetailShop.onCollapseChangeArrow();</script>
+
+<div class="modal-dialog modal-lg"
+	data-dynamic-block
+	data-dynamic-block-call-parameters="CID=<isprint value="#Pagelet:UUID#">"
+	data-dynamic-block-product-sku="<isif condition="#ProductBO:isMastered#"><isprint value="#ProductBO:ProductBOMaster:SKU#"><iselse><isprint value="#ProductBOr:SKU#"></isif>"
+>
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" title="<istext key="dialog.close.text">" aria-label="<istext key="dialog.close.text"/>"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<div class="modal-body">
+			<div class="express-shop">
+			
+				<div class="pull-right">
+					<ISProductRating
+						ProductBO="#ProductBO#"
+						User="#CurrentUser#"
+						SimpleRatingView="false"
+						RichSnippetsEnabled="#RichSnippetsEnabled#"
+					>
+				</div>
+				
+				<div class="row product-details">
+					<!--- product images --->
+					<div class="col-sm-6 col-md-7">
+						<div class="product-detail-img clearfix">
+							<div class="product-image-container">
+								<ISProductImagesCarousel
+									ProductBO="#ProductBO#"
+									ImageType="L"
+									RichSnippetsEnabled="#RichSnippetsEnabled#"
+									ExpressShop="true">
+								<ISProductLabel ProductBO="#ProductBO#">
+							</div>
+						</div>
+						<div class="hidden-xs hidden-sm">
+							<ISProductAlternateImages
+								ProductBO="#ProductBO#"
+								ImageType="S"
+								RichSnippetsEnabled="#RichSnippetsEnabled#">
+						</div>
+					</div>
+					
+					<!--- product details --->
+					<div class="col-sm-6 col-md-5 col-xs-12">
+						<isinclude template="expressshop/ProductInfos">
+						
+						<!--- product tabs --->
+						<div id="accordion" class="panel-group">
+							<isinclude template="inc/product/DescriptionTab">
+							<isinclude template="inc/product/DetailsTab">
+							<isinclude template="inc/product/AttachmentsTab">
+							<isinclude template="inc/product/PolicyTab">
+							<isinclude template="inc/product/ShippingTab">
+						</div>
+					</div>
+				</div>
+				
+				<isset name="ExpressShop" value="#1==1#" scope="request" />
+				<div class="row product-details">
+					<!--- product listing for Bundle Products --->
+					<isif condition="#(ProductBO:isProductBundle AND hasElements(ProductBO:BundleInformationBO:BundledProductBOs))#">
+						<isinclude template="inc/product/ProductBundle">
+					<!--- product listing for Retail Sets --->
+					<iselseif condition="#(ProductBO:isRetailSet AND hasElements(ProductBO:BundleInformationBO:BundledProductBOs))#">
+						<isinclude template="inc/product/RetailSet">
+					</isif>
+				</div>
+				
+				<div class="marketing-area">
+					<isslot slot="app_sf_responsive_cm:slot.marketing.product.pagelet2-Slot">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		ProductDetail.productImageCarousel();
+	</script>
+</div>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-component id="base_cmp_footerContent">
+<definition-name>app_sf_base_cm:component.common.freeStyle.pagelet2-Component</definition-name>
+<display-name xml:lang="en-US">Footer Content</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="HTML">
+<definition-name>app_sf_base_cm:component.common.freeStyle.pagelet2-Component-HTML</definition-name>
+<value name="HTML" xml:lang="de-DE">&lt;div class=&quot;row&quot;&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;FIRMA&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.legalnotice&quot;&gt;Rechtshinweis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.privacyPolicy.pagelet2-Page&quot;&gt;Datenschutzhinweise&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.termsAndConditions.pagelet2-Page&quot;&gt;Nutzungsbedingungen&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;SERVICE&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.helpdesk.pagelet2-Page&quot;&gt;Hilfe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://contact&quot;&gt;Kontakt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://cookies&quot;&gt;Cookies verwalten&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;BELIEBTE KATEGORIEN&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;category://3001@inSPIRED-Computers&quot;&gt;Monitore&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;category://897@inSPIRED-Computers&quot;&gt;Tablets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;category://151@inSPIRED-Computers&quot;&gt;Notebooks&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;DEMO CONTENT&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.demodisclaimer&quot;&gt;Demo Disclaimer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://error&quot;&gt;Fehlerseite&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://basket&quot;&gt;Warenkorb&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</value>
+<value name="HTML" xml:lang="en-US">&lt;div class=&quot;row&quot;&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;COMPANY&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.legalnotice&quot;&gt;Legal Notice&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.privacyPolicy.pagelet2-Page&quot;&gt;Privacy Policy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.termsAndConditions.pagelet2-Page&quot;&gt;Terms &amp; Conditions &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;SERVICE&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.helpdesk.pagelet2-Page&quot;&gt;Help&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://contact&quot;&gt;Contact Us&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://cookies&quot;&gt;Manage Cookies&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;TOP CATEGORIES&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;category://3001@inSPIRED-Computers&quot;&gt;Monitors&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;category://897@inSPIRED-Computers&quot;&gt;Tablets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;category://151@inSPIRED-Computers&quot;&gt;Notebooks&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;DEMO CONTENT&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.demodisclaimer&quot;&gt;Demo Disclaimer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://error&quot;&gt;Error Page&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://basket&quot;&gt;Shopping Cart&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</value>
+<value name="HTML" xml:lang="fr-FR">&lt;div class=&quot;row&quot;&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;ENTREPRISE&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.legalnotice&quot;&gt;Notice légale&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.privacyPolicy.pagelet2-Page&quot;&gt;Politique de confidentialité&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.termsAndConditions.pagelet2-Page&quot;&gt;Conditions de vente&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;SERVICE&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.helpdesk.pagelet2-Page&quot;&gt;Assistance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://contact&quot;&gt;Contactez-nous&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://cookies&quot;&gt;Gérer les cookies&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;CATÉGORIES POPULAIRES&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;category://3001@inSPIRED-Computers&quot;&gt;Moniteurs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;category://897@inSPIRED-Computers&quot;&gt;Tablets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;category://151@inSPIRED-Computers&quot;&gt;Notebooks&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;col-md-6 col-lg-3&quot;&gt;
+&lt;h4&gt;CONTENU DEMO&lt;/h4&gt;
+&lt;div class=&quot;link-group&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;page://page.demodisclaimer&quot;&gt;Avis de non-responsabilité concernant la démo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://error&quot;&gt;Page d&apos;erreur&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;route://basket&quot;&gt;Panier d’achat&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</value>
+</configuration-parameter>
+</configuration-parameters>
+</pagelet-component>
+</enfinity>

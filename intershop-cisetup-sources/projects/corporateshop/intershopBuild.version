@@ -1,0 +1,8 @@
+com.intershop.build.gradle:assembly = 3.0.0
+com.intershop.build.gradle:plugin-tests = 2.8.1
+com.intershop.build.gradle:versioning = 3.0.0
+com.intershop.build.gradle:deployment-framework = 3.0.0
+com.intershop.build.gradle:deployment-test = 3.0.0
+com.intershop.build.gradle:ish-common = 3.0.0
+
+com.intershop.deployment:ish-assembly-test = 5.0.1

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--A pipeline that processes user registration in respect of SSO.
+@Group Customer-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ProcessUserAccount" overrideMode="Inherit" type="process">
+<!--Updates a user's account during registration in respect of SSO.
+@Location 1,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_1sNNwE8lEeu40JsH7UKlSg" strict="true"
+      name="UpdateUserAccount" callMode="Private">
+    <nodeSuccessors name="next" next="GetCustomerBO_yozioE8vEeufbe9c6jdPkA" action="begin"/>
+    <parameters name="Organization" type="com.intershop.component.organization.capi.Organization"/>
+<!--The customer repository in which this customer is.-->
+    <parameters name="CustomerBORepository" type="com.intershop.component.customer.capi.CustomerBORepository"/>
+<!--The user repository in which this user is.-->
+    <parameters name="UserBORepository" type="com.intershop.component.user.capi.UserBORepository"/>
+<!--The user to update.-->
+    <parameters name="UserBO" type="com.intershop.component.user.capi.UserBO"/>
+    <parameters name="Email" type="java.lang.String" optional="true"/>
+<!--the form value which holds the country code-->
+    <parameters name="CountryCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds the preferred locale to be assigned to the user-->
+    <parameters name="LocaleID" type="java.lang.String" optional="true"/>
+<!--the form value which holds a first name to be assigned to the user-->
+    <parameters name="FirstName" type="java.lang.String" optional="true"/>
+<!--the form value which holds a last name to be assigned to the user-->
+    <parameters name="LastName" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street to be assigned to the user-->
+    <parameters name="Street" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street2 to be assigned to the user-->
+    <parameters name="Street2" type="java.lang.String" optional="true"/>
+<!--the form value which holds a city to be assigned to the user-->
+    <parameters name="City" type="java.lang.String" optional="true"/>
+<!--the form value which holds a state to be assigned to the user-->
+    <parameters name="State" type="java.lang.String" optional="true"/>
+<!--the form value which holds a postal code (or zip code) to be assigned to the user-->
+    <parameters name="PostalCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds a home phone number to be assigned to the user-->
+    <parameters name="PhoneHome" type="java.lang.String" optional="true"/>
+<!--the dictionary value which holds a birthday date to be assigned to the user-->
+    <parameters name="BirthdayDate" type="java.util.Date" optional="true"/>
+<!--whether the user wishes to receive order confirmations per email-->
+    <parameters name="ConfirmMail" type="java.lang.String" optional="true"/>
+    <parameters name="Company" type="java.lang.String" optional="true"/>
+    <parameters name="Mobile" type="java.lang.String" optional="true"/>
+    <parameters name="SecondName" type="java.lang.String" optional="true"/>
+    <parameters name="Title" type="java.lang.String" optional="true"/>
+    <parameters name="Street3" type="java.lang.String" optional="true"/>
+<!--the form value which holds the address number to be assigned to the user-->
+    <parameters name="AddressNr" type="java.lang.String" optional="true"/>
+<!--Whether a default address for the new user should be created. The default value is true.-->
+    <parameters name="CreateDefaultAddress" type="java.lang.String"/>
+<!--The first address line.-->
+    <parameters name="Address1" type="java.lang.String" optional="true"/>
+<!--The second address line.-->
+    <parameters name="Address2" type="java.lang.String" optional="true"/>
+<!--The third address line.-->
+    <parameters name="Address3" type="java.lang.String" optional="true"/>
+<!--The company name.-->
+    <parameters name="CompanyName" type="java.lang.String" optional="true"/>
+<!--The alternative company name.-->
+    <parameters name="CompanyName2" type="java.lang.String" optional="true"/>
+<!--The business phone number.-->
+    <parameters name="PhoneBusiness" type="java.lang.String" optional="true"/>
+<!--The fax number.-->
+    <parameters name="Fax" type="java.lang.String" optional="true"/>
+<!--The industry.-->
+    <parameters name="Industry" type="java.lang.String" optional="true"/>
+<!--The taxation ID.-->
+    <parameters name="TaxationID" type="java.lang.String" optional="true"/>
+<!--The department.-->
+    <parameters name="Department" type="java.lang.String" optional="true"/>
+    <parameters name="ShipToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="InvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="PreferredInvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="PreferredShipToAddress" type="java.lang.Boolean" optional="true"/>
+  </nodes>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetCustomerBO_yozioE8vEeufbe9c6jdPkA">
+    <pipelet href="enfinity:/bc_customer/pipelets/GetCustomerBO.xml"/>
+    <nodeSuccessors name="next" next="CallNode_9SSDwE8kEeu40JsH7UKlSg"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_9SSDwE8kEeu40JsH7UKlSg">
+    <nodeSuccessors name="next" next="KeyMapper_-lqrEIWGEeulF_dYnjMlVA"/>
+    <parameterBindings name="CustomerNo" objectPath="CustomerBO:CustomerNo"/>
+    <startNode referencedName="ProcessCustomer-Update"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_-lqrEIWGEeulF_dYnjMlVA">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_-lxYwIWGEeulF_dYnjMlVA"/>
+    <parameterBindings name="InValue_1" objectPath="CustomerBO:Extension(&quot;PrivateCustomer&quot;)"/>
+    <returnValueBindings name="OutValue_1" objectPath="PrivateCustomerExtension"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_-lxYwIWGEeulF_dYnjMlVA"
+      conditionKey="PrivateCustomerExtension">
+    <nodeSuccessors name="decision_yes" next="KeyMapper_-lx_0IWGEeulF_dYnjMlVA"/>
+<!--@BendPoints 7,9-->
+    <nodeSuccessors name="decision_no" next="JoinNode_bolLMIWIEeulF_dYnjMlVA"/>
+  </nodes>
+<!--@Location 1,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_-lx_0IWGEeulF_dYnjMlVA">
+    <pipelet href="enfinity:/bc_foundation/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_-lmZoIWGEeulF_dYnjMlVA"/>
+    <parameterBindings name="InValue_1" objectPath="PrivateCustomerExtension:UserBO"/>
+    <returnValueBindings name="OutValue_1" objectPath="UserBO"/>
+  </nodes>
+<!--@Location 1,6-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_-lmZoIWGEeulF_dYnjMlVA"
+      conditionKey="UserBO">
+    <nodeSuccessors name="decision_yes" next="CallNode_-lhhIIWGEeulF_dYnjMlVA"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_bolLMIWIEeulF_dYnjMlVA"/>
+  </nodes>
+<!--@Location 1,7-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_-lhhIIWGEeulF_dYnjMlVA">
+    <nodeSuccessors name="next" next="SwitchLocale_9SLWEU8kEeu40JsH7UKlSg"/>
+    <nodeSuccessors name="ERROR" next="JoinNode_9SLWEE8kEeu40JsH7UKlSg"/>
+    <startNode referencedName="ProcessUserAccount-UpdateUserProfile"/>
+  </nodes>
+<!--@Location 1,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SwitchLocale_9SLWEU8kEeu40JsH7UKlSg">
+    <pipelet href="enfinity:/core/pipelets/SwitchLocale.xml"/>
+<!--@BendPoints 3,18-->
+    <nodeSuccessors name="next" next="DecisionNode_9SJg4E8kEeu40JsH7UKlSg"/>
+    <parameterBindings name="LocaleID" objectPath="OldLocale:LocaleID"/>
+  </nodes>
+<!--@Location 1,9-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_9SJg4E8kEeu40JsH7UKlSg"
+      conditionKey="ERROR_User" operator="undef">
+    <nodeSuccessors name="decision_yes" next="EndNode_9SI50E8kEeu40JsH7UKlSg" action="commit"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_9SJg4U8kEeu40JsH7UKlSg"/>
+  </nodes>
+<!--@Location 1,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_9SI50E8kEeu40JsH7UKlSg" strict="true">
+    <returnValues name="CustomerBO" type="com.intershop.component.customer.capi.CustomerBO"
+        optional="true"/>
+    <returnValues name="UserBO" type="java.lang.Object" optional="true"/>
+  </nodes>
+<!--@Location 3,9-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_9SJg4U8kEeu40JsH7UKlSg">
+    <nodeSuccessors name="next" next="EndNode_9SISwE8kEeu40JsH7UKlSg" action="rollback"/>
+  </nodes>
+<!--@Location 3,10-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_9SISwE8kEeu40JsH7UKlSg" name="ERROR"
+      strict="true">
+    <returnValues name="ERROR_User" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 3,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_9SLWEE8kEeu40JsH7UKlSg">
+    <nodeSuccessors name="next" next="JoinNode_9SJg4U8kEeu40JsH7UKlSg"/>
+  </nodes>
+<!--@Location 3,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_bolLMIWIEeulF_dYnjMlVA">
+    <nodeSuccessors name="next" next="JoinNode_9SLWEE8kEeu40JsH7UKlSg"/>
+  </nodes>
+<!--@Location 4,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_zNfnAYWIEeulF_dYnjMlVA" strict="true"
+      name="UpdateUserProfile" callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode_zNiqUIWIEeulF_dYnjMlVA"/>
+<!--The customer repository in which this customer is.-->
+    <parameters name="CustomerBORepository" type="com.intershop.component.customer.capi.CustomerBORepository"/>
+    <parameters name="Organization" type="com.intershop.component.organization.capi.Organization"/>
+<!--The user repository in which this user is.-->
+    <parameters name="UserBORepository" type="com.intershop.component.user.capi.UserBORepository"/>
+<!--The UserBO representing the user.-->
+    <parameters name="UserBO" type="com.intershop.component.user.capi.UserBO"/>
+<!--The customer of the user to be updated.-->
+    <parameters name="CustomerBO" type="com.intershop.component.customer.capi.CustomerBO"/>
+    <parameters name="Email" type="java.lang.String" optional="true"/>
+<!--the form value which holds the country code-->
+    <parameters name="CountryCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds the preferred locale to be assigned to the user-->
+    <parameters name="LocaleID" type="java.lang.String" optional="true"/>
+<!--the form value which holds a first name to be assigned to the user-->
+    <parameters name="FirstName" type="java.lang.String" optional="true"/>
+<!--the form value which holds a last name to be assigned to the user-->
+    <parameters name="LastName" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street to be assigned to the user-->
+    <parameters name="Street" type="java.lang.String" optional="true"/>
+<!--the form value which holds address attribute street2 to be assigned to the user-->
+    <parameters name="Street2" type="java.lang.String" optional="true"/>
+<!--the form value which holds a city to be assigned to the user-->
+    <parameters name="City" type="java.lang.String" optional="true"/>
+<!--the form value which holds a state to be assigned to the user-->
+    <parameters name="State" type="java.lang.String" optional="true"/>
+<!--the form value which holds a postal code (or zip code) to be assigned to the user-->
+    <parameters name="PostalCode" type="java.lang.String" optional="true"/>
+<!--the form value which holds a home phone number to be assigned to the user-->
+    <parameters name="PhoneHome" type="java.lang.String" optional="true"/>
+<!--the dictionary value which holds a birthday date to be assigned to the user-->
+    <parameters name="BirthdayDate" type="java.util.Date" optional="true"/>
+<!--whether the user wishes to receive order confirmations per email-->
+    <parameters name="ConfirmMail" type="java.lang.String" optional="true"/>
+    <parameters name="Company" type="java.lang.String" optional="true"/>
+    <parameters name="Mobile" type="java.lang.String" optional="true"/>
+    <parameters name="SecondName" type="java.lang.String" optional="true"/>
+    <parameters name="Title" type="java.lang.String" optional="true"/>
+    <parameters name="Street3" type="java.lang.String" optional="true"/>
+<!--the form value which holds the address number to be assigned to the user-->
+    <parameters name="AddressNr" type="java.lang.String" optional="true"/>
+<!--Whether a default address for the new user should be created. The default value is true.-->
+    <parameters name="CreateDefaultAddress" type="java.lang.String"/>
+<!--The first address line.-->
+    <parameters name="Address1" type="java.lang.String" optional="true"/>
+<!--The second address line.-->
+    <parameters name="Address2" type="java.lang.String" optional="true"/>
+<!--The third address line.-->
+    <parameters name="Address3" type="java.lang.String" optional="true"/>
+<!--The company name.-->
+    <parameters name="CompanyName" type="java.lang.String" optional="true"/>
+<!--The alternative company name.-->
+    <parameters name="CompanyName2" type="java.lang.String" optional="true"/>
+<!--The business phone number.-->
+    <parameters name="PhoneBusiness" type="java.lang.String" optional="true"/>
+<!--The fax number.-->
+    <parameters name="Fax" type="java.lang.String" optional="true"/>
+<!--The industry.-->
+    <parameters name="Industry" type="java.lang.String" optional="true"/>
+<!--The taxation ID.-->
+    <parameters name="TaxationID" type="java.lang.String" optional="true"/>
+<!--The department.-->
+    <parameters name="Department" type="java.lang.String" optional="true"/>
+<!--The active status of the user.-->
+    <parameters name="IsActive" type="java.lang.String" optional="true"/>
+    <parameters name="InvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="ShipToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="PreferredInvoiceToAddress" type="java.lang.Boolean" optional="true"/>
+    <parameters name="PreferredShipToAddress" type="java.lang.Boolean" optional="true"/>
+  </nodes>
+<!--@Location 4,1-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_zNiqUIWIEeulF_dYnjMlVA"
+      conditionKey="IsActive">
+    <nodeSuccessors name="decision_yes" next="VerifyBoolean_zNmUsIWIEeulF_dYnjMlVA"/>
+<!--@BendPoints 11,3-->
+    <nodeSuccessors name="decision_no" next="JoinNode_zNiDQIWIEeulF_dYnjMlVA"/>
+  </nodes>
+<!--@Location 4,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="VerifyBoolean_zNmUsIWIEeulF_dYnjMlVA">
+    <pipelet href="enfinity:/bc_foundation/pipelets/VerifyBoolean.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_zNgOEIWIEeulF_dYnjMlVA"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_zNiDQIWIEeulF_dYnjMlVA"/>
+    <parameterBindings name="NoneLocalizedString" objectPath="IsActive"/>
+    <returnValueBindings name="BooleanValue" objectPath="IsActive"/>
+  </nodes>
+<!--@Location 4,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_zNgOEIWIEeulF_dYnjMlVA">
+    <nodeSuccessors name="next" next="CallNode_zNg1IIWIEeulF_dYnjMlVA"/>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_zNg1IIWIEeulF_dYnjMlVA">
+    <nodeSuccessors name="next" next="DecisionNode_zNj4cIWIEeulF_dYnjMlVA"/>
+<!--@BendPoints 13,9-->
+    <nodeSuccessors name="ERROR" next="EndNode_zNlGkIWIEeulF_dYnjMlVA"/>
+    <startNode referencedName="ProcessUserProfileSettings-UpdateProfile"/>
+  </nodes>
+<!--@Location 4,5-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_zNj4cIWIEeulF_dYnjMlVA"
+      conditionKey="CreateDefaultAddress" operator="str_eq" conditionValue="true">
+    <nodeSuccessors name="decision_yes" next="GetLocale_zNiDQYWIEeulF_dYnjMlVA"/>
+<!--@BendPoints 11,11 11,21-->
+    <nodeSuccessors name="decision_no" next="JoinNode_zNkfgYWIEeulF_dYnjMlVA"/>
+  </nodes>
+<!--@Location 4,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetLocale_zNiDQYWIEeulF_dYnjMlVA">
+    <configurationValues name="LocaleFallback" value="Lead Locale"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/GetLocale.xml"/>
+    <nodeSuccessors name="next" next="GetLocalizedTextByKey_zNhcMIWIEeulF_dYnjMlVA"/>
+    <parameterBindings name="LocaleId" nullBinding="true"/>
+    <returnValueBindings name="Locale" objectPath="LeadLocale"/>
+  </nodes>
+<!--@Location 4,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetLocalizedTextByKey_zNhcMIWIEeulF_dYnjMlVA">
+    <pipelet href="enfinity:/core/pipelets/GetLocalizedTextByKey.xml"/>
+    <nodeSuccessors name="next" next="CreateAddressBO_zNfnAIWIEeulF_dYnjMlVA"/>
+    <parameterBindings name="Key" constant="address.DefaultAddress.ContactAddressName"/>
+    <parameterBindings name="Locale" objectPath="LeadLocale"/>
+    <returnValueBindings name="LocalizedText" objectPath="ContactAddressName"/>
+  </nodes>
+<!--@Location 4,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CreateAddressBO_zNfnAIWIEeulF_dYnjMlVA">
+    <pipelet href="enfinity:/bc_address/pipelets/CreateAddressBO.xml"/>
+    <nodeSuccessors name="next" next="CallNode_zNltoIWIEeulF_dYnjMlVA"/>
+    <parameterBindings name="AddressBORepository" objectPath="CustomerBO"/>
+    <parameterBindings name="AddressLine1" objectPath="Address1"/>
+    <parameterBindings name="AddressLine2" objectPath="Address2"/>
+    <parameterBindings name="AddressLine3" objectPath="Address3"/>
+    <parameterBindings name="AddressName" objectPath="ContactAddressName"/>
+    <parameterBindings name="City" objectPath="City"/>
+    <parameterBindings name="CompanyName1" objectPath="CompanyName"/>
+    <parameterBindings name="CompanyName2" objectPath="CompanyName2"/>
+    <parameterBindings name="CountryCode" objectPath="CountryCode"/>
+    <parameterBindings name="FirstName" objectPath="FirstName"/>
+    <parameterBindings name="InvoiceToAddress" objectPath="InvoiceToAddress"/>
+    <parameterBindings name="LastName" objectPath="LastName"/>
+    <parameterBindings name="MainDivision" objectPath="State"/>
+    <parameterBindings name="PhoneHome" objectPath="PhoneHome"/>
+    <parameterBindings name="PhoneMobile" objectPath="Mobile"/>
+    <parameterBindings name="PostalCode" objectPath="PostalCode"/>
+    <parameterBindings name="ShipToAddress" objectPath="ShipToAddress"/>
+    <parameterBindings name="Title" objectPath="Title"/>
+  </nodes>
+<!--@Location 4,9-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_zNltoIWIEeulF_dYnjMlVA">
+    <nodeSuccessors name="next" next="JoinNode_zNkfgYWIEeulF_dYnjMlVA"/>
+    <parameterBindings name="AddressBO" objectPath="AddressBO"/>
+    <parameterBindings name="PreferredBillingAddress" objectPath="PreferredInvoiceToAddress"/>
+    <parameterBindings name="PreferredShippingAddress" objectPath="PreferredShipToAddress"/>
+    <parameterBindings name="UserBO" objectPath="UserBO"/>
+    <startNode referencedName="ProcessUserAddress-SetPreferredAddress"/>
+  </nodes>
+<!--@Location 4,10-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_zNkfgYWIEeulF_dYnjMlVA">
+    <nodeSuccessors name="next" next="EndNode_zNjRYIWIEeulF_dYnjMlVA"/>
+  </nodes>
+<!--@Location 4,11-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_zNjRYIWIEeulF_dYnjMlVA" strict="true"/>
+<!--@Location 6,11-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_zNlGkIWIEeulF_dYnjMlVA" name="ERROR"
+      strict="true">
+    <returnValues name="ERROR_User" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 5,2-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_zNiDQIWIEeulF_dYnjMlVA">
+<!--@BendPoints 11,7-->
+    <nodeSuccessors name="next" next="JoinNode_zNgOEIWIEeulF_dYnjMlVA"/>
+  </nodes>
+</pipeline:Pipeline>

@@ -1,0 +1,146 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<iscache type="forbidden">
+
+<isif condition="#isDefined(ValidationError)#">
+	<div class="alert alert-danger alert-formempty punchout-validation-global-alert"><istext key="account.punchout.configuration.table.transform.config.error" parameter0="#encodeValue(ValidationError:ErrorData)#" encoding="off"/></div>
+</isif>
+
+<script type="text/javascript">
+	$(document).on('click','.add-more-rows-<isprint value="#FieldName#"> a', function() {
+	    // create clone of already exist of rows
+	    var newrows = $('.blank-punchout-config-rows-<isprint value="#FieldName#">').clone(true);
+	    $(newrows).find('input').attr('value', '');
+	    // Blank the new row input field
+	    $('.punchout-config-rows-container-<isprint value="#FieldName#">').append($(newrows).html());
+	    // Update the field name
+	    var rowcount = 1;
+        $('.mapping-row-<isprint value="#FieldName#">').each(function() {
+            var self = $(this)
+            // Updates name of field
+            self.find('.mapping-from').attr('name', 'OCIConfigurationForm_OCI.<isprint value="#FieldName#">.MAP.FROM.' + rowcount);
+            self.find('.mapping-to').attr('name', 'OCIConfigurationForm_OCI.<isprint value="#FieldName#">.MAP.TO.' + rowcount);
+            rowcount++;
+        });
+	});
+</script>
+
+<div class="list-item-row validity-config" data-testing-class="row-oci-punchout-configuration">
+	<div class="col-sm-3 col-xs-12 list-item control-label punchout-label" data-testing-class="row-label">
+		<isprint value="#FieldName#">
+	</div>
+	
+	<div class="col-sm-3 col-xs-12 list-item punchout-value punchout-item-value-container">
+		<input type="text" 
+			name="OCIConfigurationForm_OCI.<isprint value="#FieldName#">.VALUE"
+			data-testing-class="row-transform"
+			size="18"
+			maxlength="256"
+			class="form-control punchout-item-value"
+			value="<isprint value="#FieldTransform#">"
+		/>
+		<span class="punchout-validation-field-alert punchout-item-value-alert"></span>
+	</div>
+	
+	<div class="col-sm-3 col-xs-12 punchout-mapping-container">
+		<div class="col-sm-12 col-xs-12 punchout-config-rows-container-<isprint value="#FieldName#"> punchout-mapping"> <!--- css class "punchout-config-rows-container" will be needed for JS --->
+			<isif condition="#(NOT isDefined(FieldMap)) OR (FieldMap:Size EQ 0)#">
+		        <div class="col-sm-12 mapping-row-<isprint value="#FieldName#"> punchout-mapping validity-mapping">
+                    <div class="col-xs-5 list-item list-item-mapping punchout-item-5 mapping-from-container">
+                        <input type="text" 
+                            value=""
+                            name="OCIConfigurationForm_OCI.<isprint value="#FieldName#">.MAP.FROM.1"
+                            data-testing-class="row-map-from"
+                            size="5"
+                            maxlength="512"
+                            class="form-control mapping-from"
+                        />
+                    </div>
+                    <div class="col-xs-2 punchout-item-2"><span class="glyphicon glyphicon-arrow-right"></span></div>
+                    <div class="col-xs-5 list-item list-item-mapping mapping-to-container">
+                        <input type="text" 
+                            value=""
+                            name="OCIConfigurationForm_OCI.<isprint value="#FieldName#">.MAP.TO.1"
+                            data-testing-class="row-map-to"
+                            size="3"
+                            maxlength="256"
+                            class="form-control mapping-to"
+                        />
+                    </div>
+                    <span class="punchout-validation-field-alert punchout-item-mapping-alert"></span>
+                </div>
+		    <iselse>		
+				<!---- loop over mappings --->
+				<isloop iterator="FieldMap" alias="Mapping" counter="rowcount">
+					<div class="col-sm-12 mapping-row-<isprint value="#FieldName#"> punchout-mapping validity-mapping">
+						<div class="col-xs-5 list-item list-item-mapping punchout-item-5 mapping-from-container">
+							<input type="text" 
+								value="<isprint value="#Mapping:MapFromValue#">"
+								name="OCIConfigurationForm_OCI.<isprint value="#FieldName#">.MAP.FROM.<isprint value="#rowcount#">"
+								data-testing-class="row-map-from"
+								size="5"
+								maxlength="512"
+								class="form-control mapping-from"
+							/>
+						</div>
+						<div class="col-xs-2 punchout-item-2"><span class="glyphicon glyphicon-arrow-right"></span></div>
+						<div class="col-xs-5 list-item list-item-mapping mapping-to-container">
+							<input type="text" 
+								value="<isprint value="#Mapping:MapToValue#">"
+								name="OCIConfigurationForm_OCI.<isprint value="#FieldName#">.MAP.TO.<isprint value="#rowcount#">"
+								data-testing-class="row-map-to"
+								size="3"
+								maxlength="256"
+								class="form-control mapping-to"
+							/>
+						</div>
+						<span class="punchout-validation-field-alert punchout-item-mapping-alert"></span>
+					</div>
+		        </isloop>
+		     </isif>  	    
+	    </div>
+	    <!--- css class "add-more-rows" will be needed for JS --->
+	    <div class="add-more-rows-<isprint value="#FieldName#">">
+	        <p><a href="javascript:void(0);"><istext key="punchout.configuration.add.more.row" /></a></p>
+	    </div>
+    </div>        
+	
+	<div class="col-sm-3 col-xs-12 list-item">
+		<select 
+			name="OCIConfigurationForm_OCI.<isprint value="#FieldName#">.FORMAT"
+			data-testing-class="row-format"
+			class="form-control">
+			<option value=""><istext key="punchout.configuration.formatter.displayname.None"/></option>
+			<isloop iterator="PunchoutPlaceholderFormatterProvider:FormatterIds" alias="FormatterID">
+				<option value="<isprint value="#FormatterID#">"
+					<isif condition="#FieldFormat EQ FormatterID#">selected="selected"</isif>
+				><istext key="#'punchout.configuration.formatter.displayname.' . FormatterID#"/></option>
+			</isloop>
+		</select>
+	</div>
+</div>
+
+<!--- for js add rows functionality needed  --->
+<div class="blank-punchout-config-rows-<isprint value="#FieldName#">" style="display: none;">
+    <div class="col-sm-12 mapping-row-<isprint value="#FieldName#"> punchout-mapping validity-mapping">
+	    <div class="col-xs-5 list-item list-item-mapping punchout-item-5 mapping-from-container">
+	        <input type="text" 
+	            value=""
+	            data-testing-class="row-map-from"
+	            size="5"
+	            maxlength="512"
+	            class="form-control mapping-from"
+	        />
+	    </div>
+	    <div class="col-xs-2 punchout-item-2"><span class="glyphicon glyphicon-arrow-right"></span></div>
+	    <div class="col-xs-5 list-item list-item-mapping mapping-to-container">
+	        <input type="text" 
+	            value=""
+	            data-testing-class="row-map-to"
+	            size="3"
+	            maxlength="256"
+	            class="form-control mapping-to"
+	        />
+	    </div>
+		<span class="punchout-validation-field-alert punchout-item-mapping-alert"></span>
+	</div>
+</div>

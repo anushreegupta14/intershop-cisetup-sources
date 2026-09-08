@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Extends the super pipeline by storefront functionality.
+@Group security-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="OpenIDConnectLogin" overrideMode="Inherit" type="view">
+<!--Step3:
+OIDC provider redirects the browser to this start node with 'code' parameter
+@Location 0,0-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text_yYqssE9iEeufbe9c6jdPkA"/>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_15jXEU_yEeufbe9c6jdPkA" strict="true"
+      name="Callback" secure="true">
+    <nodeSuccessors name="next" next="RestoreIdentityProviderLoginRequest_15maYU_yEeufbe9c6jdPkA_execute"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="RestoreIdentityProviderLoginRequest_15maYU_yEeufbe9c6jdPkA">
+    <pipelet href="enfinity:/ac_oidc/pipelets/com.intershop.adapter.oidc.pipelet.RestoreIdentityProviderLoginRequest.pipelinenode"/>
+    <inConnectors name="execute"/>
+    <outConnectors name="next">
+      <nodeSuccessors next="KeyMapper_15hh4U_yEeufbe9c6jdPkA"/>
+    </outConnectors>
+    <outConnectors name="error">
+<!--@BendPoints 3,5-->
+      <nodeSuccessors next="JoinNode_r6ye8GCoEeuqy8pZ4xhUvQ"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_15hh4U_yEeufbe9c6jdPkA">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="GetOrganizationByName_15eekE_yEeufbe9c6jdPkA"/>
+    <parameterBindings name="InValue_1" objectPath="IdentityProviderLoginRequest:IdentityProviderKey"/>
+    <parameterBindings name="InValue_10" objectPath="IdentityProviderLoginRequest:RegistrationOrganizationName"/>
+    <parameterBindings name="InValue_2" objectPath="IdentityProviderLoginRequest:State"/>
+    <parameterBindings name="InValue_3" objectPath="IdentityProviderLoginRequest:User"/>
+    <parameterBindings name="InValue_4" objectPath="IdentityProviderLoginRequest:SecureUserCode"/>
+    <returnValueBindings name="OutValue_1" objectPath="IdentityProviderName"/>
+    <returnValueBindings name="OutValue_10" objectPath="RegistrationOrganizationName"/>
+    <returnValueBindings name="OutValue_2" objectPath="OidcState"/>
+    <returnValueBindings name="OutValue_3" objectPath="User"/>
+    <returnValueBindings name="OutValue_4" objectPath="SecureCode"/>
+  </nodes>
+<!--@Location 0,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetOrganizationByName_15eekE_yEeufbe9c6jdPkA">
+    <pipelet href="enfinity:/bc_organization/pipelets/GetOrganizationByName.xml"/>
+    <nodeSuccessors name="next" next="CallNode_jxoKAGCpEeuqy8pZ4xhUvQ"/>
+    <nodeSuccessors name="pipelet_error" next="ExceptionPipelineNode_15fssE_yEeufbe9c6jdPkA_Input"/>
+    <parameterBindings name="Name" objectPath="RegistrationOrganizationName"/>
+    <returnValueBindings name="Organization" objectPath="RegistrationOrganization"/>
+  </nodes>
+<!--@Location 0,5-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_jxoKAGCpEeuqy8pZ4xhUvQ">
+    <nodeSuccessors name="next" next="CallNode_M2LgUE_yEeufbe9c6jdPkA"/>
+    <startNode referencedName="OpenIDConnectLogin-GetUserBO"/>
+  </nodes>
+<!--@Location 0,6-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_M2LgUE_yEeufbe9c6jdPkA">
+    <nodeSuccessors name="next" next="StoreIntermediateOIDCAuthenticationData_dhqCUE_2Eeufbe9c6jdPkA_execute"/>
+    <nodeSuccessors name="Error" next="JoinNode_r6ye8GCoEeuqy8pZ4xhUvQ"/>
+    <nodeSuccessors name="NotAuthenticated" next="KeyMapper_TnwIgE_3Eeufbe9c6jdPkA"/>
+    <parameterBindings name="CallbackPipelineName" constant="OpenIDConnectLogin-Callback"/>
+    <startNode referencedName="OpenIDConnect-HandleOIDCAuthentication"/>
+  </nodes>
+<!--@Location 0,8-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="StoreIntermediateOIDCAuthenticationData_dhqCUE_2Eeufbe9c6jdPkA">
+    <pipelet href="enfinity:/ac_oidc/pipelets/com.intershop.adapter.oidc.pipelet.StoreIntermediateOIDCAuthenticationData.pipelinenode"/>
+    <inConnectors name="execute"/>
+    <outConnectors name="next">
+<!--Authentication successful \-> continue-->
+      <nodeSuccessors next="JumpNode_mDC0kE_2Eeufbe9c6jdPkA"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 0,10-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode_mDC0kE_2Eeufbe9c6jdPkA">
+    <parameterBindings name="TargetPipeline" constant="ViewUserAccount-ShowAccountCompletion"/>
+    <startNode referencedName="Redirect-Start"/>
+  </nodes>
+<!--@Location 1,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_r6ye8GCoEeuqy8pZ4xhUvQ">
+    <nodeSuccessors name="next" next="KeyMapper_TnwIgE_3Eeufbe9c6jdPkA"/>
+  </nodes>
+<!--@Location 1,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_TnwIgE_3Eeufbe9c6jdPkA">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_jvresGCoEeuqy8pZ4xhUvQ"/>
+    <parameterBindings name="InValue_1" objectPath="Message"/>
+    <returnValueBindings name="OutValue_1" objectPath="ERROR_OIDC"/>
+  </nodes>
+<!--@Location 1,9-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_jvresGCoEeuqy8pZ4xhUvQ"
+      conditionKey="IdentityProviderLoginRequest:UserIntention:Name" operator="str_eq"
+      conditionValue="REGISTER">
+<!--Back to registration page.-->
+    <nodeSuccessors name="decision_yes" next="JumpNode_RadxkE_3Eeufbe9c6jdPkA"/>
+<!--Back to login page.
+@BendPoints 5,19-->
+    <nodeSuccessors name="decision_no" next="JumpNode_oa1mQGCoEeuqy8pZ4xhUvQ"/>
+  </nodes>
+<!--@Location 1,10-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode_RadxkE_3Eeufbe9c6jdPkA">
+    <startNode referencedName="ViewUserAccount-ShowRegister"/>
+  </nodes>
+<!--@Location 2,10-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode_oa1mQGCoEeuqy8pZ4xhUvQ">
+    <startNode referencedName="ViewApplication-DisplayLogin"/>
+  </nodes>
+<!--@Location 2,4-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="ExceptionPipelineNode_15fssE_yEeufbe9c6jdPkA">
+    <configurationValues name="exceptionMessage" value="Could not get organization from parameter 'RegistrationOrganizationName'"/>
+    <pipelet href="enfinity:/core/pipelets/com.intershop.beehive.core.internal.pipeline.node.ExceptionPipelineNode.pipelinenode"/>
+    <inConnectors name="Input"/>
+  </nodes>
+<!--@Location 3,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_8ijicGCoEeuqy8pZ4xhUvQ" strict="true"
+      name="GetUserBO" callMode="Private">
+    <nodeSuccessors name="next" next="DecisionNode_15iwAU_yEeufbe9c6jdPkA"/>
+<!--The (target) user.-->
+    <parameters name="User" type="com.intershop.beehive.core.capi.user.User" optional="true"/>
+<!--The secure user code-->
+    <parameters name="SecureCode" type="java.lang.String" optional="true"/>
+  </nodes>
+<!--@Location 3,2-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_15iwAU_yEeufbe9c6jdPkA"
+      conditionKey="User" operator="undef">
+<!--@BendPoints 8,5 8,13-->
+    <nodeSuccessors name="decision_yes" next="JoinNode_15fssU_yEeufbe9c6jdPkA"/>
+    <nodeSuccessors name="decision_no" next="GetApplicationBO_15j-IU_yEeufbe9c6jdPkA"/>
+  </nodes>
+<!--@Location 3,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_15fssU_yEeufbe9c6jdPkA">
+    <nodeSuccessors name="next" next="EndNode_90IfEGCoEeuqy8pZ4xhUvQ"/>
+  </nodes>
+<!--@Location 3,7-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_90IfEGCoEeuqy8pZ4xhUvQ" strict="true">
+<!--The UserBO matching the given User:ID (if present).-->
+    <returnValues name="UserBO" type="com.intershop.component.user.capi.UserBO" optional="true"/>
+  </nodes>
+<!--@Location 3,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetApplicationBO_15j-IU_yEeufbe9c6jdPkA">
+    <pipelet href="enfinity:/bc_application/pipelets/GetApplicationBO.xml"/>
+    <nodeSuccessors name="next" next="GetUserBO_15lMQE_yEeufbe9c6jdPkA"/>
+  </nodes>
+<!--@Location 3,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetUserBO_15lMQE_yEeufbe9c6jdPkA">
+    <pipelet href="enfinity:/bc_user/pipelets/GetUserBO.xml"/>
+    <nodeSuccessors name="next" next="CheckSecureCode_15jXEE_yEeufbe9c6jdPkA"/>
+    <parameterBindings name="UserBORepository" objectPath="ApplicationBO:Repository(&quot;UserBORepository&quot;)"/>
+    <parameterBindings name="UserID" objectPath="User:ID"/>
+  </nodes>
+<!--@Location 3,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="CheckSecureCode_15jXEE_yEeufbe9c6jdPkA">
+    <pipelet href="enfinity:/bc_user/pipelets/CheckSecureCode.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_15fssU_yEeufbe9c6jdPkA"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_15fssU_yEeufbe9c6jdPkA"/>
+  </nodes>
+</pipeline:Pipeline>

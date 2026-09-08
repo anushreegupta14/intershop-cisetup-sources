@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group security-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="LocalLogout" overrideMode="Inherit" type="extension">
+<!--@Location 0,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_U2t2ADn-EeuUteHPW4dCxw" strict="true"
+      name="Start" callMode="Private">
+    <nodeSuccessors name="next" next="GetApplicationBO_nkfxgDoDEeuUteHPW4dCxw"/>
+  </nodes>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetApplicationBO_nkfxgDoDEeuUteHPW4dCxw">
+    <pipelet href="enfinity:/bc_application/pipelets/GetApplicationBO.xml"/>
+    <nodeSuccessors name="next" next="CheckOrganizationAndRepository_qnExsDoDEeuUteHPW4dCxw_execute"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="CheckOrganizationAndRepository_qnExsDoDEeuUteHPW4dCxw">
+    <pipelet href="enfinity:/sld_ch_sf_base/pipelets/com.intershop.sellside.storefront.base.internal.pipeline.CheckOrganizationAndRepository.pipelinenode"/>
+    <inConnectors name="execute"/>
+    <outConnectors name="error">
+      <nodeSuccessors next="ExceptionPipelineNode_6AQiMDoDEeuUteHPW4dCxw_Input"/>
+    </outConnectors>
+    <outConnectors name="output">
+      <nodeSuccessors next="CallNode_Wv9PkDn-EeuUteHPW4dCxw"/>
+      <returnValueBindings name="Organization" objectPath="CurrentOrganization"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="ExceptionPipelineNode_6AQiMDoDEeuUteHPW4dCxw">
+    <pipelet href="enfinity:/core/pipelets/com.intershop.beehive.core.internal.pipeline.node.ExceptionPipelineNode.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="Message" objectPath="Error_ApplicationContext"/>
+    </inConnectors>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_Wv9PkDn-EeuUteHPW4dCxw">
+    <nodeSuccessors name="next" next="EndNode_U2t2ATn-EeuUteHPW4dCxw"/>
+    <startNode referencedName="ProcessLogin-LogoutUser"/>
+  </nodes>
+<!--@Location 0,4-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_U2t2ATn-EeuUteHPW4dCxw" strict="true"/>
+</pipeline:Pipeline>

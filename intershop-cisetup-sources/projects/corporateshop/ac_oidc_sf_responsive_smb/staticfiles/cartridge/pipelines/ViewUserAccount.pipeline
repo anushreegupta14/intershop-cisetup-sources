@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Extends the responsive start store by SSO functionality.
+@Group User-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ViewUserAccount" overrideMode="Inherit" type="view">
+<!--@Location 0,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_W7FZ4IZPEeuE-azmBkyknA" name="CompleteUserRegistration"
+      callMode="Private">
+    <nodeSuccessors name="next" next="CallNode_R2p2sIZPEeuE-azmBkyknA"/>
+<!--The repository that contains the customers.-->
+    <parameters name="CustomerBORepository" type="com.intershop.component.customer.capi.CustomerBORepository"/>
+<!--The user repository in which this user is.-->
+    <parameters name="UserBORepository" type="com.intershop.component.user.capi.UserBORepository"/>
+<!--The organization of the user to update.-->
+    <parameters name="Organization" type="com.intershop.component.organization.capi.Organization"/>
+<!--The the user to update.-->
+    <parameters name="UserBO" type="com.intershop.component.user.capi.UserBO"/>
+    <parameters name="AddressForm" type="com.intershop.beehive.core.capi.request.WebForm"/>
+    <parameters name="CompanyInformationForm" type="com.intershop.beehive.core.capi.request.WebForm"/>
+  </nodes>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_R2p2sIZPEeuE-azmBkyknA">
+    <nodeSuccessors name="next" next="EndNode_O6dyYIZPEeuE-azmBkyknA"/>
+<!--@BendPoints 3,3-->
+    <nodeSuccessors name="ERROR" next="EndNode_O6dLUIZPEeuE-azmBkyknA"/>
+    <parameterBindings name="Address1" objectPath="AddressForm:Address1:Value"/>
+    <parameterBindings name="Address2" objectPath="AddressForm:Address2:Value"/>
+    <parameterBindings name="Address3" objectPath="AddressForm:Address3:Value"/>
+    <parameterBindings name="AddressNr" objectPath="AddressForm:AddressNr:Value"/>
+    <parameterBindings name="BirthdayDate" objectPath="CompanyInformationForm:Birthday:Value"/>
+    <parameterBindings name="City" objectPath="AddressForm:City:Value"/>
+    <parameterBindings name="CompanyName" objectPath="CompanyInformationForm:CompanyName:Value"/>
+    <parameterBindings name="CompanyName2" objectPath="CompanyInformationForm:CompanyName2:Value"/>
+    <parameterBindings name="CountryCode" objectPath="AddressForm:CountryCode:Value"/>
+    <parameterBindings name="Department" objectPath="CompanyInformationForm:Department:Value"/>
+    <parameterBindings name="Email" objectPath="LoginForm:EmailConfirmation:Value"/>
+    <parameterBindings name="Fax" objectPath="CompanyInformationForm:Fax:Value"/>
+    <parameterBindings name="FirstName" objectPath="CompanyInformationForm:FirstName:Value"/>
+    <parameterBindings name="Industry" objectPath="CompanyInformationForm:Industry:Value"/>
+    <parameterBindings name="InvoiceToAddress" objectPath="AddressForm:UseAsBillingAddress:Value"/>
+    <parameterBindings name="LastName" objectPath="CompanyInformationForm:LastName:Value"/>
+    <parameterBindings name="LocaleID" objectPath="CompanyInformationForm:LocaleID:Value"/>
+    <parameterBindings name="Organization" objectPath="RegistrationOrganization"/>
+    <parameterBindings name="PhoneBusiness" objectPath="CompanyInformationForm:PhoneBusiness:Value"/>
+    <parameterBindings name="PostalCode" objectPath="AddressForm:PostalCode:Value"/>
+    <parameterBindings name="PreferredBillingAddressBO" objectPath="AddressForm:PreferredBillingAddress:Value"/>
+    <parameterBindings name="PreferredInvoiceToAddress" objectPath="AddressForm:PreferredBillingAddress:Value"/>
+    <parameterBindings name="PreferredShipToAddress" objectPath="AddressForm:PreferredShippingAddress:Value"/>
+    <parameterBindings name="PreferredShippingAddressBO" objectPath="AddressForm:PreferredShippingAddress:Value"/>
+    <parameterBindings name="SecondName" objectPath="AddressForm:SecondName:Value"/>
+    <parameterBindings name="ShipToAddress" objectPath="AddressForm:UseAsShippingAddress:Value"/>
+    <parameterBindings name="State" objectPath="AddressForm:State:Value"/>
+    <parameterBindings name="Street" objectPath="AddressForm:Address1:Value"/>
+    <parameterBindings name="Street2" objectPath="AddressForm:Address2:Value"/>
+    <parameterBindings name="Street3" objectPath="AddressForm:Address3:Value"/>
+    <parameterBindings name="TaxationID" objectPath="CompanyInformationForm:TaxationID:Value"/>
+    <parameterBindings name="Title" objectPath="Title"/>
+    <startNode referencedName="ProcessUserAccount-CompleteUserRegistration"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_O6dyYIZPEeuE-azmBkyknA"/>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_O6dLUIZPEeuE-azmBkyknA" name="Error"/>
+</pipeline:Pipeline>

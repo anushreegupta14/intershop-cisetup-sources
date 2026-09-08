@@ -1,0 +1,29 @@
+apply plugin: 'static-cartridge'
+apply plugin: 'com.intershop.gradle.isml'
+
+intershop 
+{
+    displayName = 'Adapter - OpenID Connect for Responsive Starter Store - B2B Artifacts'
+    description = 'Contains the Responsive B2B Storefront specific part of the OpenID Connect Adapter'
+
+    packages {
+        cartridge {
+            srcDir(isml2classMain)
+        }
+    }
+}
+
+
+dependencies 
+{
+    compile 'com.intershop.platform:ac_oidc' // dependent from pipelines
+    compile 'com.intershop.platform:bc_user' // dependent from pipelets
+    compile 'com.intershop.platform:core' // dependent from pipelets
+    
+    compile 'com.intershop.business:bc_customer'
+    
+    compile project(':app_sf_responsive')
+    compile project(':app_sf_responsive_smb')
+	compile project(':app_sf_responsive_b2b')
+    compile project(':ac_oidc_sf_responsive')
+}

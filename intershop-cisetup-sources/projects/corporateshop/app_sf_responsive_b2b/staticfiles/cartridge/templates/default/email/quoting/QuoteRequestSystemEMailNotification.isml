@@ -1,0 +1,59 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<isinclude template="modules/Modules">
+
+<isinclude template="email/mailTemplate/MailConfig"/>
+
+<subject><istext key="email.new.quoterequest.heading" parameter0="#ChannelName#" encoding="off"/></subject>
+
+<isinclude template="email/mailTemplate/MailHeader"/>
+
+<p class="header">
+	<istext key="email.new.quoterequest.heading" parameter0="#ChannelName#" encoding="javascript"/>
+</p>
+
+<p><istext key="email.new.quoterequest.thanks" parameter0="#encodeValue(URL(Action('ViewHomepage-Start')))#" parameter1="#encodeValue(ChannelName)#" encoding="off" /></p>
+
+<!--- Quote Details --->
+<p><istext key="email.new.quoterequest.details.header" encoding="off"/></p>
+
+<table cellpadding="0" cellspacing="0" class="pattern">
+	<tr class="mobileTable">
+		<td width="600">
+			<table cellpadding="0" cellspacing="0" width="100%" class="dataList">
+				<tr>
+					<td width="30%">
+						<istext key="email.new.quoterequest.details.label.id" />
+					</td>
+					<td>
+						<isprint value="#QuoteRequestBO:Number#">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<istext key="email.new.quoterequest.details.label.username" />
+					</td>
+					<td>
+						<isprint value="#QuoteRequestBO:UserBO:FirstName#"> <isprint value="#QuoteRequestBO:UserBO:LastName#">
+					</td>
+				</tr>
+				<isif condition="#QuoteRequestBO:Description NE ''#">
+					<tr>
+						<td valign="top">
+							<istext key="email.new.quoterequest.details.label.comment" />
+						</td>
+						<td valign="top">
+							<isprint value="#replace(QuoteRequestBO:Description, '\n', '<br/>')#" encoding="off">
+						</td>
+					</tr>
+				</isif>
+			 </table>
+		</td>
+	</tr>
+</table>
+
+<p>
+	<istext key="email.new.best_regards.label"/><br />
+	<istext key="email.new.notice.message" parameter0="#encodeValue(URL(Action('ViewHomepage-Start')))#" parameter1="#encodeValue(ChannelName)#" encoding="off" />
+</p>
+
+<isinclude template="email/mailTemplate/MailSystemFooter"/>

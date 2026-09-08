@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-entry-point id="viewcontext.include.family.navigation-IncludeCategory-Computers-Computers">
+<definition-name>app_sf_base_cm:include.category.pagelet2-Include</definition-name>
+<page>false</page>
+<display-name xml:lang="en-US">Category Include - Family Navigation Panel Marketing - Computers</display-name>
+</pagelet-entry-point>
+<pagelet-pagelet-entry-point-assignment>
+<pagelet-entry-point id="viewcontext.include.family.navigation-IncludeCategory-Computers-Computers" domain="inSPIRED-inTRONICS_Business-rest" resource-set="app_sf_base_cm"/>
+<pagelet id="pwa_discount_register_teaser_navigation" domain="inSPIRED-inTRONICS_Business-rest"/>
+<position>1</position>
+<online>true</online>
+</pagelet-pagelet-entry-point-assignment>
+<pagelet-entry-point-businessobject-assignment>
+<definition-name>app_sf_base_cm:viewcontext.include.category.pagelet2-ViewContext-IncludeCategory</definition-name>
+<pagelet-entry-point id="viewcontext.include.family.navigation-IncludeCategory-Computers-Computers" domain="inSPIRED-inTRONICS_Business-rest" resource-set="app_sf_base_cm"/>
+<view-context id="viewcontext.include.family.navigation" domain="inSPIRED-MasterRepository" resource-set="app_sf_base_cm"/>
+<catalog-category id="Computers" domain="inSPIRED-Computers" xmlns="http://www.intershop.com/xml/ns/enfinity/6.5/bc_mvc/impex"/>
+</pagelet-entry-point-businessobject-assignment>
+</enfinity>

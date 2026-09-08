@@ -1,0 +1,26 @@
+apply plugin: 'static-cartridge'
+apply plugin: 'com.intershop.gradle.isml'
+
+intershop {
+    displayName = 'Application - PWA Content Model'
+
+    //add output of the plugin the cartridge package
+    packages {
+        cartridge {
+            srcDir(isml2classMain)
+        }
+    }
+}
+
+dependencies 
+{
+    compile project(':app_sf_base_cm')
+    
+    compile group: 'com.intershop.platform', name: 'core'
+    compile group: 'com.intershop.platform', name: 'isml'
+    compile group: 'com.intershop.platform', name: 'pipeline'
+    compile group: 'com.intershop.platform', name: 'servletengine'
+    compile group: 'com.intershop.business', name: 'sld_mcm'
+    compile group: 'com.intershop.business', name: 'sld_pmc'
+    compile group: 'com.intershop.content', name: 'bc_pmc'
+}

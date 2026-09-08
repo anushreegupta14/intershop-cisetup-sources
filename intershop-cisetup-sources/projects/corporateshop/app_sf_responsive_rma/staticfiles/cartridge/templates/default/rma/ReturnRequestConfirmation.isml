@@ -1,0 +1,86 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<iscache type="forbidden">
+
+<%@page import="com.intershop.beehive.core.capi.pipeline.PipelineDictionary"%>
+<%@page import="com.intershop.beehive.core.capi.request.Session"%>
+
+<div class="breadcrumbs row">
+	<ISBreadcrumb
+		showhomelink="true"
+		link0="#URLEX(SecureURL,'',Action('ViewUserAccount-Start'))#"
+		text0="#localizeText('account.my_account.link')#"
+		link1="#URL(Action('ViewOrders-SimpleOrderSearch'))#"
+		text1="#localizeText('account.order_history.link')#"
+		link2="#URL(Action("ViewOrders-Detail"), Parameter('OrderID', OrderBO:ID))#"
+		text2="#localizeTextEx('account.orderdetails.breadcrumb', ParameterList(OrderBO:DocumentNo))#"
+		separatetrailtext="true"
+		trailtext1="#localizeText('account.order.return_request.title')#"		
+	>
+</div>
+
+<div class="marketing-area">
+	<ISMarketingSlot id="baseMarketing">
+</div>
+
+<div class="account-wrapper">
+    <div class="row account-main">
+        <div class="col-md-3 account-nav-box">
+            <isAccountNavigation selecteditem="ORDERS">
+        </div>
+        <div class="col-md-9">
+            <div class="marketing-area">
+                <ISMarketingSlot id="contentMarketing">
+            </div>
+            <h1>
+                <istext key="account.order.return.confirmation.title" />
+            </h1>
+            <p>
+                <istext key="account.order.return.confirmation.message" />
+            </p>
+            <p>
+                <isif condition="#(CurrentSession:isLoggedIn)#">
+                    <istext key="account.order.return.confirmation.mail.text" parameter0="#encodeValue(OrderBO:UserBO:Email)#" encoding="off"/>
+                </isif>
+            </p>
+            <div class="order-detail-info section">
+                <p>
+                    <istext key="account.order.return.confirmation.return_number.label" parameter0="#ReturnRequestBO:DocumentNo#">
+                </p>
+            </div>
+
+            <isinclude template="rma/ReturnItemsList">
+
+            <isif condition="#ReturnRequestBO:Comment NE ''#">
+                <div class="form-group clearfix">
+                    <label class="control-label col-sm-3" for="ReturnRequestComment">
+                        <istext key="order.returnrequest.comment.label" />:
+                    </label>
+                    <div class="col-sm-6">
+                        <isprint value="#ReturnRequestBO:Comment#">
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            </isif>
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="ReturnRequestSendBack">
+                    <istext key="account.order.returndetails.type.label" />
+                </label>
+                <div class="col-sm-6">
+                    <p><isprint value="#ReturnRequestBO:Type:Description#"></p>
+                    <isif condition="#ReturnRequestBO:Type:Id EQ 'PICKUP'#">
+                        <isaddress address="#ReturnRequestBO:PickupAddressBO:get#">
+                    </isif>
+                </div>
+
+            </div>
+             <div class="section">
+				<a href="#URL(Action("ViewOrders-Detail"), Parameter('OrderID', OrderBO:ID))#">
+					<istext key="account.order.return.back.button" parameter0="#OrderBO:DocumentNo#" encoding="off"/>
+				</a>
+				<a class="pull-right" href="#URLEX(InsecureURL,'', Action('ViewHomepage-Start'))#">
+					<istext key="account.orderdetails.links.continue_shopping"/>
+				</a>
+			</div>
+        </div>
+    </div>
+</div>

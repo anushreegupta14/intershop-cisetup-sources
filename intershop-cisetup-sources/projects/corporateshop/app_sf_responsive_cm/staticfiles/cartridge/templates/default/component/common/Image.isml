@@ -1,0 +1,19 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<isinclude template="modules/Modules">
+
+<ispipeline pipeline="ProcessImagesource-Start" params="#ParamMap(ParamEntry('Imagesource', PageletConfigurationParameters:Image))#" alias="Imagesource"/>
+
+<isif condition="#isDefined(PageletConfigurationParameters:Link) AND (PageletConfigurationParameters:Link NE '')#">
+	<a class="teaser-link" <ishref link="#PageletConfigurationParameters:Link#" encoding="off"> <isif condition="#isDefined(PageletConfigurationParameters:LinkTitle) AND (PageletConfigurationParameters:LinkTitle NE '')#">title="<isprint value="#PageletConfigurationParameters:LinkTitle#">"</isif>>
+</isif>
+<isif condition="#isDefined(PageletConfigurationParameters:Picture) AND (PageletConfigurationParameters:Picture NE '')#">
+	<picture<isif condition="#isDefined(PageletConfigurationParameters:CSSClass) AND (PageletConfigurationParameters:CSSClass NE '')#"> class="<isprint value="#PageletConfigurationParameters:CSSClass#"/>"</isif>>
+		<islink link="#PageletConfigurationParameters:Picture#" encoding="off" >
+		<img src="#ContentURL(PageletConfigurationParameters:Image)#" alt="<isif condition="#isDefined(PageletConfigurationParameters:AlternateText) AND (PageletConfigurationParameters:AlternateText NE '')#"><isprint value="#PageletConfigurationParameters:AlternateText#"></isif>" <isif condition="#isDefined(PageletConfigurationParameters:CSSClass) AND (PageletConfigurationParameters:CSSClass NE '')#"> class="<isprint value="#PageletConfigurationParameters:CSSClass#"/>"</isif> <isif condition="#(isDefined(Imagesource:ImageDimension:Width)) AND (Imagesource:ImageDimension:Width NE '')#"> width="<isprint value="#Imagesource:ImageDimension:Width#" formatter="#">"</isif> <isif condition="#(isDefined(Imagesource:ImageDimension:Height)) AND (Imagesource:ImageDimension:Height NE '')#"> height="<isprint value="#Imagesource:ImageDimension:Height#" formatter="#">"</isif>>
+	</picture>
+<iselse>
+	<img src="#ContentURL(PageletConfigurationParameters:Image)#" alt="<isif condition="#isDefined(PageletConfigurationParameters:AlternateText) AND (PageletConfigurationParameters:AlternateText NE '')#"><isprint value="#PageletConfigurationParameters:AlternateText#"></isif>" <isif condition="#isDefined(PageletConfigurationParameters:CSSClass) AND (PageletConfigurationParameters:CSSClass NE '')#"> class="<isprint value="#PageletConfigurationParameters:CSSClass#"/>"</isif> <isif condition="#(isDefined(Imagesource:ImageDimension:Width)) AND (Imagesource:ImageDimension:Width NE '')#"> width="<isprint value="#Imagesource:ImageDimension:Width#" formatter="#">"</isif> <isif condition="#(isDefined(Imagesource:ImageDimension:Height)) AND (Imagesource:ImageDimension:Height NE '')#"> height="<isprint value="#Imagesource:ImageDimension:Height#" formatter="#">"</isif>>
+</isif>
+<isif condition="#isDefined(PageletConfigurationParameters:Link) AND (PageletConfigurationParameters:Link NE '')#">
+	</a>
+</isif>

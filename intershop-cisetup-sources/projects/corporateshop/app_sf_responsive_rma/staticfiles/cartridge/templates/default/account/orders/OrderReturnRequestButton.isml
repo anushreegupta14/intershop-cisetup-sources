@@ -1,0 +1,20 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<isif condition="#isDefined(RmaServices) AND NOT(RmaServices:isEmpty)#">
+	<div class="section col-md-9">
+		<p>
+			<a class="btn btn-default"
+				href="#URLEX(SecureURL,'',Action('ViewOrderRMA-List'), Parameter('OrderID', OrderBO:ID))#">
+				<istext key="account.order.return_items.view.link" />
+			</a>
+			<isif condition="#OrderBO:Extension("ReturnRequest"):Returnable#">
+				&nbsp;
+				<a class="btn btn-default"
+					href="#URLEX(SecureURL,'',Action('ViewReturnRequest-PrepareReturnRequest'), Parameter('OrderID', OrderBO:ID))#">
+					<istext key="account.order.return_items.link" />
+				</a>
+				
+				&nbsp;<isTooltip linktextkey="account.order.return_items.tooltip.title" contentkey="account.order.return_items.tooltip.content">
+			</isif>
+		</p>
+	</div>
+</isif>

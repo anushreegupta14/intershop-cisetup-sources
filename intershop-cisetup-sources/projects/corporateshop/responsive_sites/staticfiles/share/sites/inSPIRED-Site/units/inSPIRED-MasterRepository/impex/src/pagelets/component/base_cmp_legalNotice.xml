@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-component id="base_cmp_legalNotice">
+<definition-name>app_sf_base_cm:component.common.freeStyle.pagelet2-Component</definition-name>
+<display-name xml:lang="en-US">Legal Notice</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="HTML">
+<definition-name>app_sf_base_cm:component.common.freeStyle.pagelet2-Component-HTML</definition-name>
+<value name="HTML" xml:lang="de-DE">&lt;h1&gt;Impressum&lt;/h1&gt;
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla nisi et nisl congue eget sagittis est consequat. Ut massa arcu, suscipit sed molestie eget, vehicula feugiat sapien. Morbi eu sapien sed justo ullamcorper hendrerit sit amet sit amet quam. Fusce tellus dui, mattis non molestie eget, accumsan quis metus.</value>
+<value name="HTML" xml:lang="en-US">&lt;h1&gt;Legal Notice&lt;/h1&gt;
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla nisi et nisl congue eget sagittis est consequat. Ut massa arcu, suscipit sed molestie eget, vehicula feugiat sapien. Morbi eu sapien sed justo ullamcorper hendrerit sit amet sit amet quam. Fusce tellus dui, mattis non molestie eget, accumsan quis metus.</value>
+<value name="HTML" xml:lang="fr-FR">&lt;h1&gt;Mentions légales&lt;/h1&gt;
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla nisi et nisl congue eget sagittis est consequat. Ut massa arcu, suscipit sed molestie eget, vehicula feugiat sapien. Morbi eu sapien sed justo ullamcorper hendrerit sit amet sit amet quam. Fusce tellus dui, mattis non molestie eget, accumsan quis metus.</value>
+</configuration-parameter>
+</configuration-parameters>
+</pagelet-component>
+</enfinity>

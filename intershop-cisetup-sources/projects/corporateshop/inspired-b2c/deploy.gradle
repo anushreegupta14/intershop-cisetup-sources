@@ -1,0 +1,16 @@
+apply plugin: com.intershop.deploy.intershop.IntershopPlugins
+apply plugin: com.intershop.deploy.intershop.SolrCloudDeploymentPlugin
+
+deployment {
+    if (target.includeShare) {
+        filters {
+            overrideProperties('solrCloudProperties') {
+                dir target.shareDirectory
+                include 'system/config/cluster/appserver.properties'
+				properties['solr.zooKeeperHostList'] = solrcloud.zooKeeperHostList
+                properties['solr.clusterIndexPrefix'] = solrcloud.clusterIndexPrefix
+            }
+        }
+    }
+}
+

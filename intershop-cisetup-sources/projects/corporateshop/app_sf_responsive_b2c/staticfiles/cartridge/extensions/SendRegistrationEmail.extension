@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensionpoint:ExtensionPointModel xmlns:extensionpoint="http://www.intershop.de/extensionpoint/2011" name="SendRegistrationEmail">
+  <extensionBindings type="pipeline" extensionPoint="ViewUserAccount-SendRegistrationEmail" extension="SendRegistrationEmail-Start"/>
+  <extensionBindings type="pipeline" extensionPoint="ProcessUserAccount-SendRegistrationEmail" extension="SendRegistrationEmail-Start"/>
+</extensionpoint:ExtensionPointModel>

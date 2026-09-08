@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<view-context id="viewcontext.include.product.productinfo">
+<definition-name>app_sf_base_cm:viewcontext.include.product.pagelet2-ViewContext</definition-name>
+<display-name xml:lang="en-US">Product Info Marketing</display-name>
+</view-context>
+</enfinity>

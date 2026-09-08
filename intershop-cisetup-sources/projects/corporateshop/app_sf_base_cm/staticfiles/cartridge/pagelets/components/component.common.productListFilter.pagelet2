@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pagelet:PageletModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pagelet="http://www.intershop.de/pagelet/2010"
+    name="component.common.productListFilter.pagelet2">
+  <pageletDefinitions name="Component">
+    <callParameterInterfaces referencedName="app_sf_base_cm:interface.common.productList.pagelet2-Interface"/>
+    <configurationParameterDefinitions name="Title" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+    <configurationParameterDefinitions name="Filter" localizable="false" typeReference="sld_mcm:parametertype.predefinedproductfilter.pagelet2-PredefinedProductFilter"/>
+    <configurationParameterDefinitions xsi:type="pagelet:ListParameterDefinition"
+        name="Scope" optional="true" localizable="false" typeReference="bc_pmc:types.pagelet2-DropDownBox">
+      <parameterDefinitions name="GlobalScope" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+      <parameterDefinitions name="CurrentCategoryScope" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+    </configurationParameterDefinitions>
+    <configurationParameterDefinitions name="MaxNumberOfProducts" type="java.lang.Integer"
+        optional="true" localizable="false" typeReference="bc_pmc:types.pagelet2-Integer"/>
+    <configurationParameterDefinitions xsi:type="pagelet:ListParameterDefinition"
+        name="ListStyle" optional="true" localizable="false" typeReference="bc_pmc:types.pagelet2-DropDownBox">
+      <parameterDefinitions name="none" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+      <parameterDefinitions name="carousel" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+    </configurationParameterDefinitions>
+    <configurationParameterDefinitions xsi:type="pagelet:ListParameterDefinition"
+        name="SlideItems" optional="true" localizable="false" typeReference="bc_pmc:types.pagelet2-DropDownBox">
+      <parameterDefinitions name="1" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+      <parameterDefinitions name="2" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+      <parameterDefinitions name="3" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+      <parameterDefinitions name="4" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+    </configurationParameterDefinitions>
+    <configurationParameterDefinitions xsi:type="pagelet:ListParameterDefinition"
+        name="ListItemStyle" optional="true" localizable="false" typeReference="bc_pmc:types.pagelet2-DropDownBox">
+      <parameterDefinitions name="tile" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+      <parameterDefinitions name="row" optional="true" typeReference="bc_pmc:types.pagelet2-Text"/>
+    </configurationParameterDefinitions>
+    <configurationParameterDefinitions name="ListItemCSSClass" optional="true" localizable="false"
+        typeReference="bc_pmc:types.pagelet2-Text"/>
+    <configurationParameterDefinitions name="CSSClass" optional="true" localizable="false"
+        typeReference="bc_pmc:types.pagelet2-Text"/>
+    <renderTemplate/>
+  </pageletDefinitions>
+</pagelet:PageletModel>

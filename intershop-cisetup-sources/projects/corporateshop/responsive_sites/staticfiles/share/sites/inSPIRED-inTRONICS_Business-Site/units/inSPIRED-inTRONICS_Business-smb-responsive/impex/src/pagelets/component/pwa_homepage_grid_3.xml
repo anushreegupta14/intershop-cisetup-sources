@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-component id="pwa_homepage_grid_3">
+<definition-name>app_sf_responsive_cm:component.common.container.pagelet2-Component</definition-name>
+<display-name xml:lang="en-US">Full Width Multiple Slot Container - bottom</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="Grid">
+<definition-name>app_sf_responsive_cm:component.common.container.pagelet2-Component-Grid</definition-name>
+<value name="Grid">ExtraSmall:12,Small:0,Medium:0,Large:0</value>
+</configuration-parameter>
+</configuration-parameters>
+<slots>
+<slot>
+<definition-name>app_sf_responsive_cm:slot.container.content.pagelet2-Slot</definition-name>
+<optional>false</optional>
+<sorting>false</sorting>
+</slot>
+</slots>
+</pagelet-component>
+<pagelet-slot-assignment id="KtysEQACp1AAAAForeYBO80I">
+<slot definition-name="app_sf_responsive_cm:slot.container.content.pagelet2-Slot" parent-pagelet-id="pwa_homepage_grid_3" domain="inSPIRED-inTRONICS_Business-smb-responsive"/>
+<pagelet id="cmp_brands_carousel" domain="inSPIRED-inTRONICS_Business-smb-responsive"/>
+<position>3</position>
+<online>true</online>
+</pagelet-slot-assignment>
+<pagelet-slot-assignment id=".bOsEQACa9MAAAFofT4BO80K">
+<slot definition-name="app_sf_responsive_cm:slot.container.content.pagelet2-Slot" parent-pagelet-id="pwa_homepage_grid_3" domain="inSPIRED-inTRONICS_Business-smb-responsive"/>
+<pagelet id="cmp_seo" domain="inSPIRED-MasterRepository"/>
+<position>4</position>
+<online>true</online>
+</pagelet-slot-assignment>
+<pagelet-slot-assignment id="pGWsEQACtcAAAAFog8QBO80L">
+<slot definition-name="app_sf_responsive_cm:slot.container.content.pagelet2-Slot" parent-pagelet-id="pwa_homepage_grid_3" domain="inSPIRED-inTRONICS_Business-smb-responsive"/>
+<pagelet id="pwa_featured_products" domain="inSPIRED-inTRONICS_Business-smb-responsive"/>
+<position>1</position>
+<online>true</online>
+</pagelet-slot-assignment>
+</enfinity>

@@ -1,0 +1,34 @@
+<iscontent type="text/html" session="false" charset="UTF-8" compact="true">
+<isinclude template="email/mailTemplate/MailConfig" />
+<subject><istext key="email.gdpr.confirm.deleted.personal.data.subject" parameter0="#ChannelName#" encoding="off" /></subject>
+
+<isinclude template="email/mailTemplate/Modules">
+
+<!-- Added the e-mail style-->
+<isinclude template="email/mailTemplate/MailStyle" />
+
+<isset name="DoubleOptInExtension" value="#PersonalDataRequestBO:Extension("PersonalDataRequestBODoubleOptInExtension")#" scope="request" />
+<isMailHeader ChannelName="#ChannelName#" >
+
+<p class="header">
+	<istext key="email.gdpr.confirm.deleted.personal.data.header" parameter0="#ChannelName#" />
+</p>
+
+<div class="emailBody">
+	<p>
+		<istext key="email.gdpr.confirm.deleted.personal.data.hello" />
+	</p>
+	<p>
+		<istext key="email.gdpr.confirm.deleted.personal.data.statement" />
+	</p>
+	<p>
+		<istext key="email.gdpr.confirm.deleted.personal.data.seeyousoon" />
+	</p>
+	<p>
+		<istext key="email.gdpr.common.regards"
+				parameter0="#encodeValue(URL(Action('ViewHomepage-Start')))#"
+				parameter1="#encodeValue(ChannelName)#" encoding="off" />
+	</p>
+</div>
+
+<isinclude template="email/mailTemplate/MailFooter" />

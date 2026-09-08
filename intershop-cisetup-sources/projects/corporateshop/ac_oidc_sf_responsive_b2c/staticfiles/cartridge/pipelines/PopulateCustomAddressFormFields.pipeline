@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group Customer-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="PopulateCustomAddressFormFields" overrideMode="Inherit" type="extension">
+<!--@Location 0,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_rVePsIYpEeulF_dYnjMlVA" strict="true"
+      name="Start" callMode="Private">
+    <nodeSuccessors name="next" next="KeyMapper_rVfd0IYpEeulF_dYnjMlVA"/>
+    <parameters name="DataSheet" type="com.intershop.beehive.core.capi.profile.DataSheet"/>
+    <parameters name="AddressForm" type="com.intershop.beehive.core.capi.webform.Form"/>
+  </nodes>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_rVfd0IYpEeulF_dYnjMlVA">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="FillForm_rVgr8IYpEeulF_dYnjMlVA"/>
+    <parameterBindings name="InValue_1" objectPath="DataSheet:FirstName"/>
+    <parameterBindings name="InValue_2" objectPath="DataSheet:LastName"/>
+    <returnValueBindings name="OutValue_1" objectPath="AddressForm_FirstName"/>
+    <returnValueBindings name="OutValue_2" objectPath="AddressForm_LastName"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="FillForm_rVgr8IYpEeulF_dYnjMlVA">
+    <pipelet href="enfinity:/core/pipelets/FillForm.xml"/>
+    <nodeSuccessors name="next" next="EndNode_rVhTAIYpEeulF_dYnjMlVA"/>
+    <parameterBindings name="Form" objectPath="AddressForm"/>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_rVhTAIYpEeulF_dYnjMlVA" strict="true">
+    <returnValues name="AddressForm" type="com.intershop.beehive.core.capi.webform.Form"/>
+  </nodes>
+</pipeline:Pipeline>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-component id="pwa_green_shipping_teaser">
+<definition-name>app_sf_base_cm:component.common.imageEnhanced.pagelet2-Component</definition-name>
+<display-name xml:lang="en-US">Green Shipping Teaser</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="AlternateText">
+<definition-name>app_sf_base_cm:component.common.imageEnhanced.pagelet2-Component-AlternateText</definition-name>
+<value name="AlternateText" xml:lang="de-DE">Grüner Versand</value>
+<value name="AlternateText" xml:lang="en-US">Green Shipping</value>
+<value name="AlternateText" xml:lang="fr-FR">Expédition verte</value>
+</configuration-parameter>
+<configuration-parameter name="Image">
+<definition-name>app_sf_base_cm:component.common.imageEnhanced.pagelet2-Component-Image</definition-name>
+<value name="Image" xml:lang="de-DE">inSPIRED-inTRONICS_Business-rest:/pwa/green_shipping_teaser_de.jpg</value>
+<value name="Image" xml:lang="en-US">inSPIRED-inTRONICS_Business-rest:/pwa/green_shipping_teaser.jpg</value>
+<value name="Image" xml:lang="fr-FR">inSPIRED-inTRONICS_Business-rest:/pwa/green_shipping_teaser_fr.jpg</value>
+</configuration-parameter>
+<configuration-parameter name="ImageXS">
+<definition-name>app_sf_base_cm:component.common.imageEnhanced.pagelet2-Component-ImageXS</definition-name>
+<value name="ImageXS" xml:lang="de-DE">inSPIRED-inTRONICS_Business-rest:/pwa/green_shipping_teaser_middle_de.jpg</value>
+<value name="ImageXS" xml:lang="en-US">inSPIRED-inTRONICS_Business-rest:/pwa/green_shipping_teaser_middle.jpg</value>
+<value name="ImageXS" xml:lang="fr-FR">inSPIRED-inTRONICS_Business-rest:/pwa/green_shipping_teaser_middle_fr.jpg</value>
+</configuration-parameter>
+</configuration-parameters>
+</pagelet-component>
+</enfinity>

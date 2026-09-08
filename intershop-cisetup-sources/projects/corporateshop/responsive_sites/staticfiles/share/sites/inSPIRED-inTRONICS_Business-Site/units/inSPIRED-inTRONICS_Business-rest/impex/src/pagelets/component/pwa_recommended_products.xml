@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-component id="pwa_recommended_products">
+<definition-name>app_sf_base_cm:component.common.productListFilter.pagelet2-Component</definition-name>
+<display-name xml:lang="en-US">PWA Recommended Products</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="CSSClass">
+<definition-name>app_sf_base_cm:component.common.productListFilter.pagelet2-Component-CSSClass</definition-name>
+<value name="CSSClass">pt-2</value>
+</configuration-parameter>
+<configuration-parameter name="Filter">
+<definition-name>app_sf_base_cm:component.common.productListFilter.pagelet2-Component-Filter</definition-name>
+<value name="Filter">top_seller_products</value>
+</configuration-parameter>
+<configuration-parameter name="ListItemStyle">
+<definition-name>app_sf_base_cm:component.common.productListFilter.pagelet2-Component-ListItemStyle</definition-name>
+<value name="ListItemStyle">tile</value>
+</configuration-parameter>
+<configuration-parameter name="ListStyle">
+<definition-name>app_sf_base_cm:component.common.productListFilter.pagelet2-Component-ListStyle</definition-name>
+<value name="ListStyle">carousel</value>
+</configuration-parameter>
+<configuration-parameter name="Scope">
+<definition-name>app_sf_base_cm:component.common.productListFilter.pagelet2-Component-Scope</definition-name>
+<value name="Scope">GlobalScope</value>
+</configuration-parameter>
+<configuration-parameter name="SlideItems">
+<definition-name>app_sf_base_cm:component.common.productListFilter.pagelet2-Component-SlideItems</definition-name>
+<value name="SlideItems">3</value>
+</configuration-parameter>
+<configuration-parameter name="Title">
+<definition-name>app_sf_base_cm:component.common.productListFilter.pagelet2-Component-Title</definition-name>
+<value name="Title" xml:lang="en-US">Recommended Products</value>
+</configuration-parameter>
+</configuration-parameters>
+</pagelet-component>
+</enfinity>

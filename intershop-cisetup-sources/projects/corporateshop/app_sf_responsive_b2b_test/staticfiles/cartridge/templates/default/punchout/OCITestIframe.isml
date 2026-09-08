@@ -1,0 +1,36 @@
+<!---[Comment]--->
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<html>
+<head>
+	<title>Punch Out - iframe Test</title>
+	
+	<style type="text/css">
+	  table {width:600px; }
+	  table.title {margin-bottom:5px; }
+	  form {margin-bottom:5px; }
+	  td { font-size:100%; text-align:left;}
+	  td.datafields { font-size:90%; }
+	  td.tabletitle { text-align:center; font-weight:bold;}
+	  td.tabledescription { text-align:center; align:center;}
+	</style>
+</head>
+<body>
+<table class="title" cellpadding="2">
+<tr><td class="tabletitle">OCI Punch Out - iframe Tests</td></tr>
+<tr><td class="tabledescription">Shows the Punchout catalog in an iframe</td></tr>
+</table>
+<table border="1" bordercolor="#ffffff" cellpadding="2">
+<tr>
+    <td class="datafields">CALLING_URL:</td>
+    <td class="datafields"><a href="<isprint value="#URL(Action('TestPunchoutInboundData-Tests'))#"/>"><isprint value="#URL(Action('TestPunchoutInboundData-Tests'))#" encoding="off"/></a></td>
+</tr>
+<tr>
+    <td class="datafields">REMOTE_URL:</td>
+    <td class="datafields"><isprint value="#REMOTE_URL#"/><isprint value="#'?USERNAME='.USERNAME.'&PASSWORD='.PASSWORD.'&HOOK_URL='.HOOK_URL#" encoding="on"/></td>
+</tr>
+</table>
+
+<iframe src="<isprint value="#REMOTE_URL#"/><isprint value="#'?USERNAME='.USERNAME.'&PASSWORD='.PASSWORD.'&HOOK_URL='.HOOK_URL#" encoding="on"/>" name="ocipunchoutiframe" scrolling="auto" frameborder="1" align=aus marginheight="0px" marginwidth="0px" height="800" width="1200"></iframe>
+
+</body>
+</html>

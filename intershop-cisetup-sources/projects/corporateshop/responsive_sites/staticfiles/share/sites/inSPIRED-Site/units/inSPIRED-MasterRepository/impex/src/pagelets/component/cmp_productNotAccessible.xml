@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-component id="cmp_productNotAccessible">
+<definition-name>app_sf_responsive_cm:component.system.error.pagelet2-Component</definition-name>
+<display-name xml:lang="de-DE">Produkt nicht zugänglich</display-name>
+<display-name xml:lang="en-US">Product Not Accessible</display-name>
+<display-name xml:lang="fr-FR">Produit non accessible</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="HTML">
+<definition-name>app_sf_responsive_cm:component.system.error.pagelet2-Component-HTML</definition-name>
+<value name="HTML" xml:lang="de-DE">&lt;h2&gt;Dieses Produkt ist f&amp;#252;r Sie nicht verf&amp;#252;gbar.&lt;/h2&gt;</value>
+<value name="HTML" xml:lang="en-US">&lt;h2&gt;This product is not available for you.&lt;/h2&gt; </value>
+<value name="HTML" xml:lang="fr-FR">&lt;h2&gt;Ce produit n&amp;#8217;est pas disponible pour vous.&lt;/h2&gt;</value>
+</configuration-parameter>
+</configuration-parameters>
+<slots>
+<slot>
+<definition-name>app_sf_responsive_cm:slot.marketing.base.pagelet2-Slot</definition-name>
+<optional>false</optional>
+<sorting>false</sorting>
+</slot>
+</slots>
+</pagelet-component>
+</enfinity>

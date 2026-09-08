@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group Application-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ViewApplication" overrideMode="Inherit" type="view">
+<!--Just adapt from OpenIDConnectLogin to ViewUserAccount.
+@Location 1,0-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text_hzCHcOtaEeq6uZ03vdV8yg"/>
+<!--Just adapt from OpenIDConnectLogin to ViewUserAccount.
+@Location 3,0-->
+  <nodes xsi:type="pipeline:Text" nodeID="Text_qOPZMOtaEeq6uZ03vdV8yg"/>
+<!--@Location 3,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_6PiIAOtZEeq6uZ03vdV8yg" name="DisplayLogin">
+<!--Map RegistrationOrganization \-> CurrentOrganization-->
+    <nodeSuccessors name="next" next="KeyMapper_0Zf7UBNyEeunf5jFxI5dGA"/>
+<!--The identity provider login request-->
+    <parameters name="IdentityProviderLoginRequest" type="com.intershop.adapter.oidc.internal.request.IdentityProviderLoginRequest"
+        optional="true"/>
+  </nodes>
+<!--@Location 3,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_0Zf7UBNyEeunf5jFxI5dGA">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_FWxB0D9yEeuolcMxuoWAww"/>
+    <parameterBindings name="InValue_1" objectPath="RegistrationOrganization"/>
+    <returnValueBindings name="OutValue_1" objectPath="CurrentOrganization"/>
+  </nodes>
+<!--@Location 3,3-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_FWxB0D9yEeuolcMxuoWAww"
+      conditionKey="IdentityProviderLoginRequest:UserIntention:Name" operator="str_eq"
+      conditionValue="REGISTER">
+<!--@BendPoints 9,7-->
+    <nodeSuccessors name="decision_yes" next="JumpNode_TTTHcOtaEeq6uZ03vdV8yg"/>
+    <nodeSuccessors name="decision_no" next="JumpNode_vpQ-ID9yEeuolcMxuoWAww"/>
+  </nodes>
+<!--@Location 4,4-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode_TTTHcOtaEeq6uZ03vdV8yg">
+    <startNode referencedName="ViewUserAccount-ShowRegister"/>
+  </nodes>
+<!--@Location 3,4-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode_vpQ-ID9yEeuolcMxuoWAww">
+    <startNode referencedName="ViewUserAccount-ShowLogin"/>
+  </nodes>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_2k5pUOtZEeq6uZ03vdV8yg" strict="true"
+      name="FinishAuthentication" callMode="Private">
+<!--Just delegate to ViewUserAccount.-->
+    <nodeSuccessors name="next" next="DecisionNode_RRyM4D9zEeuolcMxuoWAww"/>
+    <parameters name="AuthenticationState" type="com.intershop.beehive.core.capi.auth.AuthenticationState"/>
+<!--The registration organization-->
+    <parameters name="RegistrationOrganization" type="com.intershop.component.organization.capi.Organization"/>
+<!--The identity provider login request-->
+    <parameters name="IdentityProviderLoginRequest" type="com.intershop.adapter.oidc.internal.request.IdentityProviderLoginRequest"
+        optional="true"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_RRyM4D9zEeuolcMxuoWAww"
+      conditionKey="IdentityProviderLoginRequest:UserIntention:Name" operator="str_eq"
+      conditionValue="REGISTER">
+<!--@BendPoints 5,5-->
+    <nodeSuccessors name="decision_yes" next="KeyMapper_gqLZsEBkEeuHQt4KR8lCLg"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_m6hWYEBkEeuHQt4KR8lCLg"/>
+  </nodes>
+<!--if REGISTER set FinalTargetPipeline=ViewUserAccount\-ShowAccountCompletion
+@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_gqLZsEBkEeuHQt4KR8lCLg">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_m6hWYEBkEeuHQt4KR8lCLg"/>
+    <parameterBindings name="InValue_1" constant="ViewUserAccount-ShowAccountCompletion"/>
+    <returnValueBindings name="OutValue_1" objectPath="FinalTargetPipeline"/>
+  </nodes>
+<!--@Location 1,3-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_m6hWYEBkEeuHQt4KR8lCLg">
+    <nodeSuccessors name="next" next="JumpNode_-qXUkOtZEeq6uZ03vdV8yg"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode_-qXUkOtZEeq6uZ03vdV8yg">
+    <startNode referencedName="ViewUserAccount-FinishAuthentication"/>
+  </nodes>
+</pipeline:Pipeline>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pagelet:PageletModel xmlns:pagelet="http://www.intershop.de/pagelet/2010" name="page.helpdesk.pagelet2">
+  <pageEntryPointDefinitions name="Page" systemManaged="true">
+    <callParameterDefinitions name="PageletEntryPointID" type="java.lang.String" optional="true"/>
+    <callParameterInterfaces referencedName="app_sf_base_cm:interface.page.standard.pagelet2-Interface"/>
+  </pageEntryPointDefinitions>
+</pagelet:PageletModel>

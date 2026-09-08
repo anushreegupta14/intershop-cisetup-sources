@@ -1,0 +1,9 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+
+<!---
+This is just a dummy ISML template since the renderTemplate is a required parameter of a pagelet definition.
+It is not actually needed for the headless REST API usage of the CMS since the content information is
+returned as JSON and the rendering is actually done by the client application, e.g. the Intershop Progressive Web App.
+
+If you want to use this component in your component model, please overwrite this template. 
+--->

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensionpoint:ExtensionPointModel xmlns:extensionpoint="http://www.intershop.de/extensionpoint/2011"
+    name="ReturnRequestButtonExtension">
+  <extensionBindings type="isml" extensionPoint="account/orders/OrderDetails-OrderDetailsInfoBoxes"
+      extension="account/orders/OrderReturnRequestButton.isml" priority="100"/>
+</extensionpoint:ExtensionPointModel>

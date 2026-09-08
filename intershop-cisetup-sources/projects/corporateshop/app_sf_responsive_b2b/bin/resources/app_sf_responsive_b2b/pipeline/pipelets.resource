@@ -1,0 +1,16 @@
+com.intershop.application.responsive.webshop.b2b.pipelet.CheckForOrderApproval
+com.intershop.application.responsive.webshop.b2b.pipelet.customer.UpdateCustomerBranding
+com.intershop.application.responsive.webshop.b2b.pipelet.GetApprovalUsersForCustomer
+com.intershop.application.responsive.webshop.b2b.pipelet.GetBackInStockNotifications
+com.intershop.application.responsive.webshop.b2b.pipelet.GetPriceChangeNotifications
+com.intershop.application.responsive.webshop.b2b.pipelet.GetPriceListFromProductLineItem
+com.intershop.application.responsive.webshop.b2b.pipelet.IncreaseBudgetSpent
+com.intershop.application.responsive.webshop.b2b.pipelet.IncreaseMonthlyBudgetSpent
+com.intershop.application.responsive.webshop.b2b.pipelet.SetBasketAdditionalInformation
+com.intershop.application.responsive.webshop.b2b.pipelet.SetBasketApproverInformation
+com.intershop.application.responsive.webshop.b2b.pipelet.SetBasketDocumentNo
+com.intershop.application.responsive.webshop.b2b.pipelet.SetBasketStatus
+com.intershop.application.responsive.webshop.b2b.pipelet.SetBasketSystemRejectedInformation
+com.intershop.application.responsive.webshop.b2b.pipelet.SetOrderApproverInformation
+com.intershop.application.responsive.webshop.b2b.pipelet.SetOrderPendingOrderDocumentNo
+com.intershop.application.responsive.webshop.b2b.pipelet.SortQuickOrderFormValues

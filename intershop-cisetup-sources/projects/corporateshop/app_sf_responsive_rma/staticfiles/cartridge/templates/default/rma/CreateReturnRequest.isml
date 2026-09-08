@@ -1,0 +1,265 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+<iscache type="forbidden">
+
+<%@page import="com.intershop.beehive.core.capi.pipeline.PipelineDictionary"%>
+<%@page import="com.intershop.beehive.core.capi.request.Session"%>
+
+<div class="breadcrumbs row">
+	<ISBreadcrumb
+		showhomelink="true"
+		link0="#URLEX(SecureURL,'',Action('ViewUserAccount-Start'))#"
+		text0="#localizeText('account.my_account.link')#"
+		link1="#URL(Action('ViewOrders-SimpleOrderSearch'))#"
+		text1="#localizeText('account.order_history.link')#"
+		link2="#URL(Action("ViewOrders-Detail"), Parameter('OrderID', OrderBO:ID))#"
+		text2="#localizeTextEx('account.orderdetails.breadcrumb', ParameterList(OrderBO:DocumentNo))#"
+		separatetrailtext="true"
+		trailtext1="#localizeText('account.order.return_request.title')#"		
+	>
+</div>
+
+<div class="marketing-area">
+	<ISMarketingSlot id="baseMarketing">
+</div>
+
+<div class="account-wrapper">
+    <div class="row account-main">
+        <div class="col-md-3 account-nav-box">
+            <isAccountNavigation selecteditem="ORDERS">
+        </div>
+        <div class="col-md-9">
+            <div class="marketing-area">
+                <ISMarketingSlot id="contentMarketing">
+            </div>
+            <div class="cart-header">
+				<h1>
+					<span><istext key="account.order.return_request.title" /></span>&nbsp;
+					<small class="text-nowrap"><istext key="account.order.return_request.for_order" parameter0="#OrderBO:DocumentNo#" /></small>
+				</h1>
+			</div>
+            <isif condition="#isDefined(ReturnRequestCreationError)#">
+                <div class="alert alert-danger">
+                    <istext key="account.order.return_request.creation.error" />
+                </div>
+            </isif>
+            <input type="hidden" id="isFormSubmitted" name="isFormSubmitted" value=""/>
+
+            <p>
+                <istext key="account.order.return.products_for_return" />
+            </p>
+
+            <div id="select-products-to-return-warning" class="alert alert-danger hidden">
+                <istext key="account.order.return.product_to_return_selected.warn"/>
+            </div>
+
+            <div id="no-product-qualifies-for-return-warning" class="alert alert-warning hidden">
+                <istext key="account.order.return.no_product_can_be_returned.warn" />
+            </div>
+
+            <div class="list-header">
+                <div class="list-header-item col-sm-5">
+                    <istext key="order.returnrequest.items_list.item.title"/>
+                </div>
+                <div class="list-header-item col-sm-2 text-right">
+                    <istext key="order.returnrequest.items_list.quantity.title"/>
+                </div>
+                <div class="list-header-item col-sm-3">
+                    <istext key="order.returnrequest.items_list.returnreason.title"/>
+                </div>
+                <div class="list-header-item col-sm-2 column-price">
+                    <istext key="order.returnrequest.items_list.price.title"/>
+                </div>
+            </div>
+            <% getPipelineDictionary().put("CurrentDate", new java.util.Date()); %>
+            <isform action="#URL(Action('ViewReturnRequest-Dispatch'))#" method="post" name="returnForm" id="create-request" class="bv-form form-horizontal"  data-bv-feedbackicons-valid="" data-bv-feedbackicons-invalid="" data-bv-feedbackicons-validating="">
+                <input type="hidden" id="OrderID" name="OrderID" value="<isprint value="#OrderID#"/>" />
+                <div class="list-body">
+                    <isloop iterator="ReturnableLineItems" alias="ReturnableItemEntry">
+                        <isset name="PLI" value="#ReturnableItemEntry:OrderProductLineItemBO#" scope="request"/>
+                        <isset name="Quantity" value="#ReturnableItemEntry:Quantity#" scope="request"/>
+                        <isset name="ReturnReasons" value="#ReturnableItemEntry:ReturnReasons#" scope="request"/>
+
+                        <div class="list-item-row">
+                            <div class="col-sm-2 col-xs-2 list-item">
+                                <ISProductImage ProductBO="#PLI:ProductBO#" ImageType="S" Class="img-responsive">
+                            </div>
+                            <div class="col-sm-5 col-xs-10">
+                                <div class="row">
+                                    <div class="col-sm-8 col-xs-8 list-item">
+                                        <div class="pli-description">
+                                            <a href="#URL(Action('ViewProduct-Start'),Parameter('SKU',PLI:ProductRef:ProductSKU))#">
+                                                <isprint value="#PLI:ProductName#" />
+                                            </a>
+                                            <p class="product-id">
+                                                <istext key="account.order.returnrequest.product_id" />
+                                                <isprint value="#PLI:ProductRef:ProductSKU#" />
+                                            </p>
+                                        </div>
+                                      </div>
+                                       <div class="col-sm-4 col-xs-4 list-item">
+                                           <input
+                                                   name="returnQuantity-<isprint value="#PLI:ID#"/>"
+                                                   class="form-control quantity js-quantity js-product-qty returnQuantity"
+                                                   style="width: 95%"
+                                                   max="<isprint value="#Quantity#" />"
+                                                   data-bv-notempty-message="<istext key="shopping_cart.quantity.invalid.error"/>"
+                                                   data-bv-greaterThan-message="<istext key="shopping_cart.quote.quantity.minimum.validation.message"/>"
+                                                   productBO-id="<isprint value="#PLI:ProductBO:ID#"/>"
+                                                   position-name="<isprint value="#PLI:ProductName#"/>"
+                                                   <isif condition="#PriceDisplayType EQ 'net'#">
+                                                       price ="<isprint value="#PLI:SingleBasePriceNet#">"
+                                                       <iselse>
+                                                       price="<isprint value="#PLI:SingleBasePriceGross#">"
+                                                   </isif>
+                                               type="number"
+                                               min="0"
+                                               step="1"
+                                               value="0"
+                                           />
+                                           <div>
+                                                <small class="input-help"><istext key="account.order.return_request.max" parameter0="#getValue(Quantity)#" /></small>
+                                            </div>
+                                       </div>
+                                 </div>
+                            </div>
+
+                               <div class="col-sm-3 col-xs-12 list-item">
+                                    <label class="hidden-lg hidden-md hidden-sm control-label"><istext key="order.returnrequest.items_list.returnreason.title">:</label>
+                                   <div class="form-group">
+                                       <select
+                                               name="returnReason-<isprint value="#PLI:ID#"/>"
+                                               class="form-control returnReason"
+                                               data-bv-notempty-message="<istext key="account.order.return.return_reason_empty" />"
+                                           id="productReturnReason"
+                                           >
+                                           <option value="">
+                                               <istext key="account.option.select.text" />
+                                           </option>
+                                           <isloop iterator="ReturnReasons" alias="ReturnReason">
+                                               <option value="<isprint value="#ReturnReason:Id#"/>">
+                                                   <isprint value="#ReturnReason:Description#"/>
+                                               </option>
+                                           </isloop>
+                                       </select>
+                                   </div>
+                               </div>
+
+                            <div class="col-sm-2 col-xs-12 list-item column-price">
+                                <label class="hidden-lg hidden-md hidden-sm control-label"><istext key="order.returnrequest.items_list.price.title">:</label>
+                                   <isif condition="#PriceDisplayType EQ 'net'#">
+                                       <isprint value="#PLI:SingleBasePriceNet#">
+                                   <iselse>
+                                       <isprint value="#PLI:SingleBasePriceGross#">
+                                   </isif>
+                            </div>
+                        </div>
+                    </isloop>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="ReturnRequestComment">
+                        <istext key="order.returnrequest.comment.label" />
+                    </label>
+                    <div class="col-sm-6">
+                        <textarea id="ReturnRequestComment"
+                            maxlength="255"
+                            data-charactercounter="ReturnRequestCommentCounter"
+                            name="ReturnRequestComment"
+                            class="form-control"
+                        ></textarea>
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <small class="input-help">
+                            <istext key="order.returnrequest.comment.max_limit.pre.text" /> <span id="ReturnRequestCommentCounter"></span> <istext key="order.returnrequest.comment.max_limit.post.text" />
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="ReturnRequestSendBack">
+                        <istext key="order.returnrequest.send_back.label" />
+                    </label>
+                    <div class="col-sm-6">
+                        <isloop iterator="OrderBO:Extension('ReturnRequest'):ReturnTypes" alias="ReturnType" counter="ReturnTypeCounter">
+                            <div class="radio">
+                                <label for="<isprint value="#'SendBack'.ReturnType:Id#">">
+                                    <input
+                                        type="radio"
+                                        class="inputRadio"
+                                        name="ReturnTypeId"
+                                        value="<isprint value="#ReturnType:Id#">"
+                                        id="<isprint value="#'SendBack'.ReturnType:Id#">"
+                                        <isif condition="#ReturnTypeCounter == 1#">checked="checked"</isif>
+                                        data-toggle="collapse"
+                                        data-target="#'#'#sendPickupPanel"/>
+                                    <isprint value="#ReturnType:Description#">
+                                    <isif condition="#ReturnType:PickupAddressSupported#">
+                                        <small class="input-help">
+                                            <p><istext key="order.returnrequest.send_back.pickup.comment" encoding="off"/></p>
+                                        </small>
+                                        <div <isif condition="#ReturnTypeCounter != 1#">class="collapse"</isif> id="sendPickupPanel">
+                                            <div class="col-xs-12">
+                                                <div class="form-group">
+                                                    <label for="<isprint value="#ReturnType:Id.'PickupAddressID'#">">
+                                                        <istext key="order.returnrequest.send_back.pickup_address.label">
+                                                    </label>
+                                                    <select
+                                                        id="<isprint value="#ReturnType:Id.'PickupAddressID'#">"
+                                                        name="<isprint value="#ReturnType:Id.'PickupAddressID'#">"
+                                                        class="form-control"
+                                                        title="<istext key="checkout.addresses.select_a_different_address.default" />"
+                                                    >
+
+                                                        <isloop iterator="CustomerBO:AddressBOs" alias="Address">
+                                                            <option value="<isprint value = "#Address:URN#">"
+                                                                <isif condition="#(NOT OrderBO:isMultipleShipmentsSupported) AND (Address:hasSameAddressData( OrderBO:CommonShipToAddressBO))#"> checked="checked"</isif>>
+                                                                <isprint value="#Address:FirstName#"> <isprint value="#Address:LastName#">, <isprint value="#Address:AddressLine1#"><isif condition="#isDefined(Address:AddressLine2) AND (Address:AddressLine2 NE '')#"> <isprint value="#Address:AddressLine2#"></isif>, <isprint value="#Address:City#">
+                                                            </option>
+                                                        </isloop>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </isif>
+                                </label>
+                            </div>
+                        </isloop>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <button id="processReturn" name="create-request" type="submit"
+                            class="btn btn-primary"  disabled="disabled">
+                            <istext key="account.order.returnrequest.submit.button.label"/>
+                         </button>
+
+                        <a href="#URL(Action('ViewOrders-SimpleOrderSearch'))#" id="cancelReturn" class="btn btn btn-default"><istext key="account.cancel.button.label" /></a>
+                    </div>
+                </div>
+            </isform>
+            <div class="section">
+				<a href="#URL(Action("ViewOrderRMA-List"), Parameter('OrderID', OrderBO:ID))#">
+					<istext key="account.order.return.back.returns.button" />
+				</a>
+			</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	<!--- prevent form submit if there is no quantity entered --->
+    $(document).on('change', 'input.quantity', function(ev){
+	    var returnQuantity = false;
+	    $('input.quantity').each(function () {
+	       if ($( this ).val() > 0) returnQuantity = true; 
+		});
+	   
+	    if (returnQuantity) {
+	        $("#'#'#processReturn").removeAttr('disabled');
+	    }
+	    else {
+	        $("#'#'#processReturn").attr('disabled', true);
+	    }
+	});
+</script>

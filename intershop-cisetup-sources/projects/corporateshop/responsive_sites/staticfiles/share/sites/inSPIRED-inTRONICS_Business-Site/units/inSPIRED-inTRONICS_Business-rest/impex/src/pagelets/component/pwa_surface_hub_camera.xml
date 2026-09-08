@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-component id="pwa_surface_hub_camera">
+<definition-name>app_sf_base_cm:component.common.freeStyle.pagelet2-Component</definition-name>
+<display-name xml:lang="en-US">Surface Hub Camera</display-name>
+<online>true</online>
+<author business-partner-no="admin" domain="inSPIRED"/>
+<configuration-parameters>
+<configuration-parameter name="HTML">
+<definition-name>app_sf_base_cm:component.common.freeStyle.pagelet2-Component-HTML</definition-name>
+<value name="HTML" xml:lang="de-DE">&lt;div class=&quot;row pt-3&quot;&gt;
+&lt;div class =&quot;col-12 col-md-6&quot;&gt;&lt;img src=&quot;https://./?[ismediaobject]isfile://inSPIRED-Site/inTRONICS_Business-rest/inSPIRED-inTRONICS_Business-rest/en_US/pwa/surface_hub_camera.jpg|/INTERSHOP/static/WFS/inSPIRED-Site/inTRONICS_Business-rest/inSPIRED-inTRONICS_Business-rest/en_US/pwa/surface_hub_camera.jpg[/ismediaobject]&quot; alt=&quot;Surface Hub Camera&quot;/&gt;&lt;/div&gt;
+&lt;div class =&quot;col-12 col-md-6&quot;&gt;&lt;h3&gt;Surface Hub Camera&lt;/h3&gt;
+Die Surface Hub Camera in 4K erfasst den Raum und die Besprechungsteilnehmer in einem vollständigen Sichtfeld.
+Das zu erfassende Blickfeld der Microsoft Surface Hub 2S Kamera beträgt 90° und ist somit für kleinere bis mittelgroße Besprechungsräume ausgelegt. Mit 30 FPS (Frames Per Second) werden Ihre Videos ruckelfrei übertragen und die Belichtung wird automatisch an das Gesicht angepasst.
+&lt;/div&gt;
+&lt;/div&gt;</value>
+<value name="HTML" xml:lang="en-US">&lt;div class=&quot;row pt-3&quot;&gt;
+&lt;div class =&quot;col-12 col-md-6&quot;&gt;&lt;img src=&quot;https://./?[ismediaobject]isfile://inSPIRED-Site/inTRONICS_Business-rest/inSPIRED-inTRONICS_Business-rest/en_US/pwa/surface_hub_camera.jpg|/INTERSHOP/static/WFS/inSPIRED-Site/inTRONICS_Business-rest/inSPIRED-inTRONICS_Business-rest/en_US/pwa/surface_hub_camera.jpg[/ismediaobject]&quot; alt=&quot;Surface Hub Camera&quot;/&gt;&lt;/div&gt;
+&lt;div class =&quot;col-12 col-md-6&quot;&gt;&lt;h3&gt;Surface Hub Camera&lt;/h3&gt;
+The Surface Hub Camera in 4K captures the room and meeting participants in a full field of view.
+The field of view to be captured by the Microsoft Surface Hub 2S camera is 90° and is therefore designed for small to medium-sized meeting rooms. Your videos are transmitted smoothly at 30 FPS (Frames Per Second) and the exposure is automatically adjusted to the face.
+&lt;/div&gt;
+&lt;/div&gt;</value>
+<value name="HTML" xml:lang="fr-FR">&lt;div class=&quot;row pt-3&quot;&gt;
+&lt;div class =&quot;col-12 col-md-6&quot;&gt;&lt;img src=&quot;https://./?[ismediaobject]isfile://inSPIRED-Site/inTRONICS_Business-rest/inSPIRED-inTRONICS_Business-rest/en_US/pwa/surface_hub_camera.jpg|/INTERSHOP/static/WFS/inSPIRED-Site/inTRONICS_Business-rest/inSPIRED-inTRONICS_Business-rest/en_US/pwa/surface_hub_camera.jpg[/ismediaobject]&quot; alt=&quot;Surface Hub Camera&quot;/&gt;&lt;/div&gt;
+&lt;div class =&quot;col-12 col-md-6&quot;&gt;&lt;h3&gt;Caméra du Surface Hub&lt;/h3&gt;
+La Camera Surface Hub 4K filme la salle et les participants de la réunion dans un champ de vision complet.
+Le champ de vision de la caméra Microsoft Surface Hub 2S est de 90° et convient donc aux salles de réunion de petite et moyenne taille. Avec 30 FPS (images par seconde), vos vidéos sont transmises sans saccades et l&apos;exposition est automatiquement adaptée à votre visage.
+&lt;/div&gt;
+&lt;/div&gt;</value>
+</configuration-parameter>
+</configuration-parameters>
+</pagelet-component>
+</enfinity>

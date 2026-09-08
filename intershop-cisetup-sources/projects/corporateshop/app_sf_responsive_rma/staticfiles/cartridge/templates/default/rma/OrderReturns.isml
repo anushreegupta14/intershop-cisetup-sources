@@ -1,0 +1,115 @@
+<%@page import="com.intershop.beehive.core.pipelet.log.PutObjectIntoMDC"%>
+<iscontent type="text/html" charset="UTF-8" compact="true">
+
+<div class="breadcrumbs row">
+	<ISBreadcrumb
+		showhomelink="true"
+		link0="#URLEX(SecureURL,'',Action('ViewUserAccount-Start'))#"
+		text0="#localizeText('account.my_account.link')#"
+		link1="#URL(Action('ViewOrders-SimpleOrderSearch'))#"
+		text1="#localizeText('account.order_history.link')#"
+		link2="#URL(Action("ViewOrders-Detail"), Parameter('OrderID', OrderBO:ID))#"
+		text2="#localizeTextEx('account.orderdetails.breadcrumb', ParameterList(OrderBO:DocumentNo))#"
+		separatetrailtext="true"
+		trailtext1="#localizeText('account.order.returns.title')#"		
+	>
+</div>	
+
+<div class="marketing-area">
+	<ISMarketingSlot id="baseMarketing">
+</div>
+
+<div class="account-wrapper">
+    <div class="row account-main">
+        <div class="col-md-3 account-nav-box">
+            <isAccountNavigation selecteditem="ORDERS">
+        </div>
+        <div class="col-md-9">
+            <div class="marketing-area">
+                <ISMarketingSlot id="contentMarketing">
+            </div>
+			<div class="cart-header">
+				<h1>
+					<span><istext key="account.order.returns.title" /></span>&nbsp;
+					<small class="text-nowrap"><istext key="account.order.return_request.for_order" parameter0="#OrderBO:DocumentNo#"/></small>
+					<isif condition="#OrderBO:Extension("ReturnRequest"):Returnable#">
+						<a class="btn btn-default"
+							href="#URLEX(SecureURL,'',Action('ViewReturnRequest-PrepareReturnRequest'), Parameter('OrderID', OrderBO:ID))#">
+							<istext key="account.order.return_items.link" />
+						</a>
+					</isif>
+				</h1>
+			</div>
+			<isif condition="#hasElements(ReturnRequestBOs)#">
+				<p><istext key="account.order.returns.description" /></p>
+				
+				<div class="list-header">
+				 <div class="list-header-item col-sm-3">
+                        <istext key="account.order.returns.list.date.title"/>
+                    </div>
+                    <div class="list-header-item col-sm-3">
+                        <istext key="account.order.returns.list.return_number.title"/>
+                    </div>
+                    <div class="list-header-item col-sm-3">
+                        <istext key="account.order.returns.list.item_number.title"/>
+                    </div>
+                    <div class="list-header-item col-sm-3">
+                        <istext key="account.order.returns.list.status.title"/>
+                    </div>
+                </div>
+                 <div class="list-body">
+					<isloop iterator="ReturnRequestBOs" alias="Return">
+						<div class="list-item-row">
+							<div class="col-sm-3 list-item">
+								<% 
+									java.time.OffsetDateTime offsetDate = (java.time.OffsetDateTime)getObject("Return:CreationDate");
+									java.util.Date date = new Date(offsetDate.toInstant().toEpochMilli());
+									getPipelineDictionary().put("Date", date);
+								%>
+								<isprint value="#Date#" style="DATE_SHORT">
+							</div>
+							<div class="col-sm-3 list-item">
+								<label class="hidden-lg hidden-md hidden-sm control-label"><istext key="account.order.returndetails.return_number.label"></label>
+								<a href="#URLEX(SecureURL,'',Action('ViewOrderRMA-Details'), Parameter('OrderID', OrderBO:ID), Parameter('ReturnId', Return:Id))#"><isprint value="#Return:DocumentNo#"></a>
+							</div>
+							<div class="col-sm-3 list-item">
+							<label class="hidden-lg hidden-md hidden-sm control-label"><istext key="account.order.returns.list.item_number.title">:</label>
+								<isprint value="#Return:ReturnRequestItemBOs:Size#">
+							</div>
+							<div class="col-sm-3 list-item">
+								<label class="hidden-lg hidden-md hidden-sm control-label">
+									
+										<istext key="account.order.returndetails.status.label">
+									
+								</label>
+								<small class="label<isif condition="#Return:BusinessStatus:Id EQ 'ACCEPTED'#"> label-success</isif>
+										<isif condition="#Return:BusinessStatus:Id EQ 'IN_APPROVAL'#"> label-info</isif>
+										<isif condition="#Return:BusinessStatus:Id EQ 'READY_TO_APPROVE'#"> label-info</isif>
+										<isif condition="#Return:BusinessStatus:Id EQ 'REJECTED'#"> label-danger</isif>
+									">
+								<isprint value="#Return:BusinessStatus:Description#"></small>
+							</div>
+						</div>
+					</isloop>
+				</div>
+			<iselse>
+				<p><istext key="account.order.returns.no_return" /></p>
+			</isif>
+			 <div class="section">
+				<a href="#URL(Action("ViewOrders-Detail"), Parameter('OrderID', OrderBO:ID))#">
+					<istext key="account.order.return.back.button" parameter0="#OrderBO:DocumentNo#" encoding="off"/>
+				</a>
+			</div>
+			
+			<!--- Note --->
+			<h4 class="help-block"><istext key="account.order.questions.title"></h4>
+			<p class="help-block">
+				<istext key="account.order.questions.note" 
+					parameter0="#url(action('ViewContent-Start'), Parameter('PageletEntryPointID','systempage.helpdesk.index.pagelet2-Page'))#" 
+					parameter1="#url(action('ViewContact-Start'))#"
+					encoding="off">
+			</p>
+		</div>
+	</div>
+</div>
+

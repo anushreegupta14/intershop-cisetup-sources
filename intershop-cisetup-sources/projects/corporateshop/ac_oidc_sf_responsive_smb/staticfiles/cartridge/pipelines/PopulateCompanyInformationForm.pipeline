@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@Group Customer-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="PopulateCompanyInformationForm" overrideMode="Inherit" type="extension">
+<!--@Location 0,0-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_xB7e8FDxEeu9k5wjJTL6qA" strict="true"
+      name="Start" callMode="Private">
+    <nodeSuccessors name="next" next="KeyMapper_zM798FDxEeu9k5wjJTL6qA"/>
+    <parameters name="DataSheet" type="com.intershop.beehive.core.capi.profile.DataSheet"/>
+    <parameters name="CompanyInformationForm" type="com.intershop.beehive.core.capi.webform.Form"/>
+  </nodes>
+<!--@Location 0,1-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_zM798FDxEeu9k5wjJTL6qA">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="FillForm_zM-aMFDxEeu9k5wjJTL6qA"/>
+    <parameterBindings name="InValue_1" objectPath="DataSheet:Birthday"/>
+    <parameterBindings name="InValue_2" objectPath="DataSheet:CompanyName"/>
+    <parameterBindings name="InValue_3" objectPath="DataSheet:FirstName"/>
+    <parameterBindings name="InValue_4" objectPath="DataSheet:LastName"/>
+    <parameterBindings name="InValue_5" objectPath="DataSheet:Department"/>
+    <parameterBindings name="InValue_6" objectPath="DataSheet:Fax"/>
+    <parameterBindings name="InValue_7" objectPath="DataSheet:PhoneBusiness"/>
+    <returnValueBindings name="OutValue_1" objectPath="CompanyInformationForm_Birthday"/>
+    <returnValueBindings name="OutValue_2" objectPath="CompanyInformationForm_CompanyName"/>
+    <returnValueBindings name="OutValue_3" objectPath="CompanyInformationForm_FirstName"/>
+    <returnValueBindings name="OutValue_4" objectPath="CompanyInformationForm_LastName"/>
+    <returnValueBindings name="OutValue_5" objectPath="CompanyInformationForm_Department"/>
+    <returnValueBindings name="OutValue_6" objectPath="CompanyInformationForm_Fax"/>
+    <returnValueBindings name="OutValue_7" objectPath="CompanyInformationForm_PhoneBusiness"/>
+  </nodes>
+<!--@Location 0,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="FillForm_zM-aMFDxEeu9k5wjJTL6qA">
+    <pipelet href="enfinity:/core/pipelets/FillForm.xml"/>
+    <nodeSuccessors name="next" next="EndNode_xB7e8VDxEeu9k5wjJTL6qA"/>
+    <parameterBindings name="Form" objectPath="CompanyInformationForm"/>
+  </nodes>
+<!--@Location 0,3-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode_xB7e8VDxEeu9k5wjJTL6qA" strict="true">
+    <returnValues name="CompanyInformationForm" type="com.intershop.beehive.core.capi.webform.Form"/>
+  </nodes>
+</pipeline:Pipeline>

@@ -1,0 +1,34 @@
+apply plugin: 'static-cartridge'
+apply plugin: 'com.intershop.gradle.cartridge-resourcelist'
+apply plugin: 'com.intershop.gradle.isml'
+
+intershop {
+    displayName = 'Adapter - RMA - Responsive store front integration'
+
+	packages {
+        cartridge {
+            srcDir(isml2classMain)
+        }
+    }
+}
+
+dependencies {
+    compile project(':app_sf_responsive')
+
+    compile group: 'com.intershop.platform', name: 'core'
+    compile group: 'com.intershop.platform', name: 'isml'
+    compile group: 'com.intershop.platform', name: 'servletengine'
+    compile group: 'com.intershop.platform', name: 'businessobject'
+    compile group: 'com.intershop.platform', name: 'bc_repository'
+    compile group: 'com.intershop.platform', name: 'bc_application'
+    compile group: 'com.intershop.platform', name: 'bc_address'
+    compile group: 'com.intershop.platform', name: 'bc_user'
+    compile group: 'com.intershop.platform', name: 'rest'
+    compile group: 'com.intershop.platform', name: 'bc_foundation'
+
+    compile group: 'com.intershop.business', name: 'bc_order'
+    compile group: 'com.intershop.business', name: 'bc_orderprocess'
+    compile group: 'com.intershop.business', name: 'bc_customer'
+    compile group: 'com.intershop.business', name: 'bc_rma'
+    compile group: 'com.intershop.business', name: 'sld_ch_sf_base'
+}

@@ -1,0 +1,327 @@
+buildscript {
+    dependencies {
+        classpath 'com.intershop.build.gradle:plugin-tests:2.8.1'
+        classpath 'com.github.groovy-wslite:groovy-wslite:1.1.3'
+    }
+}
+
+apply plugin: 'ish-assembly'
+apply plugin: 'ish-assembly-branding'
+apply plugin: 'project-report'
+apply plugin: 'jacoco'
+
+assembly {
+    inheritFrom('com.intershop.assembly:commerce_management_b2c') {
+        includeArtifacts type:['deploy-settings-gradle']
+    }
+
+	hostTypes {
+		share {
+            include (
+                project(':microservices'),
+				project(':responsive_config'),
+				project(':responsive_sites'),
+                'com.intershop.solrcloud:solrcloud_config',
+            ) {
+                transitive = false
+            }
+        }
+
+
+		microservices {
+			include (
+                project(':microservices'),
+            ) {
+                transitive = false
+            }
+            includeLocal = true
+
+            includeShare = false
+            includeCartridges = false
+        }
+	}
+
+    cartridges {
+        def solrCloudProductionCartridges = [
+            'ac_solr_cloud',
+            'ac_solr_cloud_bo',
+        ]
+
+        include('com.intershop.solrcloud:ac_solr_cloud',
+                'com.intershop.solrcloud:ac_solr_cloud_bo',
+                            in:[development, test, production])
+
+        def storefrontCartridges = [
+            'app_sf_base_cm',
+            'app_sf_pwa_cm',
+            'app_sf_responsive',
+            'app_sf_responsive_cm',
+            'app_sf_responsive_b2c',
+            'app_sf_responsive_smb',
+            'as_responsive',
+            'app_sf_responsive_gdpr',
+            'app_sf_responsive_rma',
+			'ac_oidc_sf_responsive',
+            'ac_oidc_sf_responsive_b2c',
+            'ac_oidc_sf_responsive_smb'
+        ]
+        include(*(storefrontCartridges.collect { project(":$it") }), in:[development, test, production])
+
+        def initCartridges = [
+            'demo_responsive',
+            'demo_responsive_catalog',
+            'demo_responsive_content',
+            'demo_responsive_search',
+            'demo_responsive_ocst'
+        ]
+        include (*(initCartridges.collect { project(":$it") }), in: init)
+
+        def developerCartridges = [
+           'dev_storefront'
+        ]
+        include (*(developerCartridges.collect { project(":$it") }), in: development)
+
+        def testCartridges = [
+            'app_sf_responsive_test'
+        ]
+        include (*(testCartridges.collect { project(":$it") }), in:[development, test])
+
+        order = listFromAssembly('com.intershop.assembly:commerce_management_b2c') + storefrontCartridges + initCartridges + developerCartridges + testCartridges + solrCloudProductionCartridges
+    }
+
+    extraAttributes = [
+            'productName': 'Intershop 7',
+            'copyrightOwner': 'Intershop Communications AG',
+            'copyrightFrom': '2005'
+        ]
+}
+
+/*
+assemblyBuild {
+    database {
+        inherit('com.intershop.assembly:commerce_management_b2c')
+        initCartridges = [
+            'app_sf_responsive',
+            'demo_responsive',
+            'demo_responsive_catalog',
+            'demo_responsive_content',
+            'demo_responsive_search',
+            'demo_responsive_ocst'
+        ]
+    }
+}
+*/
+
+dependencies {
+    testCompile "com.intershop.build.gradle:ish-common"
+    testCompile "com.intershop.deployment:ish-assembly-test"
+    testCompile "com.sun.mail:javax.mail"
+
+    remoteTestCompile "org.codehaus.groovy.modules.http-builder:http-builder"
+    remoteTestCompile "org.hamcrest:hamcrest-all"
+
+    // selenium web drivers
+    remoteTestCompile "org.seleniumhq.selenium:selenium-support"
+    remoteTestCompile "org.seleniumhq.selenium:selenium-firefox-driver"
+    remoteTestCompile "org.seleniumhq.selenium:selenium-chrome-driver"
+
+}
+
+gebConfiguration {
+    webDrivers {
+
+        chromeDriver {
+            environments {
+                chromePC
+                chromeTablet
+            }
+
+            download {
+                // available drivers at https://chromedriver.storage.googleapis.com/index.html
+                linux {
+                    url = "https://chromedriver.storage.googleapis.com/${chromeVersion}/chromedriver_linux64.zip"
+                    archiveType = 'zip'
+                    webDriverExec = 'chromedriver'
+                }
+                windows {
+                    url = "https://chromedriver.storage.googleapis.com/${chromeVersion}/chromedriver_win32.zip"
+                    archiveType = 'zip'
+                    webDriverExec = 'chromedriver.exe'
+                }
+            }
+        }
+
+        geckoDriver {
+            environments {
+                geckoPC {check=true}
+                geckoTablet
+            }
+
+            download {
+                linux {
+                    url = "https://github.com/mozilla/geckodriver/releases/download/${geckoVersion}/geckodriver-${geckoVersion}-linux64.tar.gz"
+                    archiveType = 'tar'
+                    webDriverExec = 'geckodriver'
+                }
+                windows {
+                    url = "https://github.com/mozilla/geckodriver/releases/download/${geckoVersion}/geckodriver-${geckoVersion}-win32.zip"
+                    archiveType = 'zip'
+                    webDriverExec = 'geckodriver.exe'
+                }
+            }
+        }
+    }
+}
+
+/***********************************************************************************************************************
+ *
+ * Currently the gradle tools do not provide a task for rebuilding the search indexes. But these it required for inSPIRED
+ * storefront tests. So this is workaround for solving this problem temporary.
+ *
+ ***********************************************************************************************************************/
+buildscript {
+    dependencies {
+        classpath 'com.github.groovy-wslite:groovy-wslite:1.+'
+    }
+}
+
+task 'buildSearchIndex' {
+    def urlServer = "http://${remoteTest.env.hostName}:${remoteTest.env.webserverPort}"
+    def urlJobs = "${urlServer}/INTERSHOP/rest/BOS/SMC/-/domains/SLDSystem/jobs"
+    def urlSMC = "${urlServer}/INTERSHOP/web/BOS/SMC"
+
+    def adminUser   = remoteTest.env.adminUser?: 'admin'
+    def adminPwd    = remoteTest.env.adminPwd?:  '!InterShop00!'
+
+    def jobStatus = { job ->
+        def client = new wslite.rest.RESTClient("${urlJobs}/${job}")
+        client.authorization = new wslite.http.auth.HTTPBasicAuthorization(adminUser, adminPwd)
+        def response = client.get()
+        return response.json.status
+    }
+
+    def triggerJob = {job ->
+        def client = new wslite.rest.RESTClient("${urlJobs}/${job}")
+        client.authorization = new wslite.http.auth.HTTPBasicAuthorization(adminUser, adminPwd)
+
+        try {
+			logger.quiet("Start Job: ${job}")
+            def responseTrigger = client.put() {
+                json type: 'job', status: 'RUNNING'
+            }
+            logger.debug("response for triggered job: ${responseTrigger}")
+        } catch(wslite.http.HTTPClientException ex) {
+            throw new GradleException("The job ${job} could not be triggered", ex)
+        }
+
+        //wait to let the job executor start the job
+        sleep 5000
+
+        def maxTry = 240
+        def jobState = jobStatus(job)
+
+        while (maxTry-- > 0 && "RUNNING" == (jobState = jobStatus(job))) {
+
+			logger.info("status of job is ${jobState}. status checks left: ${maxTry}")
+            sleep 5000
+        }
+        logger.quiet("Status: ${jobState}")
+
+        if(jobState == "RUNNING") {
+            throw new GradleException("Job ${job} was triggered, but is still 'RUNNING' after 20 minutes.")
+        }
+    }
+
+    doFirst {
+        waitForService(urlSMC, 180)
+
+        triggerJob("ProcessChain.InitIndexesProductAssignments")
+    }
+}
+
+def checkService(String url) {
+    try {
+        def client = new wslite.rest.RESTClient(url)
+        def response = client.get()
+        logger.quiet("Server SMC status code ${response.statusCode} at ${url}.")
+        return 503 != response.statusCode
+    } catch (Exception e) {
+        logger.quiet("SMC not available on ${url}")
+        return false
+    }
+}
+
+def waitForService(String url, int seconds) {
+    while(!checkService(url) && seconds > 0) {
+        logger.quiet("Waiting on ${url}")
+        Thread.sleep(5000)
+        seconds -= 5
+    }
+}
+
+tasks.each { t ->
+    if (t.name ==~ /geb.*Test/) {
+        if(!(t.name ==~ /geb.*DriverTest/)){
+            t.environment("run_quarantine", remoteTest.env["run_quarantine"])
+        }
+        t.dependsOn tasks.buildSearchIndex
+        t.mustRunAfter tasks.dbinit
+        t.mustRunAfter tasks.test
+        tasks.publish.mustRunAfter t
+    }
+
+    if (t.name != 'clean')  {
+        t.mustRunAfter tasks.clean
+    }
+}
+
+ishUnitTest {
+    jvmArgs '-DEmbeddedServerRule.loadAllCartridges=true'
+}
+
+// verify whole server classpath to be collision-free
+checkClassCollisions {
+    allCartridges = true
+    ignore '(META-INF.versions.\\d+.)?module-info' // ignore module-info.class files in META-INF/**
+}
+
+task restTest(type:Test) {
+    outputs.upToDateWhen { false }
+
+    description = "Executes Remote REST tests against a running server"
+    group = 'verification'
+
+    testClassesDir = project.file(project.sourceSets.remoteTest.output.classesDir.getAbsolutePath() + '/rest')
+    classpath = project.sourceSets.remoteTest.runtimeClasspath
+
+    // taking over some environemnt variables into the spec as system property
+    ['hostName',
+     'webserverPort',
+     'webserverHttpsPort'].each
+    { key ->
+         systemProperty key, remoteTest.env[key]
+    }
+
+    reports {
+      html.destination = project.reporting.file("remote/rest")
+      junitXml.destination = project.file("${project.buildDir}/test-results/rest")
+    }
+}
+
+tasks.remoteTest.dependsOn tasks.restTest
+
+tasks.buildSearchIndex.mustRunAfter tasks.startWebserver, tasks.startNodemanager
+// Rest integration tests must be started when the server is really available
+tasks.restTest.mustRunAfter tasks.buildSearchIndex
+
+tasks.stopNodemanager.mustRunAfter tasks.restTest
+tasks.stopWebserver.mustRunAfter tasks.restTest
+
+tasks.restTest.finalizedBy tasks.stopNodemanager
+tasks.restTest.finalizedBy tasks.stopWebserver
+
+tasks.publish.mustRunAfter tasks.remoteTest, tasks.stopWebserver, tasks.stopNodemanager
+tasks.startNodemanager.mustRunAfter tasks.test, tasks.ishUnitTest, tasks.dbinit
+tasks.startWebserver.mustRunAfter tasks.test, tasks.ishUnitTest, tasks.dbinit
+
+tasks.test.mustRunAfter tasks.clean

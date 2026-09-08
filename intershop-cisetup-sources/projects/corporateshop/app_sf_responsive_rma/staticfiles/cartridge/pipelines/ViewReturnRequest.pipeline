@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Defines views which are specific for the various order return steps.-->
+
+<pipeline:Pipeline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pipeline="http://www.intershop.de/pipeline/2010"
+    name="ViewReturnRequest" overrideMode="Inherit" type="view">
+<!--@Location 11,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode_u0VuAEGaEeqzzKn4BG7fsQ" name="CreateReturnRequest">
+    <nodeSuccessors name="next" next="CallNode_u0WVEEGaEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 11,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode_u0WVEEGaEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="GetReturnableLineItems_MWYFYEHkEeqzzKn4BG7fsQ_Input"/>
+    <startNode referencedName="This:Prefix"/>
+  </nodes>
+<!--@Location 11,3-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="GetReturnableLineItems_MWYFYEHkEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/bc_rma/pipelets/com.intershop.component.rma.pipelet.GetReturnableLineItems.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="Order" objectPath="OrderBO"/>
+    </inConnectors>
+    <outConnectors name="output">
+      <nodeSuccessors next="LoopNode_QPx_4EHkEeqzzKn4BG7fsQ"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 11,4-->
+  <nodes xsi:type="pipeline:LoopNode" nodeID="LoopNode_QPx_4EHkEeqzzKn4BG7fsQ" loop="ReturnableLineItems">
+<!--@BendPoints 21,9-->
+    <nodeSuccessors name="next" next="DecisionNode_SO7e0EKBEeqzzKn4BG7fsQ"/>
+    <entry key="ReturnableEntry">
+      <nodeSuccessors name="loop_entry_next" next="KeyMapper_bMCSEEHkEeqzzKn4BG7fsQ"/>
+    </entry>
+  </nodes>
+<!--@Location 12,4-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_bMCSEEHkEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="ConcatenateStrings_whL6MEJyEeqzzKn4BG7fsQ"/>
+    <parameterBindings name="InValue_1" objectPath="ReturnableEntry:OrderProductLineItemBO"/>
+    <parameterBindings name="InValue_2" objectPath="ReturnableEntry:Quantity"/>
+    <returnValueBindings name="OutValue_1" objectPath="LineItem"/>
+    <returnValueBindings name="OutValue_2" objectPath="Quantity"/>
+  </nodes>
+<!--@Location 12,5-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ConcatenateStrings_whL6MEJyEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/core/pipelets/ConcatenateStrings.xml"/>
+    <nodeSuccessors name="next" next="GetIndirectDictValue_-PzW0EHkEeqzzKn4BG7fsQ"/>
+    <parameterBindings name="String0" constant="returnQuantity-"/>
+    <parameterBindings name="String1" objectPath="LineItem:ID"/>
+    <returnValueBindings name="Concatenated" objectPath="ReturnQuantityReference"/>
+  </nodes>
+<!--@Location 12,6-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetIndirectDictValue_-PzW0EHkEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/core/pipelets/GetIndirectDictValue.xml"/>
+    <nodeSuccessors name="next" next="VerifyQuantity_W_DaMEJmEeqzzKn4BG7fsQ"/>
+    <parameterBindings name="KeyNameHolder" objectPath="ReturnQuantityReference"/>
+    <returnValueBindings name="MappedEntry" objectPath="ReturnQuantityValue"/>
+  </nodes>
+<!--@Location 12,7-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="VerifyQuantity_W_DaMEJmEeqzzKn4BG7fsQ">
+    <configurationValues name="MinValue" value="0"/>
+    <pipelet href="enfinity:/bc_foundation/pipelets/VerifyQuantity.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_5VdMMEJyEeqzzKn4BG7fsQ"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode__7Te0EJyEeqzzKn4BG7fsQ"/>
+    <parameterBindings name="LocalizedString" objectPath="ReturnQuantityValue"/>
+    <parameterBindings name="Unit" objectPath="Quantity:Unit"/>
+    <returnValueBindings name="QuantityValue" objectPath="ReturnQuantity"/>
+  </nodes>
+<!--@Location 12,8-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_5VdMMEJyEeqzzKn4BG7fsQ"
+      conditionKey="ReturnQuantityValue" operator="gt" conditionValue="0">
+    <nodeSuccessors name="decision_yes" next="ConcatenateStrings_cFU6AEJyEeqzzKn4BG7fsQ"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_WdFpsEJzEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 12,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ConcatenateStrings_cFU6AEJyEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/core/pipelets/ConcatenateStrings.xml"/>
+    <nodeSuccessors name="next" next="GetIndirectDictValue_Ld4zoEHjEeqzzKn4BG7fsQ"/>
+    <parameterBindings name="String0" constant="returnReason-"/>
+    <parameterBindings name="String1" objectPath="LineItem:ID"/>
+    <returnValueBindings name="Concatenated" objectPath="ReturnReasonReference"/>
+  </nodes>
+<!--@Location 12,10-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetIndirectDictValue_Ld4zoEHjEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/core/pipelets/GetIndirectDictValue.xml"/>
+    <nodeSuccessors name="next" next="GetReturnReasonByID_lkdc8EMtEeqzzKn4BG7fsQ_Input"/>
+    <parameterBindings name="KeyNameHolder" objectPath="ReturnReasonReference"/>
+    <returnValueBindings name="MappedEntry" objectPath="ReturnReasonId"/>
+  </nodes>
+<!--@Location 12,11-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="GetReturnReasonByID_lkdc8EMtEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/bc_rma/pipelets/com.intershop.component.rma.pipelet.GetReturnReasonByID.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="ID" objectPath="ReturnReasonId"/>
+    </inConnectors>
+    <outConnectors name="output">
+      <nodeSuccessors next="CreateReturnRequestItem_Ed20gEHlEeqzzKn4BG7fsQ_Input"/>
+    </outConnectors>
+    <outConnectors name="error">
+      <nodeSuccessors next="JoinNode_XOresEJzEeqzzKn4BG7fsQ"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 12,12-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="CreateReturnRequestItem_Ed20gEHlEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/bc_rma/pipelets/com.intershop.component.rma.pipelet.CreateReturnRequestItem.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="Quantity" objectPath="ReturnQuantity"/>
+    </inConnectors>
+    <outConnectors name="Output">
+      <nodeSuccessors next="AddObjectToCollection_Q9RikEHlEeqzzKn4BG7fsQ"/>
+    </outConnectors>
+    <outConnectors name="Error">
+      <nodeSuccessors next="JoinNode_0Yv4EEJmEeqzzKn4BG7fsQ"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 12,13-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="AddObjectToCollection_Q9RikEHlEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/core/pipelets/AddObjectToCollection.xml"/>
+<!--@BendPoints 23,27-->
+    <nodeSuccessors name="next" next="JoinNode_XOresEJzEeqzzKn4BG7fsQ"/>
+    <parameterBindings name="InCollection" objectPath="ReturnRequestItems"/>
+    <parameterBindings name="InObject" objectPath="Result:ResultObject:get"/>
+    <returnValueBindings name="OutCollection" objectPath="ReturnRequestItems"/>
+  </nodes>
+<!--@Location 11,11-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_XOresEJzEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="JoinNode_WdFpsEJzEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 11,8-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_WdFpsEJzEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="JoinNode__7Te0EJyEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 11,7-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode__7Te0EJyEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="LoopNode_QPx_4EHkEeqzzKn4BG7fsQ_Entry"/>
+  </nodes>
+<!--@Location 8,14-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_0Yv4EEJmEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="KeyMapper_e6Z7cEmeEeqivv3QSrcXgQ"/>
+  </nodes>
+<!--@Location 8,15-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="KeyMapper_e6Z7cEmeEeqivv3QSrcXgQ">
+    <pipelet href="enfinity:/core/pipelets/KeyMapper.xml"/>
+    <nodeSuccessors name="next" next="JumpNode_iYLVwEmREeqepbx2QcFhDg"/>
+    <parameterBindings name="InValue_1" constant="(Boolean)true"/>
+    <returnValueBindings name="OutValue_1" objectPath="ReturnRequestCreationError"/>
+  </nodes>
+<!--@Location 8,16-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode_iYLVwEmREeqepbx2QcFhDg">
+    <startNode referencedName="ViewReturnRequest-PrepareReturnRequest"/>
+  </nodes>
+<!--@Location 9,5-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_SO7e0EKBEeqzzKn4BG7fsQ"
+      conditionKey="ReturnRequestItems" operator="has_elements">
+    <nodeSuccessors name="decision_yes" next="GetReturnTypeByID_3Ao1YEMsEeqzzKn4BG7fsQ_Input"/>
+<!--@BendPoints 17,11-->
+    <nodeSuccessors name="decision_no" next="JoinNode_NYCZoEKHEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 9,6-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="GetReturnTypeByID_3Ao1YEMsEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/bc_rma/pipelets/com.intershop.component.rma.pipelet.GetReturnTypeByID.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="ID" objectPath="ReturnTypeId"/>
+      <parameterBindings name="Order" objectPath="OrderBO"/>
+    </inConnectors>
+    <outConnectors name="output">
+      <nodeSuccessors next="DecisionNode_bEhUsENsEeqzzKn4BG7fsQ"/>
+    </outConnectors>
+    <outConnectors name="error">
+      <nodeSuccessors next="JoinNode_NYCZoEKHEeqzzKn4BG7fsQ"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 9,7-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_bEhUsENsEeqzzKn4BG7fsQ"
+      conditionKey="ReturnType:PickupAddressSupported" operator="str_eq" conditionValue="true">
+    <nodeSuccessors name="decision_yes" next="ConcatenateStrings_etxNsEjaEeqPX4aXD_ynYQ"/>
+<!--@BendPoints 21,15-->
+    <nodeSuccessors name="decision_no" next="JoinNode_hT3L0ENsEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 9,8-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ConcatenateStrings_etxNsEjaEeqPX4aXD_ynYQ">
+    <pipelet href="enfinity:/core/pipelets/ConcatenateStrings.xml"/>
+    <nodeSuccessors name="next" next="GetIndirectDictValue_B8rygEjbEeqPX4aXD_ynYQ"/>
+    <parameterBindings name="String0" objectPath="ReturnType:Id"/>
+    <parameterBindings name="String1" constant="PickupAddressID"/>
+    <returnValueBindings name="Concatenated" objectPath="PickupAddressSelector"/>
+  </nodes>
+<!--@Location 9,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetIndirectDictValue_B8rygEjbEeqPX4aXD_ynYQ">
+    <pipelet href="enfinity:/core/pipelets/GetIndirectDictValue.xml"/>
+    <nodeSuccessors name="next" next="DecisionNode_3r-IMENqEeqzzKn4BG7fsQ"/>
+    <parameterBindings name="KeyNameHolder" objectPath="PickupAddressSelector"/>
+    <returnValueBindings name="MappedEntry" objectPath="PickupAddressID"/>
+  </nodes>
+<!--@Location 9,10-->
+  <nodes xsi:type="pipeline:DecisionNode" nodeID="DecisionNode_3r-IMENqEeqzzKn4BG7fsQ"
+      conditionKey="PickupAddressID">
+    <nodeSuccessors name="decision_yes" next="ResolveAddressBO_vrhtkENvEeqzzKn4BG7fsQ"/>
+    <nodeSuccessors name="decision_no" next="JoinNode_hT3L0ENsEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 9,11-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="ResolveAddressBO_vrhtkENvEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/bc_address/pipelets/ResolveAddressBO.xml"/>
+    <nodeSuccessors name="next" next="JoinNode_9QWWwENqEeqzzKn4BG7fsQ"/>
+    <nodeSuccessors name="pipelet_error" next="JoinNode_vEhxQENqEeqzzKn4BG7fsQ"/>
+    <parameterBindings name="AddressURN" objectPath="PickupAddressID"/>
+    <returnValueBindings name="AddressBO" objectPath="PickupAddress"/>
+  </nodes>
+<!--@Location 9,12-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_9QWWwENqEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="CreateReturnRequest_5tqy8EHlEeqzzKn4BG7fsQ_Input"/>
+  </nodes>
+<!--@Location 9,13-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="CreateReturnRequest_5tqy8EHlEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/bc_rma/pipelets/com.intershop.component.rma.pipelet.CreateReturnRequest.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="Comment" objectPath="ReturnRequestComment"/>
+      <parameterBindings name="Items" objectPath="ReturnRequestItems"/>
+      <parameterBindings name="Order" objectPath="OrderBO"/>
+    </inConnectors>
+    <outConnectors name="Output">
+      <nodeSuccessors next="RenderSystemPageWithTemplate_u0VuAUGaEeqzzKn4BG7fsQ_Input"/>
+    </outConnectors>
+    <outConnectors name="Error">
+      <nodeSuccessors next="JoinNode_4fsrEEKBEeqzzKn4BG7fsQ"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 9,16-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="RenderSystemPageWithTemplate_u0VuAUGaEeqzzKn4BG7fsQ">
+    <configurationValues name="PageEntryPointDefinitionReference" value="app_sf_responsive:systempage.account.orders.pagelet2-Page"/>
+    <configurationValues name="WorkingTemplate" value="rma/ReturnRequestConfirmation"/>
+    <pipelet href="enfinity:/sld_ch_sf_base/pipelets/com.intershop.sellside.storefront.base.capi.pipeline.RenderSystemPageWithTemplate.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="Dictionary" objectPath="CurrentRequest:PipelineDictionary"/>
+    </inConnectors>
+  </nodes>
+<!--@Location 8,13-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_4fsrEEKBEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="JoinNode_0Yv4EEJmEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 8,11-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_vEhxQENqEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="JoinNode_4fsrEEKBEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 10,10-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_hT3L0ENsEeqzzKn4BG7fsQ">
+<!--@BendPoints 21,25-->
+    <nodeSuccessors name="next" next="JoinNode_9QWWwENqEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 8,6-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode_NYCZoEKHEeqzzKn4BG7fsQ">
+    <nodeSuccessors name="next" next="JoinNode_vEhxQENqEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 1,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode2" name="Dispatch">
+    <nodeSuccessors name="next" next="DispatchFormAction_CNjdUEEKEeqzzKn4BG7fsQ"/>
+  </nodes>
+<!--@Location 1,2-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="DispatchFormAction_CNjdUEEKEeqzzKn4BG7fsQ">
+    <configurationValues name="OutValue_0" value="ViewReturnRequest-CreateReturnRequest"/>
+    <pipelet href="enfinity:/core/pipelets/DispatchFormAction.xml"/>
+    <nodeSuccessors name="next" next="JoinNode0"/>
+<!--@BendPoints 5,5-->
+    <nodeSuccessors name="pipelet_error" next="SetDictionaryValue2"/>
+    <parameterBindings name="Key_0" objectPath="create-request"/>
+    <returnValueBindings name="SelectionKey" objectPath="JumpTarget"/>
+  </nodes>
+<!--@Location 1,4-->
+  <nodes xsi:type="pipeline:JoinNode" nodeID="JoinNode0">
+    <nodeSuccessors name="next" next="JumpNode0"/>
+  </nodes>
+<!--@Location 1,5-->
+  <nodes xsi:type="pipeline:JumpNode" nodeID="JumpNode0">
+    <startNode referencedName="SecureJump-Start"/>
+  </nodes>
+<!--@Location 2,3-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="SetDictionaryValue2">
+    <configurationValues name="Name" value="JumpTarget"/>
+    <configurationValues name="Value" value="ViewOrders-SimpleOrderSearch"/>
+    <configurationValues name="ValueType" value="Dictionary Value"/>
+    <pipelet href="enfinity:/core/pipelets/SetDictionaryValue.xml"/>
+<!--@BendPoints 5,9-->
+    <nodeSuccessors name="next" next="JoinNode0"/>
+  </nodes>
+<!--@Location 1,7-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode3" name="Prefix" callMode="Private">
+    <nodeSuccessors name="next" next="CallNode1"/>
+  </nodes>
+<!--@Location 1,8-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode1">
+    <nodeSuccessors name="next" next="GetApplicationBO1"/>
+    <startNode referencedName="ViewOrders-Prefix"/>
+  </nodes>
+<!--@Location 1,9-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetApplicationBO1">
+    <pipelet href="enfinity:/bc_application/pipelets/GetApplicationBO.xml"/>
+    <nodeSuccessors name="next" next="GetOrderBO0"/>
+  </nodes>
+<!--@Location 1,10-->
+  <nodes xsi:type="pipeline:PipeletNode" nodeID="GetOrderBO0">
+    <pipelet href="enfinity:/bc_order/pipelets/GetOrderBO.xml"/>
+    <nodeSuccessors name="next" next="EndNode0"/>
+    <parameterBindings name="OrderBORepository" objectPath="ApplicationBO:Repository(&quot;OrderBORepository&quot;)"/>
+    <parameterBindings name="OrderID" objectPath="OrderID"/>
+  </nodes>
+<!--@Location 1,11-->
+  <nodes xsi:type="pipeline:EndNode" nodeID="EndNode0"/>
+<!--@Location 6,1-->
+  <nodes xsi:type="pipeline:StartNode" nodeID="StartNode0" name="PrepareReturnRequest">
+    <nodeSuccessors name="next" next="CallNode0"/>
+  </nodes>
+<!--@Location 6,2-->
+  <nodes xsi:type="pipeline:CallNode" nodeID="CallNode0">
+    <nodeSuccessors name="next" next="GetReturnTypes_Vut6YEELEeqzzKn4BG7fsQ_Input"/>
+    <startNode referencedName="This:Prefix"/>
+  </nodes>
+<!--@Location 6,3-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="GetReturnTypes_Vut6YEELEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/bc_rma/pipelets/com.intershop.component.rma.pipelet.GetReturnTypes.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="Order" objectPath="OrderBO"/>
+    </inConnectors>
+    <outConnectors name="output">
+      <nodeSuccessors next="GetReturnableLineItems_VussQEELEeqzzKn4BG7fsQ_Input"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 6,4-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="GetReturnableLineItems_VussQEELEeqzzKn4BG7fsQ">
+    <pipelet href="enfinity:/bc_rma/pipelets/com.intershop.component.rma.pipelet.GetReturnableLineItems.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="Order" objectPath="OrderBO"/>
+    </inConnectors>
+    <outConnectors name="output">
+      <nodeSuccessors next="com.intershop.application.webshop.capi.pipeline.RenderSystemPageWithTemplate0_Input"/>
+    </outConnectors>
+  </nodes>
+<!--@Location 6,6-->
+  <nodes xsi:type="pipeline:PipelineNodeNode" nodeID="com.intershop.application.webshop.capi.pipeline.RenderSystemPageWithTemplate0">
+    <configurationValues name="PageEntryPointDefinitionReference" value="app_sf_responsive:systempage.account.orders.pagelet2-Page"/>
+    <configurationValues name="WorkingTemplate" value="rma/CreateReturnRequest"/>
+    <pipelet href="enfinity:/sld_ch_sf_base/pipelets/com.intershop.sellside.storefront.base.capi.pipeline.RenderSystemPageWithTemplate.pipelinenode"/>
+    <inConnectors name="Input">
+      <parameterBindings name="Dictionary" objectPath="CurrentRequest:PipelineDictionary"/>
+    </inConnectors>
+  </nodes>
+</pipeline:Pipeline>

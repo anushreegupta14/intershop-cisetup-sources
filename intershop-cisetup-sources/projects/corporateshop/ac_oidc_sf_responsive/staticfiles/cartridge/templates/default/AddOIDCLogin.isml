@@ -1,0 +1,40 @@
+<iscontent type="text/html" charset="UTF-8">
+
+<isset name="ShowLoginProvidersSeparator" value="false" scope="request"/>
+<isif condition="#IdentityProviderConfigurations:Size > 1#">
+	<isloop iterator="IdentityProviderConfigurations" alias="configuration">
+		<isif condition="#configuration:isLocal#">
+			<isset name="ShowLoginProvidersSeparator" value="true" scope="request"/>
+		</isif>
+	</isloop>
+</isif>
+
+<isif condition="#ShowLoginProvidersSeparator EQ 'true'#">
+	<div id="loginproviders_separator" class="divider horizontal">
+		<span class="divider-label"><istext key="account.login.loginproviders.separator"/></span>
+	</div>
+</isif>
+
+<isif condition="#isDefined(ERROR_OIDC)#">
+	<div role="alert" class="alert alert-danger">
+		<istext key="account.login.oidc.failed"/>
+	</div>
+</isif>
+
+<div class="section login_form_sso">
+	<isloop iterator="IdentityProviderConfigurations" alias="configuration">
+		<div class="sso_buttom_row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<isif condition="#configuration:Type EQ 'oidc'#">
+					<isif condition="#IdentityProviderConfigurations:Size EQ '1'#">
+						<isredirect location="#URL(Action('OpenIDConnectLogin-Login'), Parameter('IdentityProviderName', configuration:Key), Parameter('RegistrationOrganizationName', CurrentOrganization:ID))#"/>
+					<iselse/>
+						<a class="btn btn-default loginbutton" href="#URL(Action('OpenIDConnectLogin-Login'), Parameter('IdentityProviderName', configuration:Key), Parameter('RegistrationOrganizationName', CurrentOrganization:ID))#">
+							<isprint value="#configuration:Name#"/>
+						</a>
+					</isif>
+				</isif>
+			</div>
+		</div>
+	</isloop>
+</div>

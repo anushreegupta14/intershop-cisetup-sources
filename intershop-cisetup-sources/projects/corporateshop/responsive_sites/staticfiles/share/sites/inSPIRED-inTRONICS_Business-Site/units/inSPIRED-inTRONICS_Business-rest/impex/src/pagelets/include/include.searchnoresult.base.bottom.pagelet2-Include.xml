@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enfinity xmlns:dt="http://www.intershop.com/xml/ns/enfinity/6.5/core/impex-dt">
+<pagelet-entry-point id="include.searchnoresult.base.bottom.pagelet2-Include">
+<definition-name>app_sf_pwa_cm:include.searchnoresult.base.bottom.pagelet2-Include</definition-name>
+<page>false</page>
+<display-name xml:lang="en-US">Search No Result - Base Marketing Bottom</display-name>
+<description xml:lang="en-US">Include to manage the marketing content on bottom of the search no result page.</description>
+</pagelet-entry-point>
+<pagelet-pagelet-entry-point-assignment>
+<pagelet-entry-point id="include.searchnoresult.base.bottom.pagelet2-Include" domain="inSPIRED-inTRONICS_Business-rest" resource-set="app_sf_pwa_cm"/>
+<pagelet id="pwa_recommended_products" domain="inSPIRED-inTRONICS_Business-rest"/>
+<position>1</position>
+<online>true</online>
+</pagelet-pagelet-entry-point-assignment>
+</enfinity>

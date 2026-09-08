@@ -1,0 +1,143 @@
+<iscontent type="text/html" charset="UTF-8" compact="true">
+
+<script language="javascript" type="text/javascript">
+    function validateMappings() {
+        var valid = true;
+        $('.validity-config').each(function() {    
+            var selfConfig = $(this);            
+            var label = selfConfig.find('.punchout-label');
+            var item = selfConfig.find('.punchout-item-value');
+            var item_container = selfConfig.find('.punchout-item-value-container');
+            var item_error = selfConfig.find('.punchout-item-value-alert');
+            
+            item_error[0].textContent = '';
+            label[0].classList.remove("punchout-validation-label-alert");
+            item_container[0].classList.remove("has-error");
+            
+            selfConfig.find('.validity-mapping').each(function() {
+	            var self = $(this);
+	            var from = self.find('.mapping-from');
+	            var to = self.find('.mapping-to');
+	            var mapping_from_container = self.find('.mapping-from-container');
+	            var mapping_to_container = self.find('.mapping-to-container');
+	            var mapping_error = self.find('.punchout-item-mapping-alert');
+
+	            mapping_from_container[0].classList.remove("has-error");
+	            mapping_to_container[0].classList.remove("has-error");
+	            mapping_error[0].textContent = '';
+	            
+	            if (from.val().trim() != '' || to.val().trim() != '')
+	            {
+	                if (item.val().trim() == '')
+                    {
+	                    item_error[0].textContent = "#localizeText('account.punchout.configuration.table.parameter.config.error')#".replace(/&quot;/g,'"'); 
+	                    label[0].classList.add("punchout-validation-label-alert");
+	                    item_container[0].classList.add("has-error");
+	                    valid = false;
+                    }   
+	            }
+	            
+	            if (from.val().trim() == '' ^ to.val().trim() == '')
+	            {               
+	                if (from.val().trim() == '')
+	                {
+	                    mapping_error[0].textContent = "#localizeText('account.punchout.configuration.table.mapping.from.config.error')#".replace(/&quot;/g,'"'); 
+	                    label[0].classList.add("punchout-validation-label-alert");
+	                    mapping_from_container[0].classList.add("has-error");
+	                    valid = false;
+	                }
+	                if (to.val().trim() == '')
+	                {
+	                    mapping_error[0].textContent = "#localizeText('account.punchout.configuration.table.mapping.to.config.error')#".replace(/&quot;/g,'"');
+	                    label[0].classList.add("punchout-validation-label-alert");
+	                    mapping_to_container[0].classList.add("has-error");
+	                    valid = false;
+	                }
+	            }
+	        });        
+        });
+        return valid;
+    }
+</script>
+
+<div class="section">
+	<p><istext key="account.punchout.configuration.text"/></p>
+</div>
+
+<isif condition="#isDefined(ShowSuccessMessage)#">
+	<div class="alert alert-success alert-fade" data-testing-id="message-punchout-save-success">
+		<istext key="account.punchout.configuration.save_success.message" />
+	</div>
+</isif>
+
+<isset name="Configuration" value="#CustomerBO:Extension("PunchoutConfiguration"):ConfigurationData#" scope="request">
+
+<isform class="form-horizontal bv-form" action="#URLEX(SecureURL,'',Action('ViewOCIConfiguration-Dispatch'))#" method="post" name="PunchoutConfig" onSubmit="return validateMappings()">
+	<div class="list-header hidden-xs">
+		<div class="col-sm-3 list-header-item">
+			<istext key="account.punchout.configuration.table.attribute" encoding="off" />
+		</div>			
+		<div class="col-sm-3 list-header-item">
+			<istext key="account.punchout.configuration.table.transform" encoding="off" />
+			<isset name="PlaceholderIDs" value="" scope="request">
+			<isloop iterator="PunchoutPlaceholderFormatterProvider:TooltipIds" alias="PlaceholderID">
+				<isset name="PlaceholderIDs" value="#PlaceholderIDs.'{'.PlaceholderID.'}<br/>'#" scope="request">
+			</isloop>
+			<isloop iterator="Configuration:CustomAttributesAccessList" alias="PlaceholderID">
+				<isset name="PlaceholderIDs" value="#PlaceholderIDs.'{'.PlaceholderID.'}<br/>'#" scope="request">
+			</isloop>
+			<isTooltip contenttype="html" linkclass="details-tooltip" headline="#localizeText('account.punchout.configuration.table.available.placeholder')#" content="#PlaceholderIDs#" placement="bottom">
+		</div>			
+		<div class="col-sm-3 list-header-item"><istext key="account.punchout.configuration.table.mapping" encoding="off" />
+			<isTooltip contenttype="html" linkclass="details-tooltip" headline="#localizeText('account.punchout.configuration.table.tooltip.mapping.title')#" content="#localizeText('account.punchout.configuration.table.tooltip.mapping.description')#" placement="bottom">
+		</div>			
+		<div class="col-sm-3 list-header-item">
+			<istext key="account.punchout.configuration.table.format" encoding="off" />
+		</div>			
+	</div>
+	
+	<div class="list-body">
+		<isloop iterator="Configuration:ConfigurationFieldsList" alias="Field">
+			<isset name="Entry" value="#Configuration:PunchoutConfigurationDataEntry(Field)#" scope="request"/>
+			<isif condition="#Entry:Configurable#">
+
+				<isset name="FieldTransform" value="#Entry:TransformerConfigurationString#" scope="request"/>
+				<isif condition="#isDefined(ValidationResult)#">
+					<isif condition="#ValidationResult:hasErrors#">
+						<isset name="validationResultForFieldName" value="#ValidationResult:Error(Entry:PunchoutCatalogAttributeName)#" scope="request">
+					</isif>
+					<isset name="FieldTransform" value="#ValidationResult:FormParam(Entry:PunchoutCatalogAttributeName)#" scope="request"/>
+				</isif>
+
+				<ISOCIConfigurationRow
+				   FieldName="#Entry:PunchoutCatalogAttributeName#"
+				   FieldTransform="#FieldTransform#" 
+				   FieldFormat="#Entry:FormatterConfigurationString#" 
+				   FieldMap="#Entry:Mappings#"
+				   PunchoutPlaceholderFormatterProvider="#PunchoutPlaceholderFormatterProvider#"
+				   ValidationError="#validationResultForFieldName#">
+			</isif>
+		</isloop>
+	</div>
+
+	<div class="list-item-row">
+		<div class="col-sm-offset-3 col-sm-9">
+			<div class="row">
+				<button 
+					class="btn btn-primary" type="submit" 
+					name="save"
+					value="save"
+					title="<istext key="account.punchout.configuration.button.save" />"
+					data-testing-class="button-oci-punchout-configuration-submit">
+					<istext key="account.punchout.configuration.button.save" />
+				</button>
+				<a 	class="btn btn-default" 
+					title="<istext key="account.punchout.configuration.button.cancel"/>"
+					href="<isprint value="#URLEX(SecureURL, '', Action('ViewOCISettings-Start'))#">" 
+					data-testing-class="button-oci-punchout-configuration-cancel">
+					<istext key="account.punchout.configuration.button.cancel"/>
+				</a>
+			</div>	
+		</div>
+	</div>
+</isform>
