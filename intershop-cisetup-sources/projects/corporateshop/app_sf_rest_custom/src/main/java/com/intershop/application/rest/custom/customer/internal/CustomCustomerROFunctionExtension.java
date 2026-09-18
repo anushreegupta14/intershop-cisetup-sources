@@ -1,5 +1,9 @@
 package com.intershop.application.rest.custom.customer.internal;
 
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
+
 import com.intershop.beehive.app.capi.AppContext;
 import com.intershop.beehive.businessobject.capi.BusinessObjectAttribute;
 import com.intershop.beehive.businessobject.capi.BusinessObjectAttributes;
@@ -9,6 +13,7 @@ import com.intershop.beehive.core.capi.domain.Extensible;
 import com.intershop.beehive.core.capi.domain.PersistentObject;
 import com.intershop.beehive.core.capi.request.Request;
 import com.intershop.component.customer.capi.CustomerBO;
+import com.intershop.component.customer.capi.CustomerSegmentBO;
 import com.intershop.component.customer.capi.CustomerSegmentBORepository;
 import com.intershop.component.customer.capi.RepositoryBOCustomerSegmentExtension;
 import com.intershop.component.repository.capi.BusinessObjectRepositoryContext;
@@ -22,7 +27,7 @@ abstract class CustomCustomerROFunctionExtension<T extends CustomerRO>
     implements FunctionExtension<CustomerBO, T>
 {
     private static final String[] ATTRIBUTE_NAMES =
-        {"DefaultCurrency", "HideInvoiceDocument" };
+        {  "DefaultCurrency", "HideInvoiceDocument" };
 
     @Override
     public boolean isApplicable(CustomerBO source, T target)
@@ -47,7 +52,21 @@ abstract class CustomCustomerROFunctionExtension<T extends CustomerRO>
             }
         }
 
-                return target;
+        CustomerSegmentBORepository segments = getSegmentRepository();
+        if (segments != null)
+        {
+            Set<String> ids = new TreeSet<>();
+            for (CustomerSegmentBO segment : segments.getAllCustomerSegmentBOs())
+            {
+                if (segment.isCustomerBOAssigned(source))
+                {
+                    ids.add(segment.getID());
+                }
+            }
+            target.addCustomField("customerSegments", new ArrayList<>(ids));
+        }
+
+        return target;
     }
 
     private static Object getAttributeValue(CustomerBO customer, String name)
