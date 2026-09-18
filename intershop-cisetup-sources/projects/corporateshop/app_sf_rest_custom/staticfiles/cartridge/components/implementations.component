@@ -8,4 +8,23 @@
         class="com.intershop.application.rest.custom.product.internal.CustomProductSearchHandlerImpl">
     </implementation>
 
+    <contract name="AlgoliaTokenHandler"
+        class="com.intershop.application.rest.custom.algolia.capi.AlgoliaTokenHandler" />
+
+    <implementation name="AlgoliaTokenHandlerImpl"
+        implements="AlgoliaTokenHandler"
+        factory="JavaBeanFactory"
+        scope="global"
+        class="com.intershop.application.rest.custom.algolia.internal.AlgoliaTokenHandlerImpl">
+    </implementation>
+
+    <implementation name="AlgoliaTokenResource"
+        implements="AbstractRestResource"
+        factory="JavaBeanFactory"
+        scope="global"
+        class="com.intershop.application.rest.custom.algolia.capi.AlgoliaTokenResource">
+        <requires name="name" contract="String" cardinality="1..1"/>
+        <requires name="handler" contract="AlgoliaTokenHandler" cardinality="1..1"/>
+    </implementation>
+
 </components>
