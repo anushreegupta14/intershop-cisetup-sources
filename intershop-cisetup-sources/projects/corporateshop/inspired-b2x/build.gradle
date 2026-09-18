@@ -66,7 +66,8 @@ assembly {
 			'ac_oidc_sf_responsive',
             'ac_oidc_sf_responsive_b2c',
             'ac_oidc_sf_responsive_smb',
-			'ac_oidc_sf_responsive_b2b'
+			'ac_oidc_sf_responsive_b2b',
+            'app_sf_rest_custom'
         ]
         include(*(storefrontCartridges.collect { project(":$it") }), in:[development, test, production])
 
