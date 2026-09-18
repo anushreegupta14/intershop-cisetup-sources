@@ -1,0 +1,82 @@
+.aider*
+.settings
+/intershop-cisetup-sources/projects/corporateshop/IntershopServerCartridges/.settings
+/.gradle/
+devops/intershop-ci-setup/trunk/intershop-ci/.gradle
+.idea
+.eclipse
+.project
+.settings
+*.testfile
+node_modules
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+*.bak
+*.log
+
+# Eclipse project files
+**/bin/
+**/.settings/
+**/.classpath
+**/.project
+
+# editor backup files
+**~
+
+# Gradle Files
+**/build/
+**/.gradle
+
+# Intershop build directories
+**/target/
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+**/build
+**/build/
+**/build/**
+**/.gradle
+**/.gradle/
+**/.gradle/**
+**/.settings
+**/.settings/
+**/.settings/**
+**/css/**
+!**/css/**.scss
+**/bin
+**/bin/
+**/bin/**
+**/target
+**/target/
+**/target/**
+**/.apt_generated
+**/.apt_generated/
+**/.apt_generated/**
+**/.metadata
+**/.metadata/
+**/.metadata/**
+**/.idea
+**/.idea/
+**/.idea/**
+**/.classpath
+**/.project
+/projects/BunzlProject/assembly_bunzl/environment.properties
+**/IntershopStudio
+**/IntershopStudio/
+**/IntershopStudio/**
+**/.sonar
+**/.sonar/**
+**/sonar-project.properties
+**/theme.css
+**/prepros-6.config
+**/spmainfile.log
+**/CFREclipse
+**/CFREclipse/**
+/projects/BunzlProject/assembly_bunzl/development.properties
