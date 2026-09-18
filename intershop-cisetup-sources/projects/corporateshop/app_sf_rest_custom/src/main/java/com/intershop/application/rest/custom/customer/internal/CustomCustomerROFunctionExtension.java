@@ -22,7 +22,7 @@ abstract class CustomCustomerROFunctionExtension<T extends CustomerRO>
     implements FunctionExtension<CustomerBO, T>
 {
     private static final String[] ATTRIBUTE_NAMES =
-        { "HideInvoiceDocument" };
+        {"DefaultCurrency", "HideInvoiceDocument" };
 
     @Override
     public boolean isApplicable(CustomerBO source, T target)
