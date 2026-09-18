@@ -28,6 +28,7 @@ public class CustomSMBCustomerUserROFunctionExtensionTest
 
         new CustomSMBCustomerUserROFunctionExtension().apply(user, response);
 
+        verify(response).addCustomField("PreferredLanguage", "en_US");
     }
 
     @Test
