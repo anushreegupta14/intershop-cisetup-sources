@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010"
+    scope="global">
+
+    <instance name="intershop.WebShop.RESTAPI.AlgoliaTokenHandler" with="AlgoliaTokenHandlerImpl" />
+
+    <instance name="intershop.WebShop.RESTAPI.AlgoliaTokenResource" with="AlgoliaTokenResource">
+        <fulfill requirement="name" value="algoliatoken" />
+        <fulfill requirement="handler" with="intershop.WebShop.RESTAPI.AlgoliaTokenHandler" />
+    </instance>
+
+    <fulfill requirement="subResource" of="intershop.B2CWebShop.RESTAPI.root"
+        with="intershop.WebShop.RESTAPI.AlgoliaTokenResource" />
+    <fulfill requirement="subResource" of="intershop.B2BWebShop.RESTAPI.root"
+        with="intershop.WebShop.RESTAPI.AlgoliaTokenResource" />
+
+    <fulfill requirement="resourceACLCartridge" of="intershop.B2CWebShop.RESTAPI.AuthorizationService" value="app_sf_rest_custom" />
+    <fulfill requirement="resourceACLCartridge" of="intershop.B2BWebShop.RESTAPI.AuthorizationService" value="app_sf_rest_custom" />
+
+</components>
