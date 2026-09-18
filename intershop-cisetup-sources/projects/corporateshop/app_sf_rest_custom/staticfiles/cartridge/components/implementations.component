@@ -8,4 +8,54 @@
         class="com.intershop.application.rest.custom.product.internal.CustomProductSearchHandlerImpl">
     </implementation>
 
+    <!-- Custom price notification list resource that accepts the sendEmail flag in the request body -->
+    <implementation name="CustomerProductPriceNotificationsResource"
+        implements="AbstractRestCollectionResource"
+        factory="JavaBeanFactory"
+        scope="global"
+        class="com.intershop.application.rest.custom.customer.product.notification.capi.CustomCustomerProductPriceNotificationsResource">
+        <requires name="itemResource" contract="RestResource" cardinality="1..1"/>
+        <requires name="name" contract="String" cardinality="1..1"/>
+        <requires name="handler" contract="CustomerProductNotificationsHandler" cardinality="1..1"/>
+        <requires name="currentCustomerProvider" contract="CurrentCustomerProvider" cardinality="1..1"/>
+    </implementation>
+
+    <!-- Custom price notification operator that persists the sendEmail flag as an AlertPO boolean attribute -->
+    <implementation name="CustomerPriceThresholdProductNotificationOperatorImpl"
+        implements="CustomerProductNotificationOperator"
+        factory="JavaBeanFactory"
+        scope="global"
+        class="com.intershop.application.rest.custom.customer.product.notification.internal.CustomCustomerProductPriceNotificationOperatorImpl">
+    </implementation>
+
+    <!-- Custom price notification item resource that returns the sendEmail flag in the GET response -->
+    <implementation name="CustomerProductPriceNotificationResource"
+        implements="AbstractRestResource"
+        factory="JavaBeanFactory"
+        scope="global"
+        class="com.intershop.application.rest.custom.customer.product.notification.capi.CustomCustomerProductPriceNotificationResource">
+        <requires name="handler" contract="CustomerProductNotificationsHandler" cardinality="1..1"/>
+        <requires name="currentCustomerProvider" contract="CurrentCustomerProvider" cardinality="1..1"/>
+    </implementation>
+    
+    
+    <contract name="AlgoliaTokenHandler"
+        class="com.intershop.application.rest.custom.algolia.capi.AlgoliaTokenHandler" />
+
+    <implementation name="AlgoliaTokenHandlerImpl"
+        implements="AlgoliaTokenHandler"
+        factory="JavaBeanFactory"
+        scope="global"
+        class="com.intershop.application.rest.custom.algolia.internal.AlgoliaTokenHandlerImpl">
+    </implementation>
+
+    <implementation name="AlgoliaTokenResource"
+        implements="AbstractRestResource"
+        factory="JavaBeanFactory"
+        scope="global"
+        class="com.intershop.application.rest.custom.algolia.capi.AlgoliaTokenResource">
+        <requires name="name" contract="String" cardinality="1..1"/>
+        <requires name="handler" contract="AlgoliaTokenHandler" cardinality="1..1"/>
+    </implementation>
+
 </components>
