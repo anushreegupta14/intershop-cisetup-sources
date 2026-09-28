@@ -1,6 +1,0 @@
-apply plugin: 'static-cartridge'
-
-intershop 
-{
-	displayName = 'Config - a_responsive'
-}
