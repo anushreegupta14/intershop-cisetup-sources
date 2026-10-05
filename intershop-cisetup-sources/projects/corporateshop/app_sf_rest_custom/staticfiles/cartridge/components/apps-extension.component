@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010">
+
+    <!-- Register this custom REST cartridge with all responsive storefront application types.
+         This is the standard Intershop pattern used by cartridges such as app_sf_responsive_gdpr
+         and ac_oidc_sf_responsive: include the cartridge in the assembly storefrontCartridges
+         list and add a selectedCartridge entry from the cartridge itself. -->
+    <fulfill requirement="selectedCartridge" value="app_sf_rest_custom" of="intershop.B2CResponsive.Cartridges" />
+    <fulfill requirement="selectedCartridge" value="app_sf_rest_custom" of="intershop.SMBResponsive.Cartridges" />
+    <fulfill requirement="selectedCartridge" value="app_sf_rest_custom" of="intershop.SimpleSMBResponsive.Cartridges" />
+
+</components>
