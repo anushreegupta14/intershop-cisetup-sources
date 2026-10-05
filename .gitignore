@@ -83,3 +83,4 @@ gradle-app.setting
 **/CFREclipse
 **/CFREclipse/**
 /projects/BunzlProject/assembly_bunzl/development.properties
+**/.hprof
