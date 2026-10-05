@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://www.intershop.de/component/2010">
+
+    <!-- Custom product handler that returns all custom product attributes in the REST response -->
+    <implementation name="ProductSearchHandlerImpl"
+        implements="ProductHandler"
+        factory="JavaBeanFactory"
+        class="com.intershop.application.rest.custom.product.internal.CustomProductSearchHandlerImpl">
+    </implementation>
+
+</components>
