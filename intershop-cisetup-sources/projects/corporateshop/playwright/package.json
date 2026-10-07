@@ -1,0 +1,12 @@
+{
+  "name": "customer-user-attribute-extension-e2e",
+  "version": "1.0.0",
+  "description": "Playwright API tests for customer-user-attribute-extension",
+  "scripts": {
+    "test": "playwright test",
+    "test:ci": "playwright test --reporter=junit,html"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.40.0"
+  }
+}

@@ -152,7 +152,13 @@ subprojects {
 
 			sonarqube {
 				sonarProperties {
-					property 'sonar.host.url', 'https://sonar.intershop.de'
+					property 'sonar.host.url', 'https://sonarcloud.io'
+					property "sonar.projectKey", "anushreegupta14_intershop-cisetup-sources"
+					property "sonar.organization", "anushreegupta14"
+        
+					// These will point to the XML paths generated in your Java 8 test phase
+					property "sonar.junit.reportPaths", "intershop-cisetup-sources/intershop-cisetup-sources/projects/corporateshop/app_sf_rest_custom/target/test-results"
+					property "sonar.coverage.jacoco.xmlReportPaths", "intershop-cisetup-sources/intershop-cisetup-sources/projects/corporateshop/app_sf_rest_custom/target/reports/jacoco/test/jacocoTestReport.xml"
 				}
 			}
 
